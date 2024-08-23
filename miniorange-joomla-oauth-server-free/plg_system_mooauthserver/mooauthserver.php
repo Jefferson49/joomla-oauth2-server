@@ -37,31 +37,24 @@ class plgSystemMooauthserver extends JPlugin
 			    if( $user->id!='') 
                 {
 				    $user = JFactory::getUser();
-				    $isroot = $user->authorise('core.admin');
                     $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
-                    if($isroot)
-		        	{
-						$redirecturi = $redirect_uri;
-						$randcode = $this->generateRandomString();		
-						$user_id = $user->id;		
-                        $fields = array(
-							'rancode' =>$randcode
-						);
-						$conditions = array(
-							'id' => $user_id
-						);
-                        MoOAuthServerUtility::generic_update_query('#__users', $fields, $conditions);
-                    
-						$state = $get['state']; 
-						$redirecturi = $redirecturi."?code=".$randcode."&state=".$state;	
-						header('Location: ' . $redirecturi);
-                        MoOAuthServerUtility::plugin_efficiency_check($customerResult['email'], $OAuthClientAppName, $redirect_uri,$reason);
-						exit;
-				    }
-                    else
-                    {
-			            JFactory::getApplication()->getSession()->destroy();		
-    				}		
+
+                    $redirecturi = $redirect_uri;
+                    $randcode = $this->generateRandomString();		
+                    $user_id = $user->id;		
+                    $fields = array(
+                        'rancode' =>$randcode
+                    );
+                    $conditions = array(
+                        'id' => $user_id
+                    );
+                    MoOAuthServerUtility::generic_update_query('#__users', $fields, $conditions);
+                
+                    $state = $get['state']; 
+                    $redirecturi = $redirecturi."?code=".$randcode."&state=".$state;	
+                    header('Location: ' . $redirecturi);
+                    MoOAuthServerUtility::plugin_efficiency_check($customerResult['email'], $OAuthClientAppName, $redirect_uri);
+                    exit;
 			    }
     			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
 	    		$msg="Only admins will have complete SSO (auto login) in free version. Inorder to auto login for normal users please upgrade to premium";
@@ -107,7 +100,7 @@ class plgSystemMooauthserver extends JPlugin
 				    $conditions = array(
 					    'id'=>$results['id']
 				    ); 	
-                    $result = MoOAuthServerUtility::generic_update_query('#__users', $fields , $conditions)	;
+                    MoOAuthServerUtility::generic_update_query('#__users', $fields , $conditions);
         			$scope="profile";
 		        	$token_type="Bearer";
 			        $api_response = array('access_token' => $randcode, 'expires_in' => $time, "scope"=> $scope, 'token_type' => $token_type);	
@@ -178,9 +171,8 @@ class plgSystemMooauthserver extends JPlugin
                 }
                 if($type)
                 {
-                    $cid=0;
                     $installer = new JInstaller();
-                    $installer->uninstall ($type,$identifier,$cid);
+                    $installer->uninstall ($type,$identifier);
                 }
     		}
         }
