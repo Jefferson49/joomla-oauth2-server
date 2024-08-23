@@ -89,7 +89,7 @@ class MoOAuthServerUtility
 	}
 	
 	public static function getHostname(){
-		return 'https://login.xecurify.com';
+		return '';
 	}
 	
 	public static function getCustomerDetails(){
@@ -138,61 +138,6 @@ class MoOAuthServerUtility
 	
 	public static function plugin_efficiency_check($email,$appname,$base_url, $reason ="null")
 	{
-        $url =  'https://login.xecurify.com/moas/api/notify/send';
-        $ch = curl_init($url);
-
-        
-        $customerKey = "16555";
-		$apiKey = "fFd2XcvTGDemZvbw1bcUesNJWEqKbbUq";
-	
-
-        $currentTimeInMillis= round(microtime(true) * 1000);
-        $stringToHash 		= $customerKey .  number_format($currentTimeInMillis, 0, '', '') . $apiKey;
-        $hashValue 			= hash("sha512", $stringToHash);
-        $customerKeyHeader 	= "Customer-Key: " . $customerKey;
-        $timestampHeader 	= "Timestamp: " .  number_format($currentTimeInMillis, 0, '', '');
-        $authorizationHeader= "Authorization: " . $hashValue;
-        $fromEmail 			= $email;
-        $subject            = "Oauth Server[Free] for efficiency ";
-        
-
-
-        $query1 =" miniOrange Joomla [Free] Oauth Server to improve efficiency ";
-        $content='<div >Hello, <br><br>Company :<a href="'.$_SERVER['SERVER_NAME'].'" target="_blank" >'.$_SERVER['SERVER_NAME'].'</a><br><br>OAuth Client Name :'.$appname.'<br><br><b>Email :<a href="mailto:'.$fromEmail.'" target="_blank">'.$fromEmail.'</a></b><br><br><b>Plugin Efficency Check: '.$query1. '</b><br><br><b>Redirect URI: ' .$base_url. '</b><br> Error Message:'.$reason.'</div>';
-
-        $fields = array(
-            'customerKey'	=> $customerKey,
-            'sendEmail' 	=> true,
-            'email' 		=> array(
-                'customerKey' 	=> $customerKey,
-                'fromEmail' 	=> $fromEmail,                
-                'fromName' 		=> 'miniOrange',
-				'bccEmail'      => 'jeswanth@xecurify.com',
-                'toEmail' 		=> 'shubham.pokharna@xecurify.com',
-                'toName' 		=> 'shubham.pokharna@xecurify.com',
-                'subject' 		=> $subject,
-                'content' 		=> $content
-            ),
-        );
-        $field_string = json_encode($fields);
-        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-        curl_setopt( $ch, CURLOPT_ENCODING, "" );
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );    # required for https urls
-
-        curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $customerKeyHeader,
-            $timestampHeader, $authorizationHeader));
-        curl_setopt( $ch, CURLOPT_POST, true);
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $field_string);
-        $content = curl_exec($ch);
-        	
-        if(curl_errno($ch)){
-			
-            return;
-        }
-        curl_close($ch);
         return;
 	}
 }
