@@ -30,7 +30,7 @@ class plgSystemMooauthserver extends JPlugin
 				$user = JFactory::getUser();        // Get the user object
 				$app  = JFactory::getApplication(); // Get the application
 				$client_id = $get['client_id'];
-				$scope = $get['scope'];
+				$scope = $get['scope'] ?? 'email';
 				$redirect_uri = $get['redirect_uri'];
 				$response_type = $get['response_type'];
 				$state = $get['state'];
@@ -53,7 +53,7 @@ class plgSystemMooauthserver extends JPlugin
                     $state = $get['state']; 
                     $redirecturi = $redirecturi."?code=".$randcode."&state=".$state;	
                     header('Location: ' . $redirecturi);
-                    MoOAuthServerUtility::plugin_efficiency_check($customerResult['email'], $OAuthClientAppName, $redirect_uri);
+                    MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
                     exit;
 			    }
     			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
@@ -68,7 +68,7 @@ class plgSystemMooauthserver extends JPlugin
 
 				//send back error for authorization
                 $redirect_uri = isset($get['redirect_uri'])?$get['redirect_uri']:NULL;
-                MoOAuthServerUtility::plugin_efficiency_check($customerResult['email'], $OAuthClientAppName, $redirect_uri,"Invalid Redirect Uri (or) Invalid Client ID");
+                MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri,"Invalid Redirect Uri (or) Invalid Client ID");
                 $api_response= array('error' => 'Invalid Redirect Uri (or) Invalid Client ID');
                 echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				exit;	
