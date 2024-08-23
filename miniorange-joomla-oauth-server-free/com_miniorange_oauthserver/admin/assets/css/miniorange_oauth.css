@@ -1,0 +1,462 @@
+.mo_oauthserver_welcome_message {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: rgba(0, 128, 0, 0.80);
+    background-color: rgba(0, 255, 0, 0.15);
+    padding: 5px;
+}
+.mo_nav_tab_active{
+    background-color: white !important;
+    border : 1px solid  #001b4c;
+    border-bottom: none;
+    color: black !important;
+}
+.mo_nav_tab_active > * {
+    background-color: white !important;
+    color: black !important; 
+} 
+/* Tooltip container */
+.copytooltip {
+    position: relative;
+    display: inline-block;
+    size: letter;
+ /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.copytooltip .copytooltiptext {
+    visibility: hidden;
+    width: 120px;
+
+    background-color:grey;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    font-size: 12px;
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: small;
+    /* Fade in tooltip */
+    opacity: 50;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.copytooltip .copytooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.copytooltip:active .copytooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+button.close {
+    --webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+}
+/* // licensing */
+html * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------
+    Main Components
+-------------------------------- */
+.fa.fa-pull-right {
+    margin-left: .3em;
+}
+
+.fa-pull-right {
+    float: right;
+}
+
+.fa-lg {
+    font-size: 1.33333333em;
+    line-height: .75em;
+    vertical-align: -15%;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-family: FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.mo_copy {
+
+    padding: 8px;
+    background-color: #d3cccc;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.mo_copy:active {
+    background: gray;
+}
+
+.mo_oauth_server_textfield {
+    border: 1px solid #868383 !important;
+}
+
+
+/****css for tab UI*****/
+.mo_oauth_server_nav-tab-wrapper {
+    border: none;
+}
+
+.mo_nav_tab_active:hover, .mo_nav_tab_active:hover {
+    background-color: white !important;
+    color: #000000 !important;
+}
+
+.mo_nav-tab{
+    font-size: 14px !important;
+    color:white;
+    display: inline-table !important;
+    margin : 0px!important;
+    cursor: pointer !important;
+    padding: 18px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+}
+.mo_nav-tab a{
+    text-decoration: none;
+    color: white;
+}
+
+
+
+.mo_nav-tab:hover{
+    background-color: white !important;
+    color: black !important;
+}
+
+.mo_nav-tab:hover a{
+    background-color: white !important;
+    color: black !important;
+}
+.mo_nav_tab_active:hover, .mo_nav_tab_active:hover {
+    background-color: white !important;
+    color: black !important;
+}
+
+.mo_OAuth_box{
+    background:white;
+    box-sizing: border-box!important;
+}
+
+.mo_oauth_server_tabs{
+    background:white;
+    border:1px solid #001b4c;
+    border-top:none;
+}
+
+.mo_OAuth_textbox_border{
+
+    border:1px solid black!important;
+}
+
+.mo_support_padding{
+
+    margin-top: -5rem!important;
+}
+
+
+.mo_oauth_logo{
+    height:50px !important;
+    width:50px !important;
+    background-image: url("../images/miniorange_i.ico");
+    line-height: 50px !important;
+    vertical-align: middle;
+}
+
+
+.mo_oauth_server_summary:hover {
+    text-decoration: underline;
+}
+    
+details {
+    padding: 0.77em 1.45em !important;
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+    border: 1px solid #bfbfbf !important;
+    border-radius: 3px !important;
+    background-color: #fcfcfa !important;
+}
+.mo_oauth_server_main_summary{
+    cursor: pointer !important;
+    color:black !important
+}
+.mo_oauth_server_summary:focus {
+    outline: none !important;
+    
+}
+    
+.mo_oauth_license-navbar-links{
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+	width:70%;
+	padding:10px 9px 9px 15px;  
+    text-decoration: none;
+    font-size: 17px;
+    background-color: #dff8d9;                  
+}
+.mo_oauth_license-navbar-links:hover{
+    color: black;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.8);
+	text-decoration: none;
+	background: #cadbf2; 
+}
+
+
+.mo_oauth_feature_comparision{
+	font-size: 28px;
+	line-height: 1.1;
+	text-align: center;
+	font-family:Raleway;
+	font-weight:600;
+	font-style:normal; 
+}
+
+
+
+.mo_oauth_pricing_wrapper{
+	display: grid;
+	grid-template-columns: repeat(3,1fr);
+	grid-gap: 15px;
+	padding: 0px 20px;
+
+}
+.mo_oauth_pricing_table{
+   box-shadow: 0px 0px 18px #ccc;
+   text-align: center;
+   background-color: #fff;	
+   padding: 30px 0px;
+   border-radius: 5px;
+   position: relative;
+ 
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_head {
+	border-bottom:1px solid #eee;
+	padding-bottom: 50px;
+	transition: all 0.5s ease;
+}
+.mo_oauth_pricing_table:hover .mo_oauth_pricing_table_head{
+   border-bottom:1px solid #0da577;
+   
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_head .mo_oauth_pricing_table_title{
+	margin-bottom: 20px;
+	font-size: 20px;
+	font-weight: 700;
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_content .mo_oauth_pricing_table_price{
+	  background-color: #cadbf2;
+	width: 105px;
+	height: 100px;
+	margin: auto;
+	line-height: 90px;
+	border-radius: 50%;
+	border: 5px solid #fff;
+	box-shadow: 0px 0px 10px #ccc;
+	margin-top: -50px;
+	 transition: all 0.5s ease;
+}
+.mo_oauth_pricing_table:hover .mo_oauth_pricing_table_content .mo_oauth_pricing_table_price{
+	transform: scale(1.2);
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_content .mo_oauth_pricing_table_price h1{
+	font-size: 30px;
+	font-weight: 700;
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_content ul{
+	padding: 15px!important;
+   	list-style-type: none;
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_content ul li{
+	margin: 20px 0px;
+	font-size: 14px;
+	color:#555;
+}
+.mo_oauth_pricing_table .mo_oauth_pricing_table_content .mo_oauth_sign-up{
+	background-color: #cadbf2;
+	border-radius: 40px;
+	font-weight: 500;
+	position: relative;
+	display: inline-block;
+	color:black;
+}
+.mo_oauth_sign-up:hover
+{
+    color: white!important;
+}
+.mo_oauth_pricing_table .btn {
+  color: rgb(22, 23, 17);
+  padding: 14px 40px;
+  display: inline-block;
+  text-align: center;
+  font-weight: 600;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3 linear;
+  transition: all 0.3 linear;
+  border: none;
+  font-size: 14px;
+  text-transform: capitalize;
+  position: relative;
+  text-decoration: none;
+  margin: 2px;
+  z-index: 9999;
+  text-decoration: none;
+  border-radius:50px;
+}
+.mo_oauth_pricing_table .btn:hover{
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+.mo_oauth_pricing_table .btn.bordered {
+  z-index: 50;
+  color: #333;
+}
+.mo_oauth_pricing_table:hover .btn.bordered{
+  color: black !important;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+.mo_oauth_pricing_table .btn.bordered:after {
+  background: #fff none repeat scroll 0 0;
+  border-radius: 50px;
+  height: 100%;
+  left: 0;
+  position: relative;
+  top: 0;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3 linear;
+  transition: all 0.3 linear;
+  width: 100%;
+  z-index: -1;  
+  -webkit-transform:scale(1);
+  -moz-transform:scale(1);
+  transform:scale(1);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+.mo_oauth_pricing_table:hover .btn.bordered:after{
+  opacity:0;
+  transform:scale(0);
+}
+@media screen and (max-width:768px){
+   .mo_ldap_pricing_wrapper{
+		grid-template-columns: repeat(2,1fr);
+	}
+}
+@media screen and (max-width:600px){
+   .mo_ldap_pricing_wrapper{
+		grid-template-columns: 1fr;
+	}
+}
+.mo_oauth_payment_options{
+	text-align: center;
+    box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+    border-radius: 10px;
+    transform: scale(1);
+    transition: all 0.5s ease 0s;
+    background-color: #cadbf2;
+}
+.mo_oauth_section-steps{
+	margin:0 0;
+	padding:20px 80px 0 80px;
+	background-color:#f9f9f9;
+}
+
+.mo_oauth_works-step{
+    margin-bottom: 50px;
+}
+.mo_oauth_works-step div{
+    color:#0a3273;
+    border: 2px solid #0a3273;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding: 8px;
+    float: left;
+    font-size: 20px;
+    margin-right: 25px;
+    margin-bottom: 27px;
+}
+.mo_oauth_works-step p{
+    font-size:15px;
+    text-align: left;
+}
+.mo_oauth-plan-title{
+	margin-top:10px; 
+	background: #132f53;
+    color: white;
+	padding:20px 15px 15px 15px;
+	text-align:center
+}
+
+.mo_oauth_adv_table-header {
+	padding: 35px 0;
+	background: #fff;
+	border-radius: 10px 10px 50% 50%;
+	margin-top: 20px;
+	height:110px;
+}
+
+.mo_oauth_payment-images{
+    width:140px;
+}
+
+.mo_oauth_highlight{
+    color: red;
+}

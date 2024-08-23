@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+ 
+	<name>COM_MINIORANGE_OAUTHSERVER</name>
+	<creationDate>Nov 2018</creationDate>
+	<author>miniOrange Security Software Pvt. Ltd.</author>
+	<authorEmail>info@xecurify.com</authorEmail>
+	<authorUrl>http://miniorange.com</authorUrl>
+	<copyright>Copyright Info</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<version>5.0.0</version>
+	<description>COM_MINIORANGE_OAUTHSERVER_DESCRIPTION</description>
+ 
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update> 
+	<!-- Runs on update --> 
+        <schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+			<!-- <schemapath type="sqlsrv">sql/updates/sqlsrv</schemapath> -->
+		</schemas>
+    </update> 
+		
+	<administration>
+		<!-- Administration Menu Section -->
+		<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup" view="accountsetup" alt="Joomla OAuth Server">COM_MINIORANGE_OAUTHSERVER_MENU</menu>
+		<submenu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=overview" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_OVERVIEW</menu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=configuration" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_CONFIGURATION</menu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=advancesettings" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_SETTINGS</menu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=advancemapping" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_ADVANCED_MAPPING</menu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=requestdemo" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_REQUEST_FOR_DEMO</menu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=license" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_LICENSING_PLANS</menu>
+			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=account" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_ACCOUNT_SETUP</menu>
+			
+		</submenu>
+		
+		<files folder="admin">
+			<!-- Admin Main File Copy Section -->
+			<filename>index.html</filename>
+			<filename>miniorange_oauthserver.php</filename>
+			<filename>controller.php</filename>
+			<!-- helper files section -->
+			<folder>assets</folder>
+			<!-- helper files section -->
+			<folder>helpers</folder>
+			<!-- SQL files section -->
+			<folder>sql</folder>
+			<!-- models files section -->
+			<folder>models</folder>
+			<!-- views files section -->
+			<folder>views</folder>
+			<!-- controllers files section -->
+			<folder>controllers</folder>
+		</files>
+		<languages folder="admin/language">
+        	<language tag="en-GB">en-GB/en-GB.com_miniorange_oauthserver.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_miniorange_oauthserver.sys.ini</language>
+		</languages>
+	</administration>
+	<updateservers>
+		<server type="extension" priority="1" name="oauthserver">https://miniorange.com/joomla_oauth_server_update.xml</server>
+	</updateservers>
+</extension>

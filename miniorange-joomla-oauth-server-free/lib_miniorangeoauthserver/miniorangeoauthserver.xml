@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="library" version="3.5.1" method="upgrade">
+    <name>Library - miniOrange OAuth Server</name>
+    <libraryname>miniorangeoauthserver</libraryname>
+    <author>miniOrange Security Software Pvt. Ltd.</author>
+	<authorEmail>info@xecurify.com</authorEmail>
+	<authorUrl>www.miniorange.com</authorUrl>
+    <creationDate>Jan 2018</creationDate>
+    <copyright>Copyright 2015 miniOrange. All Rights Reserved.</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <version>5.0.0</version>
+    <description>Library containing plugin utility classes.</description>
+    <files>
+		<filename>index.html</filename>
+        <folder>utility</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.lib_miniorangeoauthserver.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.lib_miniorangeoauthserver.sys.ini</language>
+    </languages>
+</extension>
