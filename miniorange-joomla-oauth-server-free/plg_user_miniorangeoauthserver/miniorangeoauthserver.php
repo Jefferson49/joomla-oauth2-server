@@ -25,12 +25,11 @@ class plgUserMiniorangeoauthserver extends JPlugin
 	 * @return    boolean
 	 */
 	
-	
 	public function onUserAfterLogin($options) {
 		
 		$cookie = JFactory::getApplication()->input->cookie->getArray();
 		
-			if(isset($cookie['response_params'])){
+		if(isset($cookie['response_params'])){
 			$response_params =  json_decode(stripslashes($cookie['response_params']),true);
 		
 			$user = JFactory::getUser();
@@ -65,9 +64,11 @@ class plgUserMiniorangeoauthserver extends JPlugin
 
 				
 			header('Location: ' . $redirecturi);
-			MoOAuthServerUtility::plugin_efficiency_check($user->get('email'), $response_params['clientName'], $redirecturi,$reason);
+			MoOAuthServerUtility::plugin_efficiency_check($user->get('email'), $response_params['clientName'], $redirecturi);
 			exit;
-			}
+		}
+		
+		return false;
 	}
 	
 	
