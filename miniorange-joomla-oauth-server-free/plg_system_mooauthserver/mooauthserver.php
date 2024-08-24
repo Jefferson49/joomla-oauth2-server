@@ -39,22 +39,27 @@ class plgSystemMooauthserver extends JPlugin
 				    $user = JFactory::getUser();
                     $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
 
-                    $redirecturi = $redirect_uri;
-                    $randcode = $this->generateRandomString();		
-                    $user_id = $user->id;		
-                    $fields = array(
-                        'rancode' =>$randcode
-                    );
-                    $conditions = array(
-                        'id' => $user_id
-                    );
-                    MoOAuthServerUtility::generic_update_query('#__users', $fields, $conditions);
-                
-                    $state = $get['state']; 
-                    $redirecturi = $redirecturi."&code=".$randcode."&state=".$state;	
-                    header('Location: ' . $redirecturi);
-                    MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
-                    exit;
+                    if($customerResult !== null) {
+                        $redirecturi = $redirect_uri;
+                        $randcode = $this->generateRandomString();		
+                        $user_id = $user->id;		
+                        $fields = array(
+                            'rancode' =>$randcode
+                        );
+                        $conditions = array(
+                            'id' => $user_id
+                        );
+                        MoOAuthServerUtility::generic_update_query('#__users', $fields, $conditions);
+                    
+                        $state = $get['state']; 
+                        $redirecturi = $redirecturi."&code=".$randcode."&state=".$state;	
+                        header('Location: ' . $redirecturi);
+                        MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
+                        exit;
+                    }
+                    else {
+			            JFactory::getApplication()->getSession()->destroy();		
+    				}	
 			    }
     			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
 	    		$msg="Only admins will have complete SSO (auto login) in free version. Inorder to auto login for normal users please upgrade to premium";
