@@ -60,7 +60,7 @@ class plgUserMiniorangeoauthserver extends JPlugin
 			$redirecturi=$response_params['redirect_uri'];
 			$state =$response_params['state'];	
 			
-			$redirecturi = $redirecturi."?code=".$randcode."&state=".$state;
+			$redirecturi = $redirecturi."&code=".$randcode."&state=".$state;
 
 				
 			header('Location: ' . $redirecturi);

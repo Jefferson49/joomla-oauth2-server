@@ -51,7 +51,7 @@ class plgSystemMooauthserver extends JPlugin
                     MoOAuthServerUtility::generic_update_query('#__users', $fields, $conditions);
                 
                     $state = $get['state']; 
-                    $redirecturi = $redirecturi."?code=".$randcode."&state=".$state;	
+                    $redirecturi = $redirecturi."&code=".$randcode."&state=".$state;	
                     header('Location: ' . $redirecturi);
                     MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
                     exit;
