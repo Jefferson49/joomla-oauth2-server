@@ -27,16 +27,16 @@ class plgSystemMooauthserver extends JPlugin
 			if(isset($customerResult['client_id']) && $customerResult['client_id']===$get['client_id'] && isset($customerResult['authorized_uri']) && $customerResult['authorized_uri']===$get['redirect_uri'])
             {
 				$session = JFactory::getSession(); #Get current session vars
-				$user = JFactory::getUser();        // Get the user object
+				$user = JFactory::getApplication()->getIdentity();  // Get the user object
+                $user_id = $user->id;
 				$app  = JFactory::getApplication(); // Get the application
 				$client_id = $get['client_id'];
 				$scope = $get['scope'] ?? 'email';
 				$redirect_uri = $get['redirect_uri'];
 				$response_type = $get['response_type'];
 				$state = $get['state'];
-			    if( $user->id!='') 
+			    if($user_id !== 0)
                 {
-				    $user = JFactory::getUser();
                     $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
 
                     if($customerResult !== null) {
