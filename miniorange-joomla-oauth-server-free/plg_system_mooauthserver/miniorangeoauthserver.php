@@ -41,18 +41,7 @@ $query->select($db->quoteName('group_id'));
 $query->from($db->quoteName('#__user_usergroup_map'));
 $query->where($db->quoteName('user_id') . ' =' . $db->quote($results['id']));
 $db->setQuery($query);
-$groups = $db->loadColumn();
-$groups_list = '(' . implode(',', $groups) . ')';	
-if(strpos($groups_list, '7')|| strpos($groups_list, '8'))
-{					
-	$flag =1;
-}
-else
-{
-	$api_response= array('error' => 'Only Admins can perform the SSO.');
-	echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-	exit;					
-}
+
 if($results['id']!='' && $flag)
 {
 	$query = $db->getQuery(true);
@@ -61,22 +50,14 @@ if($results['id']!='' && $flag)
 	$query->where($db->quoteName('id') . ' =' . $db->quote($results['id']));
 	$db->setQuery($query);
 	$results = $db->loadAssoc();
-	if(empty(trim($results['email'])))
-   	{
-		$api_response = array(		
-		    'id'  => $results['id'],
-    	    'username' => $results['username'],
-			'email' => $results['email']
-		);
-	}
-	else
-	{	
-		$api_response = array(			
-			'id'  => $results['id'],
-			'username' => $results['email'],
-			'email' => $results['email']
-		);
-	}
+
+	$api_response = array(		
+		'id'       => $results['id'],
+		'name'     => $results['name'] ?? '',
+		'username' => $results['username'] ?? '',
+		'email'    => $results['email'] ?? '',
+	);
+
 	echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 	exit;
 }
