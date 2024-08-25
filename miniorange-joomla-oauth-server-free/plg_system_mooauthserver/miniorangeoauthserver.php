@@ -42,7 +42,7 @@ $query->from($db->quoteName('#__user_usergroup_map'));
 $query->where($db->quoteName('user_id') . ' =' . $db->quote($results['id']));
 $db->setQuery($query);
 
-if($results['id']!='' && $flag)
+if($results['id']!='')
 {
 	$query = $db->getQuery(true);
 	$query->select('*');

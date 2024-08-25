@@ -22,6 +22,8 @@ class plgSystemMooauthserver extends JPlugin
 		$get = JFactory::getApplication()->input->get->getArray();
 	    $post = JFactory::getApplication()->input->post->getArray();	
         $OAuthClientAppName = $customerResult['client_name'];	
+
+        //If GET request
 		if(isset($get['client_id']) && !isset($get['client_secret']))
         {   
 			if(isset($customerResult['client_id']) && $customerResult['client_id']===$get['client_id'] && isset($customerResult['authorized_uri']) && $customerResult['authorized_uri']===$get['redirect_uri'])
@@ -70,7 +72,6 @@ class plgSystemMooauthserver extends JPlugin
 			}
             else
             {	
-
 				//send back error for authorization
                 $redirect_uri = isset($get['redirect_uri'])?$get['redirect_uri']:NULL;
                 MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri,"Invalid Redirect Uri (or) Invalid Client ID");
@@ -79,6 +80,8 @@ class plgSystemMooauthserver extends JPlugin
 				exit;	
 			}
 		}
+
+        //If POST request
         else if(isset($post['client_id']) && isset($post['client_secret']))
         {
     		if($customerResult['client_id']===$post['client_id']  && $customerResult['authorized_uri']===$post['redirect_uri'] && $customerResult['client_secret']===$post['client_secret'])
@@ -125,61 +128,6 @@ class plgSystemMooauthserver extends JPlugin
 				echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				exit;
 			}	
-		}		
-		if(isset($post['mojsp_feedback']))
-        {
-            $radio=$post['deactivate_plugin'];
-            $data=$post['query_feedback'];
-			$feedback_email = isset($post['feedback_email']) ? $post['feedback_email'] : '';
-            $db = JFactory::getDbo();
-            $query = $db->getQuery(true);
-            // Fields to update.
-            $fields = array(
-                $db->quoteName('uninstall_feedback') . ' = ' . $db->quote(1)
-            );
-            // Conditions for which records should be updated.
-            $conditions = array(
-                $db->quoteName('id') . ' = 1'
-            );
-            $query->update($db->quoteName('#__miniorange_oauthserver_customer'))->set($fields)->where($conditions);
-            $db->setQuery($query);
-            $result = $db->execute();
-            $current_user =  JFactory::getUser();
-            //$result = Utilities::getCustomerDetails();
-            $db = JFactory::getDbo();
-            $query = $db->getQuery(true);
-            $query->select(array('*'));
-            $query->from($db->quoteName('#__miniorange_oauthserver_customer'));
-            $query->where($db->quoteName('id')." = 1");
-            $db->setQuery($query);
-            $customerResult = $db->loadAssoc();
-            $admin_email = (isset($customerResult['email']) && !empty($customerResult['email'])) ? $customerResult['email'] : $feedback_email;
-            $admin_phone = $customerResult['admin_phone'];
-            $data1 = $radio.' : '.$data;
-            require_once JPATH_BASE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_miniorange_oauthserver' . DIRECTORY_SEPARATOR . 'helpers' .DIRECTORY_SEPARATOR . 'mo_customer_setup.php';
-            MoOauthServerCustomer::submit_feedback_form($admin_email,$admin_phone,$data1);
-            require_once JPATH_SITE . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Installer' .DIRECTORY_SEPARATOR . 'Installer.php';
-			foreach ($post['result'] as $fbkey) 
-            {
-                $db = JFactory::getDbo();
-                $query = $db->getQuery(true);
-                $query->select('type');
-                $query->from('#__extensions');
-                $query->where($db->quoteName('extension_id') . " = " . $db->quote($fbkey));
-                $db->setQuery($query);
-                $result = $db->loadColumn();
-                $identifier=$fbkey;
-			    $type=0;
-                foreach ($result as $results)
-                {        
-                    $type=$results;
-                }
-                if($type)
-                {
-                    $installer = new JInstaller();
-                    $installer->uninstall ($type,$identifier);
-                }
-    		}
         }
 	}
 	function onExtensionBeforeUninstall($id)
