@@ -11,8 +11,6 @@
 	<description>PLG_SYSTEM_MINIORANGEOAUTH_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="mooauthserver">mooauthserver.php</filename>
-		<filename plugin="miniorangeoauthserver">miniorangeoauthserver.php</filename>
-		
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_mooauthserver.ini</language>

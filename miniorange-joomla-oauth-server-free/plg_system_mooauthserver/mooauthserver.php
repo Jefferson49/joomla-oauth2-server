@@ -21,10 +21,63 @@ class plgSystemMooauthserver extends JPlugin
         $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id"=>'1'),'loadAssoc','*');
 		$get = JFactory::getApplication()->input->get->getArray();
 	    $post = JFactory::getApplication()->input->post->getArray();	
-        $OAuthClientAppName = $customerResult['client_name'];	
+        $headers = getallheaders();
+        $OAuthClientAppName = $customerResult['client_name'];
+
+        //If authorized request for user data
+        if (($headers['Authorization'] ?? '') !== '') {
+            
+            $access_token = $headers['Authorization'];
+            $access_token = explode(" ", $access_token, 2);
+            $access_token =$access_token[1];
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select($db->quoteName(array('id','time_stamp')));
+            $query->from($db->quoteName('#__users'));
+            $query->where($db->quoteName('client_token') . ' =' . $db->quote($access_token));
+            $db->setQuery($query);
+            $results = $db->loadAssoc();
+            if($results['time_stamp']<time())
+            {		
+                $api_response= array('error' => 'Access token got expire,please contact your administrator');
+                echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                exit;					
+            }
+            $query = $db->getQuery(true);
+            $query->select($db->quoteName('group_id'));
+            $query->from($db->quoteName('#__user_usergroup_map'));
+            $query->where($db->quoteName('user_id') . ' =' . $db->quote($results['id']));
+            $db->setQuery($query);
+            
+            if($results['id']!='')
+            {
+                $query = $db->getQuery(true);
+                $query->select('*');
+                $query->from($db->quoteName('#__users'));
+                $query->where($db->quoteName('id') . ' =' . $db->quote($results['id']));
+                $db->setQuery($query);
+                $results = $db->loadAssoc();
+            
+                $api_response = array(		
+                    'id'       => $results['id'],
+                    'name'     => $results['name'] ?? '',
+                    'username' => $results['username'] ?? '',
+                    'email'    => $results['email'] ?? '',
+                );
+            
+                echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                exit;
+            }
+            else
+            {
+                $api_response= array('error' => 'Access token dosent match,please contact your administrator');
+                echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                exit;				
+            }
+        }
 
         //If GET request
-		if(isset($get['client_id']) && !isset($get['client_secret']))
+		elseif(isset($get['client_id']) && !isset($get['client_secret']))
         {   
 			if(isset($customerResult['client_id']) && $customerResult['client_id']===$get['client_id'] && isset($customerResult['authorized_uri']) && $customerResult['authorized_uri']===$get['redirect_uri'])
             {
