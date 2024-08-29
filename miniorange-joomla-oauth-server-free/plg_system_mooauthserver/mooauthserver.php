@@ -77,7 +77,7 @@ class plgSystemMooauthserver extends JPlugin
         }
 
         //If GET request
-		elseif(isset($get['client_id']) && !isset($get['client_secret']))
+		elseif(isset($get['client_id']) && isset($get['redirect_uri']) && !isset($get['client_secret']))
         {   
 			if(isset($customerResult['client_id']) && $customerResult['client_id']===$get['client_id'] && isset($customerResult['authorized_uri']) && $customerResult['authorized_uri']===$get['redirect_uri'])
             {
