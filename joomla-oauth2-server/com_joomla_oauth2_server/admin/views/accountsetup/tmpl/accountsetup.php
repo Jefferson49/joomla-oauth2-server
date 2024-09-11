@@ -1104,7 +1104,7 @@ function mo_oauth_server_client_config()
 							<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_GET_USER_INFO_ENDPOINT');?> </strong> :
 						</th>
 						<td>
-							<span id="user_info_endpoint"><?php echo JURI::root()."plugins/system/mooauthserver/miniorangeoauthserver.php"; ?></span>
+							<span id="user_info_endpoint"><?php echo JURI::root()."index.php"; ?></span>
 							<em class="fa fa-pull-right fa-lg fa-copy mo_copy copytooltip"; onclick="copyToClipboard('#user_info_endpoint');" style="color:red; cursor: pointer;";  >
 							<span class="copytooltiptext">Copied!</span> </em>
 						</td>		
