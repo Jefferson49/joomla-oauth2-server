@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.5.1" type="plugin" group="user" method="upgrade">
-	<name>User - miniOrange OAuth Server</name>
-	<author>miniOrange Security Software Pvt. Ltd.</author>
-	<authorEmail>info@xecurify.com</authorEmail>
-	<authorUrl>www.miniorange.com</authorUrl> 
-	<creationDate>Nov 2018</creationDate>
+<extension version="1.0.0" type="plugin" group="user" method="upgrade">
+	<name>PLG_USER_MINIORANGEOAUTH</name>
+	<author>Jefferson49</author>
+ 	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
+    <authorUrl>https://github.com/Jefferson49</authorUrl>
+	<creationDate>2024-09-11</creationDate>
 	<license>GNU/GPLv3</license>
-	<copyright>Copyright 2016 miniOrange. All Rights Reserved.</copyright>
-	<version>5.0.0</version>
+    <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
+	<version>1.0.0</version>
 	<description>PLG_MINIORANGE_JOOMLA_IDP_XML_DESCRIPTION</description>
 
 	<files>
@@ -15,10 +15,15 @@
 		<filename>index.html</filename>
 		<folder>language</folder>
 	</files>
+
 	<scriptfile>my_script.php</scriptfile>
+
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_user_miniorangeoauthserver.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_user_miniorangeoauthserver.sys.ini</language>
 	</languages>
 	
+	<updateservers>
+		<server type="extension" name="Github/Jefferson49/Joomla-OAuth2-Server">https://raw.githubusercontent.com/Jefferson49/Joomla-OAuth2-Server/updates/updates.xml</server>
+	</updateservers>	
 </extension>

@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="system" method="upgrade">
+<extension version="1.0.0" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_MINIORANGEOAUTH</name>
-	<author>miniOrange Security Software Pvt. Ltd.</author>
-	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-	<authorEmail>info@xecurify.com</authorEmail>
-	<authorUrl>www.miniorange.com</authorUrl>
-	<creationDate>Nov 2018</creationDate>
-	<copyright>Copyright 2015 miniOrange. All Rights Reserved.</copyright>
-	<version>5.0.0</version>
+	<author>Jefferson49</author>
+ 	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
+    <authorUrl>https://github.com/Jefferson49</authorUrl>
+	<creationDate>2024-09-11</creationDate>
+	<license>GNU/GPLv3</license>
+    <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
+	<version>1.0.0</version>
 	<description>PLG_SYSTEM_MINIORANGEOAUTH_XML_DESCRIPTION</description>
+
 	<files>
 		<filename plugin="mooauthserver">mooauthserver.php</filename>
 	</files>
+
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_mooauthserver.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_system_mooauthserver.sys.ini</language>
 	</languages>
+
+	<updateservers>
+		<server type="extension" name="Github/Jefferson49/Joomla-OAuth2-Server">https://raw.githubusercontent.com/Jefferson49/Joomla-OAuth2-Server/updates/updates.xml</server>
+	</updateservers>	
 </extension>

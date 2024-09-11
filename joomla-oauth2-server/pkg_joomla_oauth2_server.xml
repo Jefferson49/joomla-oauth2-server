@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="package" method="upgrade">
-	<name>Package - miniOrange OAuth Server</name>
-	<packagename>oauthserver</packagename>
+<extension version="1.0" type="package" method="upgrade">
+	<name>Package - Joomla OAuth 2.0 Server</name>
+	<packagename>joomla_oauth2_server</packagename>
 	<license>GNU/GPLv3</license>
-	<version>5.0.0</version>
-	<author>miniOrange Security Software Pvt. Ltd.</author>
-	<authorEmail>info@xecurify.com</authorEmail>
-	<authorUrl>www.miniorange.com</authorUrl>
-	<creationDate>Nov 2018</creationDate>
-	<copyright>Copyright 2016 miniOrange. All Rights Reserved.</copyright>
-	<description>Plugin package for miniOrange OAuth Server for Joomla has been downloaded successfully!</description>
-	<scriptfile>pkg_script.php</scriptfile>
+	<version>1.0.0</version>
+	<author>Jefferson49</author>
+    <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
+ 	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
+    <authorUrl>https://github.com/Jefferson49</authorUrl>
+	<creationDate>2024-09-11</creationDate>
+	<description>Extension package for Joomla OAuth2 Server</description>
 	<files>
-		<file type="plugin" id="mooauthserver" group="system">plg_system_mooauthserver.zip</file>
-		<file type="component" id="miniorange_oauthserver" >com_miniorange_oauthserver.zip</file>
-		<file type="plugin" id="miniorangeoauthserver" group="user">plg_user_miniorangeoauthserver.zip</file>
-		<file type="library" id="miniorangeoauthserver">lib_miniorangeoauthserver.zip</file>
+		<file type="plugin"    id="plg_system_joomla_oauth2_server" group="system">plg_system_joomla_oauth2_server.zip</file>
+		<file type="component" id="com_joomla_oauth2_server"                      >com_joomla_oauth2_server.zip</file>
+		<file type="plugin"    id="plg_user_joomla_oauth2_server"   group="user"  >plg_user_joomla_oauth2_server.zip</file>
+		<file type="library"   id="lib_joomla_oauth2_server"                      >lib_joomla_oauth2_server.zip</file>
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.pkg_miniorangeoauthserver.ini</language>
 		<language tag="en-GB">en-GB/en-GB.pkg_miniorangeoauthserver.sys.ini</language>
 	</languages>
 	<updateservers>
-		<server type="extension" priority="1" name="oauthserver">https://miniorange.com/joomla_oauth_server_update.xml</server>
+		<server type="extension" name="Github/Jefferson49/Joomla-OAuth2-Server">https://raw.githubusercontent.com/Jefferson49/Joomla-OAuth2-Server/updates/updates.xml</server>
 	</updateservers>
 </extension>
