@@ -79,21 +79,6 @@ if(!$isSystemEnabled || !$isUserEnabled)
 							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TAB3_ADVANCED_MAPPING'); ?>
 						</div>
 					</a>
-					<a id="licensing_planid"  href="#licensing-plans" data-toggle="tab">
-						<div onclick="add_css_tab('#licensing_planid');" class="mo_boot_col-sm-2 mo_nav-tab <?php echo $oauth_active_tab == 'license' ? 'mo_nav_tab_active' : ''; ?>">
-							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TAB5_LICENSING_PLANS'); ?>
-						</div>
-					</a>
-					<a id="account_setup"  href="#description"  data-toggle="tab">
-						<div onclick="add_css_tab('#account_setup');" class="mo_boot_col-sm-2 mo_nav-tab <?php echo $oauth_active_tab == 'account' ? 'mo_nav_tab_active' : ''; ?>">
-							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TAB6_ACCOUNT_SETUP'); ?>
-						</div>
-					</a>
-					<a href="<?php echo JURI::base()?>index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=requestdemo">
-						<div class="mo_boot_col-sm-2  mo_boot_bg-success mo_nav-tab">
-							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT');?>
-						</div>
-					</a>
 				</div>
 			</div> 
 		</div>
@@ -106,35 +91,6 @@ if(!$isSystemEnabled || !$isUserEnabled)
 				</div>
 			</div>				
 		</div> 
-	</div>
-	<div class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'account' ? 'active' : ''; ?>" id="description"  >
-		<div class="mo_boot_col-sm-12 ">
-			<div class="mo_boot_row">
-				<div class="mo_boot_col-sm-12">
-					<?php
-						$customer_details = MoOAuthServerUtility::getCustomerDetails();						
-						$login_status = $customer_details['login_status'];
-						$registration_status = $customer_details['registration_status'];
-						if($login_status)
-						{
-							mo_oauth_login_page();
-						}
-						else if($registration_status == 'MO_OTP_DELIVERED_SUCCESS' || $registration_status == 'MO_OTP_VALIDATION_FAILURE' || $registration_status == 'MO_OTP_DELIVERED_FAILURE')
-						{
-							mo_otp_show_otp_verification();
-						}
-						else if(! MoOAuthServerUtility::is_customer_registered())
-						{
-							mo_oauth_registration_page();
-						}
-						else
-						{
-							mo_oauth_account_page();
-						}
-					?>
-				</div>
-			</div>
-		</div>
 	</div>
 	<div class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'configuration' ? 'active' : ''; ?>"  id="configuration"  >
 		<div class="mo_boot_col-sm-12 mo_boot_p-2">
@@ -172,29 +128,6 @@ if(!$isSystemEnabled || !$isUserEnabled)
 			</div>				
 		</div> 
 	</div>
-	<div id="licensing-plans" class=" mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'license' ? 'active' : ''; ?>"  >
-		<div class="mo_boot_col-sm-12">
-			<?php  
-				$customer_details = MoOAuthServerUtility::getCustomerDetails();						
-				$email = $customer_details['email'];					
-				$hostName = 'https://www.miniorange.com';
-				$loginUrl = $hostName . '/contact';
-				echo mo_oauth_server_licensing_plan();
-			?>
-		</div>
-	</div>
-	<div id="requestdemo" class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'requestdemo' ? 'active' : ''; ?>"  >
-		<div class="mo_boot_col-sm-12">
-			<div  class="mo_boot_row">				
-				<div class=" mo_boot_col-sm-8">
-					<?php mo_oauth_server_request_demo();?>			
-				</div>
-				<div  class="mo_boot_col-sm-4">
-					<?php echo mo_oauth_server_support(); ?>
-				</div>
-			</div>				
-		</div>
-	</div>
 	<div id="advancesettings" class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'advancesettings' ? 'active' : ''; ?>"  >
 		<div class="mo_boot_col-sm-12">
 			<div  class="mo_boot_row" >
@@ -228,19 +161,17 @@ function mo_oauth_server_overview()
 				<div class="mo_boot_row">
 					<div class="mo_boot_col-sm-12 mo_boot_mt-4">
 						<h3>
-							<em>miniOrange Joomla Single Sign-On - Joomla as OAuth Provider</em>	
+							<em>Joomla Single Sign-On - Joomla as OAuth 2.0 Provider</em>	
 						</h3>
 						<hr class="mo_boot_bg-dark">
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-2">
-					<div class="mo_boot_col-sm-7 mo_boot_p-5 mo_boot_text-center">
-						<strong>The Joomla as OAuth Server plugin empowers Joomla-powered platforms with the capability to serve as OAuth Servers. This plugin revolutionizes user access management by allowing third-party applications to securely request and access specific user data without requiring sensitive login information. Acting as an intermediary, Joomla grants users the authority to grant controlled permissions to external apps. This seamless integration enhances user privacy, strengthens security, and streamlines access across interconnected services. With the OAuth Server plugin, Joomla becomes a versatile hub for controlled data sharing, creating a more secure and interconnected digital ecosystem.</strong>
+					<div class="mo_boot_col-sm-7 mo_boot_p-5 mo_boot_text-center">The Joomla OAuth 2.0 Server extension empowers Joomla to serve as OAuth 2.0 server. Other applications can act as OAuth clients and request authorization from the Joomla OAuth 2.0 Server. This allows other applications to implement a Single Sign-On with the Joomla user account.
 						<br><br>
-						<a class="mo_boot_btn mo_boot_btn-primary" target="_blank" href="https://plugins.miniorange.com/joomla-oauth-server"> Visit Site</a>
-						<a class="mo_boot_btn mo_boot_btn-primary" href="<?php echo JURI::root().'administrator/index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=license';?>"> Licensing plans</a>
-						<a class="mo_boot_btn mo_boot_btn-primary" target="_blank" href="https://plugins.miniorange.com/joomla-oauth-server-guides"> Guides</a>
-						<a class="mo_boot_btn mo_boot_btn-primary" target="_blank" href="https://faq.miniorange.com/kb/joomla/"> FAQs</a>
+						Developed by: <a target="_blank" href="https://plugins.miniorange.com">miniorange</a>. Copyright (c) 2016-2024.
+						<br>
+						Modified by: <a target="_blank" href="https://github.com/Jefferson49">Jefferson49</a>. Copyright (c) 2024.
 					</div>
 					<div class="mo_boot_col-sm-5 ">
 						<img class="mo_boot_img-fluid" src="<?php echo JURI::root().'administrator\components\com_miniorange_oauthserver\assets\images\joomla-oauth-server-sso.webp'?>" alt="Joomla Single sign on">
@@ -250,259 +181,8 @@ function mo_oauth_server_overview()
 		</div>
 	<?php
 }
-function mo_oauth_login_page() 
-{
-	$customer_details = MoOAuthServerUtility::getCustomerDetails();						
-	$admin_email = $customer_details['email'];
-	?>	
-	<div class="mo_boot_row mo_boot_m-1">
-        <div class="mo_boot_container-fluid mo_boot_py-4">
-            <div class="card no_boot_my-2" style="box-shadow: -2 3px 7px 2px hsl(214deg 17.95% 5.21%);">
-                <div class="card-body">
-                    <div class="mo_boot_col-sm-11 mo_boot_mt-3 mo_boot_text-center">
-                        <h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_LOGIN_WITH_MINIORANGE');?></h3><hr style="1px solid rgb(116 107 107 / 72%)">   
-                    </div>
-                    <div class="mo_boot_col-sm-12 mo_boot_offset-2" style="width:62%">
-						<form name="f" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.verifyCustomer');?>">   
-                            <div class="mo_boot_row mo_boot_mt-3 mo_boot_mx-4">
-                                <div class="mo_boot_col-sm-12" style="font-weight:500;">
-									<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_EMAIL');?>:
-                                </div>
-                                <div class="mo_boot_col-sm-12 mo_boot_mt-1">
-								<input class="mo_boot_form-control oauth-textfield" type="email" name="email" id="email"
-									required placeholder="person@example.com"
-									value="<?php echo $admin_email; ?>" />
-                                </div>
-                            </div>
-                            <div class="mo_boot_row mo_boot_mt-3 mo_boot_mx-4" style="font-weight:500;">
-                                <div class="mo_boot_col-sm-12 ">
-									<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD');?>:
-                                </div>
-                                <div class="mo_boot_col-sm-12 mo_boot_mt-1">
-								<input class="mo_boot_form-control oauth-textfield" required type="password"
-									name="password" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_MINIORANGE_PASSWORD_PLACEHOLDER');?>" />
-								
-                                    <a class="mo_boot_forgot_phn mo_boot_mt-1" style="color:#737e7ce3;font-family: ui-sans-serif;float:left;cursor:pointer;" href="/moas/idp/resetpassword" target="_blank"><u>Reset password</u></a>
-                                </div>
-                            </div>
-                            <div class="mo_boot_row mo_boot_my-4">
-                        
-                                <div class="mo_boot_col-sm-12 mo_boot_text-center">
-                                    <input type="submit" name="register_or_login" class="mo_boot_btn mo_boot_btn-primary" style="color:#fff;width: 60%;border-radius:21px" value="Login" />
-                                </div>
-                                <div class="mo_boot_col-sm-12 mo_boot_text-center mo_boot_mt-2">
-                                    <span class="mo_boot_forgot_phn " style="color:#403b3b;font-family: ui-sans-serif;" >Don't have an account yet</span><br>
-                                    <a class="mo_boot_forgot_phn " style="color:#403b3b;font-family: ui-sans-serif;cursor:pointer;" href="https://www.miniorange.com/businessfreetrial" target='_blank' ><u> Create an account</u></a>     
-                                </div>
-                            </div> 
-                        </form>    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php 
-}
-
-/* Show otp verification page*/
-function mo_otp_show_otp_verification(){
-?>
-	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
-		<form name="f" method="post" style="width:100%;" id="otp_form" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.validateOtp');?>">
-			<div class="mo_boot_col-sm-12 mo_boot_mt-2">
-				<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_VERIFY_YOUR_EMAIL');?></h3>
-				<hr>
-			</div>
-			<div class="mo_boot_col-sm-12 mo_boot_mt-2">
-				<div class="mo_boot_row mo_boot_my-4">
-					<div class="mo_boot_col-sm-2">
-						<strong><span style="color:#FF0000">*</span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENTER_OTP');?>:</strong>
-					</div>
-					<div class="mo_boot_col-sm-7">
-						<input class="mo_boot_form-control"  autofocus="true" type="text" name="otp_token" required placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENTER_OTP_PLACEHOLDER');?>" />
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_my-3">
-					<div class="mo_boot_col-sm-12 mo_boot_text-center">
-						
-						<input type="submit" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_VALIDATE_OTP');?>" class="mo_boot_btn mo_boot_btn-primary" />
-						<a href="#mo_otp_resend_otp_email" class="mo_boot_btn mo_boot_btn-primary" onclick="resend_otp()" ><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_RESEND_OTP_OVER_EMAIL');?></a>
-						<i id="back_btn" onclick="back_btn()" class="mo_boot_btn mo_boot_btn-danger"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_OTP_BACK_BUTTON');?></i>
-					</div> 
-				</div>
-				<hr>
-			</div>
-		</form>
-		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-			<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DID_NOT_RECIEVE_OTP');?></h3>
-		</div>
-		<div class="mo_boot_col-sm-12 mo_boot_mt-2">
-			<form id="phone_verification" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.phoneVerification');?>">
-				<div class="mo_boot_row">
-					<div class="mo_boot_col-sm-12">
-						<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DID_NOT_RECIEVE_OTP_NOTE1');?></p>
-						<p class="mo_boot_mt-4">
-							<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENTER_VALID_PHONE_NUMBER');?></strong>
-						</p>
-					</div>
-					<div class="mo_boot_col-sm-12 mo_boot_my-3">
-						<div class="mo_boot_row">
-							<div class="mo_boot_col-sm-6">
-								<input class="mo_boot_form-control" required="true" pattern="[\+]\d{1,3}\d{10}" autofocus="true" type="text" name="phone_number" id="phone_number" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENTER_VALID_PHONE_NUMBER_PLACEHOLDER');?>"  title="Enter phone number without any space or dashes with country code."/>
-							</div>
-							<div class="mo_boot_col-sm-6">
-								<input type="submit" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SEND_OTP');?>" class="mo_boot_btn mo_boot_btn-primary" />
-							</div>
-						</div>	
-					</div>
-				</div>	
-			</form>
-		</div>
-	</div>
-	<form method="post" id="mo_otp_cancel_form" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.cancelform');?>" >
-	</form> 
-	<form name="f" id="resend_otp_form" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.resendOtp');?>">
-	</form>
-<?php
-}
-
-/* Create Customer function */
-function mo_oauth_registration_page(){
-	$current_user = JFactory::getUser();
-	?>
-	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
-		<div class="mo_boot_col-sm-12">
-			<form name="f" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.registerCustomer');?>">
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-9">
-						<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REGISTER_WITH_MINIORANGE');?></h3>
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-12">
-						<hr>
-						<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REGISTER_WITH_MINIORANGE_DETAILS1');?></p>
-						<p style="color: #fa2727">
-						<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REGISTER_WITH_MINIORANGE_DETAILS2');?> 
-							<a href="https://www.miniorange.com/businessfreetrial" target="_blank"><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REGISTER_WITH_MINIORANGE_DETAILS3');?></strong></a> 
-							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REGISTER_WITH_MINIORANGE_DETAILS4');?></br>
-						</p>
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_EMAIL');?>:</strong>
-					</div>
-					<div class="mo_boot_col-sm-8">
-						<input id="email" class="mo_boot_form-control mo_OAuth_textbox_border" type="email" name="email"
-							required placeholder="person@example.com"
-							value="<?php echo $current_user->email;?>" />
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight" style="padding-left: 3px;"> </span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PHONE_NUMBER');?>:</strong>
-					</div>
-					<div class="mo_boot_col-sm-8">
-						<input id="rg_phone" class="mo_boot_form-control mo_OAuth_textbox_border" type="tel" id="phone"
-							pattern="[\+]\d{11,14}|[\+]\d{1,4}([\s]{0,1})(\d{0}|\d{9,10})" name="phone"
-							title="Phone with country code eg. +1xxxxxxxxxx"
-							placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PHONE_NUMBER_PLACEHOLDER');?>"
-							/>
-						<em><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PHONE_NUMBER_NOTE');?></em>
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD');?>:</strong>
-					</div>
-					<div class="mo_boot_col-sm-8">
-						<input id="rg_passwd" class="mo_boot_form-control mo_OAuth_textbox_border" required type="password"
-							name="password" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD_PLACEHOLDER');?>" />
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CONFIRM_PASSWORD');?>:</strong>
-					</div>
-					<div class="mo_boot_col-sm-8">
-						<input  id="rg_repasswd" class="mo_boot_form-control mo_OAuth_textbox_border" required type="password"
-							name="confirmPassword" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CONFIRM_PASSWORD_PLACEHOLDER');?>" />
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_text-center mo_boot_my-5">
-					<div class="mo_boot_col-sm-12">
-						<input type="submit" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REGISTER');?>" class="mo_boot_btn mo_boot_btn-primary" />
-						<a href="#oauth_account_exist" onclick="oauth_account_exist()" class="mo_boot_btn mo_boot_btn-primary"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ALREADY_REGISTERED_WITH_MINIORANGE');?></a>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<form name="f" id="resend_otp_form" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.customerLoginForm');?> ">
-	</form>
-	<?php
-}
 
 
-function mo_oauth_account_page() 
-{	
-	$result = MoOAuthServerUtility::getCustomerDetails();	
-	$email = $result['email'];
-	$customer_key = $result['customer_key'];
-	$api_key = $result['api_key'];
-	$customer_token = $result['customer_token'];
-
-	
-	$moPluginVersion = MoOAuthServerUtility::GetPluginVersion();
-	$j_version = new JVersion;
-	$jcms_version = $j_version->getShortVersion();
-	$php_version = phpversion();
-	?>
-	<div class="mo_boot_row  mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
-		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-			<div class="mo_oauthserver_welcome_message"><h4><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_THANK_YOU_FOR_REGISTERING');?></h4></div><br>
-		</div>
-		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-			<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_USER_PROFILE');?></h3><hr><br>
-		</div>
-		<div class="mo_boot_col-sm-12 mo_boot_mt-3 mo_boot_table-responsive">
-			<table	class="mo_boot_table mo_boot_table-striped mo_boot_table-hover mo_boot_table-bordered">
-				<tr>
-					<td ><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_USER_USERNAME_EMAIL');?></strong></td>
-					<td ><?php echo $email?></td>
-				</tr>
-				<tr>
-					<td ><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOMER_ID');?></strong></td>
-					<td ><?php echo $customer_key?></td>
-				</tr>
-				<tr>
-					<td ><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PLUGIN_VERSION');?></strong></td>
-					<td ><?php echo $moPluginVersion?></td>
-				</tr>
-				<tr>
-					<td ><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_JOOMLA_VERSION');?></strong></td>
-					<td ><?php echo $jcms_version?></td>
-				</tr>
-				<tr>
-					<td ><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PHP_VERSION');?></strong></td>
-					<td ><?php echo $php_version?></td>
-				</tr>
-			</table>
-		</div>
-		<div class="mo_boot_col-sm-12 mo_boot_my-3 mo_boot_text-center">
-			<form action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&task=accountsetup.ResetAccount'); ?>" name="reset_useraccount" method="post"> 
-				<input type="button" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REMOVE_ACCOUNT');?>" onclick='submit();' class="mo_boot_btn mo_boot_btn-danger"/>
-			</form>
-		</div>
-	</div>
-	
-	<form id="otp_forgot_password_form" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.forgotpassword');?>">
-		<input type="hidden" name="current_admin_email" id="current_admin_email" value="" />
-	</form>
-
-	<?php
-}
 function mo_oauth_client_list() 
 {
 	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id"=>1),'loadAssoc','*');
@@ -519,7 +199,7 @@ function mo_oauth_client_list()
 						</h3>
 					</div>
 					<div class="mo_boot_col-sm-6">
-						<input type="submit" id="dis_btn" name="send_query" id="send_query" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" disabled />
+						<input type="submit" id="dis_btn" name="send_query" id="send_query" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" />
 						<a  onclick="add_css_tab('#configu_id');" href="<?php echo JURI::base().'index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENDPOINT_URL');?></a>
 					</div>
 				</div>
@@ -670,7 +350,7 @@ function mo_oauth_server_add_client()
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important;">
 				<details>
 					
-                 <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PREMIUM_FEATURES');?></summary>
+                 <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADVANCED_FEATURES');?></summary>
 
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
@@ -679,10 +359,10 @@ function mo_oauth_server_add_client()
 					<div class="mo_boot_col-sm-8">
 						<select name="mo_oauth_grant_type" readonly class="mo_boot_form-control" id="mo_oauth_grant_type">
 							<option value="" selected> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_AUTHORIZATION_GRANT_TYPE');?></option>
-							<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_IMPLICIT_GRANT_TYPE');?></option>
-							<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD_GRANT_TYPE');?></option>
-							<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REFRESH_TOKEN_GRANT_TYPE');?></option>
-							<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
+							<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_IMPLICIT_GRANT_TYPE');?></option>
+							<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD_GRANT_TYPE');?></option>
+							<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REFRESH_TOKEN_GRANT_TYPE');?></option>
+							<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
 						</select>
 					</div>
 				</div>
@@ -691,8 +371,8 @@ function mo_oauth_server_add_client()
 						<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input type="radio" name="mo_oauth_enable_pkce" disabled value="1"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_YES');?>
-						<input type="radio" name="mo_oauth_enable_pkce" disabled value="0"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_NO');?>
+						<input type="radio" name="mo_oauth_enable_pkce" value="1"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_YES');?>
+						<input type="radio" name="mo_oauth_enable_pkce" value="0"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_NO');?>
 						
 					</div>
 				</div>
@@ -701,7 +381,7 @@ function mo_oauth_server_add_client()
 						<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TOKEN_EXPIRY');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" required="" type="text" disabled name="mo_oauth_token_expiry" value="3600">
+						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_expiry" value="3600">
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3" >
@@ -709,7 +389,7 @@ function mo_oauth_server_add_client()
 						<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TOKEN_LENGTH');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" required="" type="text" disabled name="mo_oauth_token_length" value="64">
+						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_length" value="64">
 					</div>
 				</div>
                 </details>
@@ -719,10 +399,10 @@ function mo_oauth_server_add_client()
                     <div class="mo_boot_col-sm-12">
 						<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important">
                         	<details>
-                            	<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT_PREMIUM_FEATURE');?></summary>
+                            	<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT');?></summary>
                             	<div class="mo_boot_row mo_boot_my-3 mo_boot_mx-1">
                                 	<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-                                    	<input type="checkbox" style="cursor: not-allowed;" disabled id="enablejwt" value="1" name="enablejwt" /> 
+                                    	<input type="checkbox" style="cursor: not-allowed;" id="enablejwt" value="1" name="enablejwt" /> 
                                     	<span style="color: #000000;"><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT');?></strong></span>
                                     	<small><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT_DESCRIPTION');?></small>
                                 	</div>
@@ -741,9 +421,9 @@ function mo_oauth_server_add_client()
                                     	<table>
                                         	<tr>
                                             	<td>
-                                                	<input type="radio" disabled id="hsa" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="HSA" />&nbsp;HSA&nbsp;&nbsp;
-                                                	<input disabled id="rsa" type="radio" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="RSA"  /> RSA&nbsp;&nbsp;<br><br>
-                                                	<input type="button" disabled class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
+                                                	<input type="radio" id="hsa" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="HSA" />&nbsp;HSA&nbsp;&nbsp;
+                                                	<input id="rsa" type="radio" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="RSA"  /> RSA&nbsp;&nbsp;<br><br>
+                                                	<input type="button" class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
                                             	</td>
                                         	</tr>
                                     	</table>
@@ -796,7 +476,7 @@ function mo_oauth_update(){
 				</div>
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important">
                     <details>
-                        <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PREMIUM_FEATURES');?></summary>
+                        <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADVANCED_FEATURES');?></summary>
 						<div class="mo_boot_row mo_boot_mt-3" >
 							<div class="mo_boot_col-sm-3">
 								<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_GRANT_TYPE');?></strong>
@@ -804,10 +484,10 @@ function mo_oauth_update(){
 							<div class="mo_boot_col-sm-8">
 								<select name="mo_oauth_grant_type" readonly class="mo_boot_form-control" id="mo_oauth_grant_type">
 									<option value="" selected> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_AUTHORIZATION_GRANT_TYPE');?></option>
-									<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_IMPLICIT_GRANT_TYPE');?></option>
-									<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD_GRANT_TYPE');?></option>
-									<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REFRESH_TOKEN_GRANT_TYPE');?><</option>
-									<option value="" disabled> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
+									<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_IMPLICIT_GRANT_TYPE');?></option>
+									<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PASSWORD_GRANT_TYPE');?></option>
+									<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REFRESH_TOKEN_GRANT_TYPE');?><</option>
+									<option value=""> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
 								</select>
 							</div>
 						</div>
@@ -816,8 +496,8 @@ function mo_oauth_update(){
 								<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
-								<input type="radio" name="mo_oauth_enable_pkce" disabled value="1"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_YES');?>
-								<input type="radio" name="mo_oauth_enable_pkce" disabled value="0"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_NO');?>
+								<input type="radio" name="mo_oauth_enable_pkce" value="1"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_YES');?>
+								<input type="radio" name="mo_oauth_enable_pkce" value="0"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_PKCE_NO');?>
 							</div>
 						</div>
 						<div class="mo_boot_row mo_boot_mt-3" >
@@ -825,7 +505,7 @@ function mo_oauth_update(){
 								<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TOKEN_EXPIRY');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
-								<input class="mo_boot_form-control" required="" type="text" disabled name="mo_oauth_token_expiry" value="3600">
+								<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_expiry" value="3600">
 							</div>
 						</div>
 						<div class="mo_boot_row mo_boot_mt-3" >
@@ -833,7 +513,7 @@ function mo_oauth_update(){
 								<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TOKEN_LENGTH');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
-								<input class="mo_boot_form-control" required="" type="text" disabled name="mo_oauth_token_length" value="64">
+								<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_length" value="64">
 							</div>
 						</div>
 					</details>
@@ -843,10 +523,10 @@ function mo_oauth_update(){
                     <div class="mo_boot_col-sm-12">
 					<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important">
                         <details>
-						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT_PREMIUM_FEATURE');?></summary>
+						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT');?></summary>
                             <div class="mo_boot_row mo_boot_my-3 mo_boot_mx-1" style="background:white;border:1px solid #226a8b;border-radius:5px;">
                                 <div class="mo_boot_col-sm-12 mo_boot_mt-3">
-                                    <input type="checkbox" style="cursor: not-allowed;" disabled id="enablejwt" value="1" name="enablejwt" /> 
+                                    <input type="checkbox" style="cursor: not-allowed;" id="enablejwt" value="1" name="enablejwt" /> 
                                     <span style="color: #000000;"><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT');?></strong></span>
                                     <small><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_JWT_DESCRIPTION');?></small>
                                 </div>
@@ -865,9 +545,9 @@ function mo_oauth_update(){
                                     <table>
                                         <tr>
                                             <td>
-                                                <input type="radio" disabled id="hsa" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="HSA" />&nbsp;HSA&nbsp;&nbsp;
-                                                <input disabled id="rsa" type="radio" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="RSA"  /> RSA&nbsp;&nbsp;<br><br>
-                                                <input type="button" disabled class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
+                                                <input type="radio" id="hsa" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="HSA" />&nbsp;HSA&nbsp;&nbsp;
+                                                <input id="rsa" type="radio" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="RSA"  /> RSA&nbsp;&nbsp;<br><br>
+                                                <input type="button" class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
                                             </td>
                                         </tr>
                                     </table>
@@ -902,26 +582,24 @@ function mo_oauth_server_advance_settings()
 				<div class="mo_boot_col-sm-12">
 					<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADVANCE_SETTINGS');?></h3>
 					<hr>
-					<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADVANCE_SETTINGS_NOTE');?><a href="sendto:joomlasupport@xecurify.com">joomlasupport@xecurify.com</a> or <a href="sendto:info@xecurify.com">info@xecurify.com</a></p>
-					<br>
 				</div>
 			</div>
 			<div class="mo_boot_row">
 				<div class="mo_boot_col-sm-12">
 					<details open>
-						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_STATE_PARAMETER');?><sup><small class="mo_oauth_highlight"> <a href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=license" rel="noopener noreferrer"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PREMIUM');?></a></small></sup></summary>
+						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_STATE_PARAMETER');?></summary>
 						<hr>
 						<p>[<a target="_blank" href="https://developers.miniorange.com/docs/oauth/wordpress/server/enforce-state-parameters">Click here</a> <span >to know how this is useful]</span></p>
 						<div class="mo_boot_row mo_boot_my-4">
 							<div class="mo_boot_col-sm-12">
-								<input type="checkbox" name="mo_oauth_auto_redirect"  id="mo_oauth_auto_redirect" value="1" style="float:left; margin-top:5px" disabled /><label style="float:left; margin-left:5px" for="mo_oauth_auto_redirect">&nbsp;<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_AUTHORIZE');?></label>
+								<input type="checkbox" name="mo_oauth_auto_redirect"  id="mo_oauth_auto_redirect" value="1" style="float:left; margin-top:5px" /><label style="float:left; margin-left:5px" for="mo_oauth_auto_redirect">&nbsp;<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_AUTHORIZE');?></label>
 								<p style="padding-top:2rem ;"> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_STATE_PARAMTER_DESCRIPTION');?></p>
 							</div>
 						</div>
 					</details>
 
 					<details open>
-						<summary class="mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PROTECT_ADMIN_LOGIN_PAGE_URL');?><sup><small class="mo_oauth_highlight"> <a href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=license" rel="noopener noreferrer"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PREMIUM');?></a></small></sup></summary><hr>
+						<summary class="mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PROTECT_ADMIN_LOGIN_PAGE_URL');?></summary><hr>
 						<div class="mo_boot_col-sm-12 mo_boot_mt-4">
 							<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PROTECT_ADMIN_LOGIN_PAGE_URL_DETAILS');?></p>
 						</div>
@@ -931,7 +609,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_CUSTOM_LOGIN_PAGE_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<input type="checkbox" disabled/>
+									<input type="checkbox"/>
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
@@ -939,7 +617,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<input class="mo_boot_form-control" type="text" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL_PLACEHOLDER');?>" disabled="disable"/>
+									<input class="mo_boot_form-control" type="text" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL_PLACEHOLDER');?>"/>
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
@@ -947,7 +625,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CURRENT_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8 mo_boot_text-wrap">
-									<input type="text" class="mo_boot_form-control" name="" disabled  placeholder="<?php echo JURI::base();?>">
+									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo JURI::base();?>">
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
@@ -955,7 +633,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8 mo_boot_text-wrap">
-									<input type="text" class="mo_boot_form-control" name="" disabled  placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ADMIN_LOGIN_URL_PLACEHOLDER');?>">
+									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ADMIN_LOGIN_URL_PLACEHOLDER');?>">
 								</div>
 							</div>
 							<div class="mo_boot_row mo_boot_mt-3">
@@ -963,7 +641,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REDIRECT_AFTER_FAILED_RESPONSE');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<select class="mo_boot_form-control" id="failure_response" disabled >
+									<select class="mo_boot_form-control" id="failure_response" >
 										<option><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REDIRECT_TO_HOMEPAGE');?></option>
 										<option><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REDIRECT_TO_CUSTOM_404_MESSAGE');?></option>
 										<option><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REDIRECT_TO_CUSTOM_REDIRECT_URL');?></option>
@@ -975,7 +653,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<input class="mo_boot_form-control" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE_PLACEHOLDER');?>" disabled type="text"/>
+									<input class="mo_boot_form-control" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE_PLACEHOLDER');?>" type="text"/>
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3" id="custom_message">
@@ -983,12 +661,12 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<textarea style="height:100% !important" class="mo_boot_form-control" disabled placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE_PLACEHOLDER');?>"></textarea>
+									<textarea style="height:100% !important" class="mo_boot_form-control" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE_PLACEHOLDER');?>"></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="mo_boot_col-sm-12  mo_boot_mt-4  mo_boot_text-center">
-							<input type="submit" class="mo_boot_btn mo_boot_btn-primary" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SAVE_ADMIN_LOGIN_PAGE_URL_SETTINGS');?>" disabled/>
+							<input type="submit" class="mo_boot_btn mo_boot_btn-primary" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SAVE_ADMIN_LOGIN_PAGE_URL_SETTINGS');?>"/>
 						</div>
 					</details>
 				</div>
@@ -999,64 +677,6 @@ function mo_oauth_server_advance_settings()
  <?php
 }
 
-function mo_oauth_server_request_demo(){
-	?>
-	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
-		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-			<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REQUEST_DEMO');?></h3>
-			<hr>
-		</div>
-		<div class="mo_boot_col-sm-12">
-			<div style="background-color: #e2e6ea; padding: 10px; color: #000000;"><p><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REQUEST_DEMO_DETAILS1');?></p>
-			<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REQUEST_DEMO_DETAILS2');?>
-			</div>
-		</div>
-		<div class="mo_boot_col-sm-12">
-			<form id="demo_request" name="demo_request" method="post" action='<?php echo JRoute::_("index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.moOAuthRequestForDemoPlan");?>' >
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-4 mo_boot_mx-2">
-						<strong><span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_EMAIL');?>:</span><span class="mo_oauth_highlight">*</span></strong>
-					</div>
-					<div class="mo_boot_col-sm-7">
-						<input type="email" class="mo_boot_form-control mo_OAuth_textbox_border" onblur="validateEmail(this)" name="email" placeholder="person@example.com" value='<?php echo JFactory::getUser()->email ;?>' />
-						<p style="display: none;color:red" id="email_error">Invalid Email</p>
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-4 mo_boot_mx-2">
-						<strong><span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_REQUEST_DEMO_TRIAL');?></span><span class="mo_oauth_highlight">*</span></strong>
-					</div>
-					<div class="mo_boot_col-sm-7">
-						<select required class="mo_boot_form-control mo_OAuth_textbox_border" name="plan" id="rfd_id">
-							<option value="" class="mo_boot_text-center">-------------- Select -----------------</option>
-							<option value="Joomla OAuth Server Premium Plugin"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_JOOMLA_OAUTH_SERVER_STANDARD_PLUGIN');?></option>
-							<option value="Joomla OAuth Server Premium Plugin"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_JOOMLA_OAUTH_SERVER_PREMIUM_PLUGIN');?></option>
-							<option value="Not Sure"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_NOT_SURE');?></option>
-						</select>
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-4 mo_boot_mx-2">
-						<strong><span><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_DESCRIPTION');?>:</span><span class="mo_oauth_highlight">*</span></strong>
-					</div>
-					<div class="mo_boot_col-sm-7">
-						<textarea class="mo_OAuth_textbox_border mo_boot_px-2"
-								  required type="text" name="description"
-                                  style=" width:100%;" rows="4"
-                                  placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_DESCRIPTION_PLACEHOLDER');?>"
-                                  value=""></textarea>
-					</div>
-				</div>
-				<div class="mo_boot_row mo_boot_text-center mo_boot_my-4">
-					<div class="mo_boot_col-sm-12">
-						<input type="submit" name="submit" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_SUBMIT');?>" class="mo_boot_btn mo_boot_btn-primary"/>
-					</div>
-				</div>		
-			</form>
-		</div>
-	</div>
-	<?php
-}
 
 function mo_oauth_server_client_config() 
 {
@@ -1125,158 +745,12 @@ function mo_oauth_server_client_config()
 	<?php
 }
 
-function mo_oauth_server_support()
-{
-	$result = MoOAuthServerUtility::getCustomerDetails();	
-	$current_user =  JFactory::getUser();
-	$admin_email = $result['email'];
-	$admin_phone = $result['admin_phone'];
-	if($admin_email == '')
-		$admin_email = $current_user->email;
-	?>
-	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box" >
-		<div class="mo_boot_col-sm-12">
-			<form name="f" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.moOAuthContactUs');?>">
-				<div class="mo_boot_row mo_boot_mt-3">
-					<div class="mo_boot_col-sm-12 mo_boot_text-center">
-						<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT');?><hr></h3>
-					</div>
-					<div class="mo_boot_col-sm-12">
-						<p class="oauth-table"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_NOTE');?></p>
-					</div>
-				</div>
-				<div class="mo_boot_row ">
-					<div class="mo_boot_col-sm-12 mo_boot_mt-2">
-						<input type="email" class="mo_boot_form-control mo_OAuth_textbox_border"  name="query_email" value="<?php echo $admin_email; ?>" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_EMAIL_PLACEHOLDER');?>" required />
-					</div>
-					<div class="mo_boot_col-sm-12 mo_boot_mt-2">
-						<input type="number" class="mo_boot_form-control mo_OAuth_textbox_border" name="query_phone" value="<?php echo $admin_phone; ?>" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_PHONE_PLACEHOLDER');?>"/>
-					</div>
-					<div class="mo_boot_col-sm-12 mo_boot_mt-2">
-						<textarea  name="query" class="mo_OAuth_textbox_border mo_boot_px-2" cols="52" rows="6" style="width:100%;" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_QUERY_PLACEHOLDER');?>" required></textarea>
-					</div>
-					<div class="mo_boot_col-sm-12 mo_boot_my-3 mo_boot_text-center">
-						<input type="submit" name="send_query"  value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SUPPORT_SUBMIT_QUERY');?>" class="mo_boot_btn mo_boot_btn-primary" />
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<?php
-}
-
-function mo_oauth_server_licensing_plan()
-{
-	?>
-<div class="mo_boot_row" style="background-color:#e0e0d8 ">
-	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-4 mo_OAuth_box">
-	<div class="mo_boot_col-sm-12 mo_boot_my-4">
- 
- 		<div id="mo_oauth_liciensing_table_wrapper" class="mo_boot_my-4" style="background: #132f53;">
-			<h2 class="mo_oauth_feature_comparision mo_boot_text-light mo_boot_py-2" id="mo_oauth_target_license"><?php echo JText::_('COM_MINIORANGE_LICENSING_PLAN');?></h2>
-		</div>
-    	<br>
-		<div class="mo_oauth_pricing_wrapper">
-           <div class="mo_oauth_pricing_table">
-        	    <div class="mo_oauth_pricing_table_head">
-                    <h4 class="mo_oauth_pricing_table_title"><?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_FREE_PLAN');?></h4>
-                </div>
-                <div class="mo_oauth_pricing_table_content">
-                    <div class="mo_oauth_pricing_table_price mo_boot_text-light" style="background-color: #132f53">
-                        <h1 class="mo_boot_my-3 mo_boot_py-2" ><?php echo JText::_('COM_MINIORANGE_FREE');?></h1>
-                    </div>
-                    <ul><?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_FREE_PLAN_FEATURES');?></ul>
-                    <div class="mo_oauth_sign-up">
-						<input style="background-color: #132f53" type="button" onclick= "window.open('https://www.miniorange.com/contact')" target="_blank" value="<?php echo JText::_('COM_MINIORANGE_CONTACT_US');?>"  class="btn bordered radius mo_boot_text-light" />
-                    </div>
-                </div>
-            </div>
- 
-           <div class="mo_oauth_pricing_table">
-               <div class="mo_oauth_pricing_table_head" >
-                    <h4 class="mo_oauth_pricing_table_title"><?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_BASIC_PLAN');?></h4>
-               </div>
-               <div class="mo_oauth_pricing_table_content">
-                   <div class="mo_oauth_pricing_table_price" style="background-color: #132f53">
-                       <h1 class="mo_boot_my-3 mo_boot_py-2" style="font-size:14px"><input type="button" onclick= "window.open('https://www.miniorange.com/contact')" target="_blank" style="font-weight:bold" value="<?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_BASIC_PLAN_COST');?>"  class="mo_boot_btn mo_boot_px-1 mo_boot_text-light" /></h1>
-                   </div>
-                   <ul> <?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_BASIC_PLAN_FEATURES');?></ul>
-                   <div class="mo_oauth_sign-up">
-				   <input style="background-color: #132f53" type="button" onclick="window.open('https://www.miniorange.com/contact')" target="_blank" value="<?php echo JText::_('COM_MINIORANGE_CONTACT_US');?>"  class="btn bordered radius mo_boot_text-light" />
-                   </div>
-               </div>
-           </div>
- 
- 
-            <div class="mo_oauth_pricing_table">            
-                <div class="mo_oauth_pricing_table_head">
-                    <h4 class="mo_oauth_pricing_table_title"><?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_PREMIUM_PLAN');?></h4>
-                </div>
-                <div class="mo_oauth_pricing_table_content" >
-                    <div class="mo_oauth_pricing_table_price" style="background-color: #132f53">
-                        <h1 class="mo_boot_my-3 mo_boot_py-2" style="font-size:14px"><input type="button" onclick= "window.open('https://www.miniorange.com/contact')" target="_blank" value="<?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_BASIC_PLAN_COST');?>" style="font-weight:bold" class="mo_boot_btn mo_boot_px-1 mo_boot_text-light" /></h1>
-                    </div>
-                    <ul> <?php echo JText::_('COM_MINIORANGE_FEATURE_COMPARISION_PREMIUM_PLAN_FEATURES');?> </ul>
-                    <div class="mo_oauth_sign-up">
-					<input  style="background-color: #132f53" type="button" onclick= "window.open('https://www.miniorange.com/contact')" target="_blank" value="<?php echo JText::_('COM_MINIORANGE_CONTACT_US');?>"  class="btn bordered radius mo_boot_text-light" />
-                    </div>
-                </div>
-            </div>        
-       	</div>
-		<br><br>
-		<div class="mo_oauth-plan-title" id="mo_oauth_instance">
-			<?php echo JText::_('COM_MINIORANGE_INSTANCE');?>
-		</div>
-		<div id="mo_oauth_payment_methods"></div>
-		<div class="mo_boot_my-4" style="background:white;"  >
-			<h2 style="text-align:center; font-family: 'Comfortaa', sans-serif;"><?php echo JText::_('COM_MINIORANGE_PAYMENT_METHODS');?></h2><hr>
-			<div class="mo_boot_row" style="margin-left:8%">							
-				<div class="mo_oauth_payment_options mo_boot_col-sm-5">
-            		<div class="mo_oauth_adv_table-header" style="color:black;font-size:40px;" >
-                		
-                		<em class="mo_boot_mx-2 fa fa-cc-visa" aria-hidden="true"></em>
-						<em class="fa fa-cc-mastercard" aria-hidden="true"></em>
-						<em class="fa fa-cc-amex" aria-hidden="true"></em>
-					</div>
-					<p class="mo_boot_pt-4"><?php echo JText::_('COM_MINIORANGE_PAYMENT_METHODS_CARD_DETAILS');?></p>
-        		</div>
-
-				<div class="mo_boot_mx-4 mo_oauth_payment_options mo_boot_col-sm-5">
-            		<div class="mo_oauth_adv_table-header" >
-						<img class="mo_oauth_payment-images card-image" src="" alt=""> 
-            			<em style="font-size:30px;color:black;" class="fa fa-university" aria-hidden="true"><span style="font-size: 20px;font-weight:500;">&nbsp;&nbsp;	<?php echo JText::_('COM_MINIORANGE_PAYMENT_METHODS_BANK_TRANSFER');?></span></em>                             
-					</div>
-					<p class="mo_boot_py-4"><?php echo JText::_('COM_MINIORANGE_PAYMENT_METHODS_BANK_TRANSFER_DETAILS');?></p>
-            		<br><br>
-        		</div>
-			</div>
-		</div> 
-			
-		
-		<div class="mo_oauth-plan-title ">	
-			<h3><?php echo JText::_('COM_MINIORANGE_END_TO_END_INTEGRATION');?></h3><hr>
-            <?php echo JText::_('COM_MINIORANGE_SET_UP_CALL');?>	
-		</div>
-
-		<div class="mo_oauth-plan-title ">
-			<h3><?php echo JText::_('COM_MINIORANGE_RETURN_POLICY');?></h3>
-            <hr>
-            <section class="return-policy">
-                <p style="font-size:16px;">	<?php echo JText::_('COM_MINIORANGE_RETURN_POLICY_DETAILS');?></p>    
-            </section>
-		</div>
-    </div>
-</div>	
-</div>	
-<?php
-}
-
 function mo_oauth_show_advance_mapping()
 {
 	?>
 	<div class="mo_boot_row mo_boot_my-3 mo_boot_mx-1 mo_OAuth_box" style="border-radius:5px;">
 		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-		<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE_MAPPING');?><sup> <small class="mo_oauth_highlight"><a href="index.php?option=com_miniorange_oauth&view=accountsetup&tab-panel=license" rel="noopener noreferrer"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_PREMIUM');?></a></small></sup></h3><hr>
+		<h3><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE_MAPPING');?></h3><hr>
 		</div>
 		<div class="mo_boot_col-sm-12 mo_boot_m-3 mo_boot_p-2" style="background:#e0e0e0">
 			<p><strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_JOOMLA_USER_FIELD_ATTRIBUTE_NAME');?></strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_JOOMLA_USER_FIELD_ATTRIBUTE_NAME_DESCRIPTION');?></p>
@@ -1294,7 +768,7 @@ function mo_oauth_show_advance_mapping()
 										<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE');?> <?php echo $icnt ?> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE_NAME');?></strong>
 									</div>
 									<div class="mo_boot_col-sm-7">
-										<input type="text" class="mo_oauth_server_textfield mo_boot_form-control" disabled="disabled" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE_PLACEHOLDER');?>"/>
+										<input type="text" class="mo_oauth_server_textfield mo_boot_form-control" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE_PLACEHOLDER');?>"/>
 									</div>
 								</div>
 						</div>
@@ -1304,7 +778,7 @@ function mo_oauth_show_advance_mapping()
 									<strong><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE');?> <?php echo $icnt;?> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTE_VALUE');?></strong>
 								</div>
 								<div class="mo_boot_col-sm-7">
-									<select class="mo_oauth_server_textfield mo_boot_form-control" disabled="disabled">
+									<select class="mo_oauth_server_textfield mo_boot_form-control">
 										<option value=""><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SELECT_CUSTOM_ATTRIBUTE');?></option>
 										<option value="emailAddress"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTES_EMAIL_ADDRESS');?></option>
 										<option value="username"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CUSTOM_ATTRIBUTES_USERNAME');?></option>
@@ -1322,7 +796,7 @@ function mo_oauth_show_advance_mapping()
 			</div>
 		</div>
 		<div class="mo_boot_col-sm-12 mo_boot_mt-5 mo_boot_mb-3 mo_boot_text-center">
-			<input type="submit" class="mo_boot_btn mo_boot_btn-primary " value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SAVE_ADDITIONAL_USER_ATTRIBUTE_MAPPING');?>" disabled/>
+			<input type="submit" class="mo_boot_btn mo_boot_btn-primary " value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SAVE_ADDITIONAL_USER_ATTRIBUTE_MAPPING');?>"/>
 		</div><br><br>
 	</div>
 	<?php

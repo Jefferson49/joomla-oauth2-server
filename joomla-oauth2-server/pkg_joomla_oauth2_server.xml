@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.0" type="package" method="upgrade">
+<extension type="package" method="upgrade">
 	<name>Package - Joomla OAuth 2.0 Server</name>
 	<packagename>joomla_oauth2_server</packagename>
 	<license>GNU/GPLv3</license>

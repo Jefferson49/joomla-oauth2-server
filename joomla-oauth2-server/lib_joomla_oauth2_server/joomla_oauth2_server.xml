@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="library" version="1.0.0" method="upgrade">
+<extension type="library" method="upgrade">
     <name>Library - Joomla OAuth 2.0 Server</name>
-    <libraryname>joomla_oauth2_server</libraryname>
+    <libraryname>miniorangeoauthserver</libraryname>
 	<author>Jefferson49</author>
  	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
     <authorUrl>https://github.com/Jefferson49</authorUrl>

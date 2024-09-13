@@ -73,15 +73,16 @@ class pkg_OAUTHSERVERInstallerScript
      *                           - * discover_install
      * @param  \stdClass $parent - Parent object calling object.
      *
-     * @return void
+     * @return bool
      */
-    function postflight($type, $parent) 
+    function postflight($type, $parent): bool 
     {
-  
-       if ($type == 'uninstall') {
-        return true;
+        if ($type == 'uninstall') {
+            return true;
         }
-       $this->showInstallMessage('');
+
+        $this->showInstallMessage('');
+        return true;
     }
 
     protected function showInstallMessage($messages=array()) {
@@ -127,16 +128,13 @@ class pkg_OAUTHSERVERInstallerScript
                     <h4>Steps to use the OAuth Server plugin.</h4>
                     <ul>
                         <li>Click on <b>Components</b></li>
-                        <li>Click on <b>miniOrange OAuth Server</b> and select <b>Configure OAuth</b> tab</li>
+                        <li>Click on <b>Joomla OAuth 2.0 Server</b> and select <b>Configure OAuth</b> tab</li>
                         <li>You can start configuring.</li>
                     </ul>
                 </p>
             </p>
-            <a class="btn btn-secondary" style="background-color: #001b4c; color : white"  href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration">Start Using miniOrange OAuth Server plugin</a>
-            <a class="btn btn-secondary" style="background-color: #001b4c; color : white" href="https://plugins.miniorange.com/joomla-oauth-server-guides" target="_blank">Setup guides</a>
-		    <a class="btn btn-secondary" style="background-color: #001b4c; color : white" href="https://www.miniorange.com/contact" target="_blank">Free Trial / Need assistance</a>
+            <a class="btn btn-secondary" style="background-color: #001b4c; color : white"  href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration">Start Using Joomla OAuth 2.0 Server plugin</a>
         </div>
         <?php
-    }
-  
+    }  
 }

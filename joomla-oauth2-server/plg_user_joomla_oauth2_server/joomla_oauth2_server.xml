@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.0.0" type="plugin" group="user" method="upgrade">
+<extension type="plugin" group="user" method="upgrade">
 	<name>PLG_USER_MINIORANGEOAUTH</name>
 	<author>Jefferson49</author>
  	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>

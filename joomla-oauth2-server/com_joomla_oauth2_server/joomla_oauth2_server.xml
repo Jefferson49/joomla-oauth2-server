@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="1.0.0" method="upgrade"> 
+<extension type="component" method="upgrade">
 	<name>COM_MINIORANGE_OAUTHSERVER</name>
 	<creationDate>2024-09-11</creationDate>
 	<author>Jefferson49</author>
@@ -7,7 +7,7 @@
     <authorUrl>https://github.com/Jefferson49</authorUrl>
     <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
 	<license>GNU/GPLv3</license>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<description>COM_MINIORANGE_OAUTHSERVER_DESCRIPTION</description>
  
 	<install> <!-- Runs on install -->
