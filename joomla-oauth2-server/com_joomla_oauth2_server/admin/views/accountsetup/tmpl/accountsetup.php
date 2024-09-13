@@ -206,7 +206,7 @@ function mo_oauth_client_list()
 				<hr>
 				<div class="mo_boot_row mo_boot_mt-2">
 					<div class="mo_boot_col-sm-12">
-						<span color="red"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT1');?> <a href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=license" rel="noopener noreferrer"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT2');?></a> <?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT3');?></span>	
+						<span color="red"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT1');?></span>
 					</div>
 					<div class="mo_boot_col-sm-12 mo_boot_table-responsive">
 						
@@ -252,13 +252,6 @@ function mo_oauth_client_list()
 							</tr>
 						</table>
 					</div>
-					<div class="mo_boot_col-sm-12">
-						<p class='alert alert-info'>
-							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT_NOTE1');?>
-							<a href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=license" rel="noopener noreferrer" style="color:#00008B;"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT_NOTE2');?> </a>
-							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT_NOTE3');?>
-						</p>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -303,13 +296,6 @@ function mo_oauth_client_list()
 									<th></th>
 								</tr>
 							</table>
-						</div>
-					</div>
-					<div class="mo_boot_row mo_boot_my-4">
-						<div class="mo_boot_col-sm-12">
-							<p class='alert alert-info'>
-								<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CLIENT_NOTE');?>
-							</p>
 						</div>
 					</div>
 				</form>
@@ -589,7 +575,6 @@ function mo_oauth_server_advance_settings()
 					<details open>
 						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_STATE_PARAMETER');?></summary>
 						<hr>
-						<p>[<a target="_blank" href="https://developers.miniorange.com/docs/oauth/wordpress/server/enforce-state-parameters">Click here</a> <span >to know how this is useful]</span></p>
 						<div class="mo_boot_row mo_boot_my-4">
 							<div class="mo_boot_col-sm-12">
 								<input type="checkbox" name="mo_oauth_auto_redirect"  id="mo_oauth_auto_redirect" value="1" style="float:left; margin-top:5px" /><label style="float:left; margin-left:5px" for="mo_oauth_auto_redirect">&nbsp;<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENABLE_AUTHORIZE');?></label>
