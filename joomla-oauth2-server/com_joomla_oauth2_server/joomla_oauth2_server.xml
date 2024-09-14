@@ -34,7 +34,11 @@
 		<submenu>
 			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=overview" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_OVERVIEW</menu>
 			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=configuration" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_CONFIGURATION</menu>
-			<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=advancesettings" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_SETTINGS</menu>
+
+			<?php /* Dont show menu for settings
+				<menu link="option=com_miniorange_oauthserver&amp;view=accountsetup&amp;tab-panel=advancesettings" view="accountsetup">COM_MINIORANGE_OAUTHSERVER_SETTINGS</menu>
+			*/ ?>
+
 		</submenu>
 		
 		<files folder="admin">

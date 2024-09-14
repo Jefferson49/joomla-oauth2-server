@@ -69,6 +69,9 @@ if(!$isSystemEnabled || !$isUserEnabled)
 							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TAB1_CONFIGURE_OAUTH'); ?>
 						</div>
 					</a>
+					
+					<?php /* Hide tabs for advanced settings and mapping
+					
 					<a id="advance_settings_id"  href="#advancesettings" data-toggle="tab">
 						<div onclick="add_css_tab('#advance_settings_id');" class="mo_boot_col-sm-1 mo_nav-tab <?php echo $oauth_active_tab == 'advancesettings' ? 'mo_nav_tab_active' : ''; ?>">
 							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TAB2_SETTINGS'); ?>
@@ -79,6 +82,8 @@ if(!$isSystemEnabled || !$isUserEnabled)
 							<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_TAB3_ADVANCED_MAPPING'); ?>
 						</div>
 					</a>
+					*/ ?>
+					
 				</div>
 			</div> 
 		</div>
@@ -128,7 +133,10 @@ if(!$isSystemEnabled || !$isUserEnabled)
 			</div>				
 		</div> 
 	</div>
-	<div id="advancesettings" class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'advancesettings' ? 'active' : ''; ?>"  >
+	
+	<?php /* Hide advanced settings tab
+	
+	<div style="display:none;" id="advancesettings" class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'advancesettings' ? 'active' : ''; ?>"  >
 		<div class="mo_boot_col-sm-12">
 			<div  class="mo_boot_row" >
 				<div class=" mo_boot_col-sm-12">
@@ -137,7 +145,11 @@ if(!$isSystemEnabled || !$isUserEnabled)
 			</div>	
 		</div>
 	</div>
-	<div id="advancemappinng" class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'advancemapping' ? 'active' : ''; ?>"  >
+	*/ ?>
+	
+	<?php /*	Hide advanced mapping tab
+	
+	<div style="display:none;" id="advancemapping" class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'advancemapping' ? 'active' : ''; ?>"  >
 		<div class="mo_boot_col-sm-12">
 			<div  class="mo_boot_row" >
 				<div class=" mo_boot_col-sm-12">
@@ -146,6 +158,8 @@ if(!$isSystemEnabled || !$isUserEnabled)
 			</div>	
 		</div>
 	</div>
+	*/ ?>
+	
 </div>
 <!-- 
 	*End Of Tabs for accountsetup view. 
@@ -337,6 +351,8 @@ function mo_oauth_server_add_client()
 						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_redirect_url" value="" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
 					</div>
 				</div>
+				
+				<?php /* Dont show advanced features
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important;">
 				<details>
 					
@@ -423,6 +439,8 @@ function mo_oauth_server_add_client()
 						</div>
                     </div>
                 </div> 
+				*/ ?>				
+				
 				<div class="mo_boot_row mo_boot_text-center mo_boot_my-4">
 					<div class="mo_boot_col-sm-12">
 						<input type="submit" name="submit" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_SAVE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
@@ -465,6 +483,8 @@ function mo_oauth_update(int $id){
 						<input class="mo_boot_form-control" required type="text" name="mo_oauth_client_redirect_url" value="<?php echo $attribute['authorized_uri'];?>" placeholder="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
 					</div>
 				</div>
+				
+				<?php /* Dont show advanced features				
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important">
                     <details>
                         <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADVANCED_FEATURES');?></summary>
@@ -548,6 +568,8 @@ function mo_oauth_update(int $id){
 					</div>
                     </div>
                 </div> 
+				*/ ?>				
+				
 				<div class="mo_boot_row mo_boot_my-4 mo_boot_text-center">
 					<div class="mo_boot_col-sm-12">
 						<input type="hidden" name="id"  value="<?php echo $id ?>"/>
