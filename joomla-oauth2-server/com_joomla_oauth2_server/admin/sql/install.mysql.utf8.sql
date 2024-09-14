@@ -35,6 +35,5 @@ ALTER TABLE `#__users` ADD COLUMN `rancode` varchar(255) DEFAULT 0;
 ALTER TABLE `#__users` ADD COLUMN `client_token` varchar(255) DEFAULT 0;
 ALTER TABLE `#__users` ADD COLUMN `time_stamp` int(11) DEFAULT 0;
 
-INSERT IGNORE INTO `#__miniorange_oauthserver_config` (`id`,`client_count`) values (1,0);
 INSERT IGNORE INTO `#__miniorange_oauthserver_customer`(`id`,`login_status`) values (1,false) ;
 

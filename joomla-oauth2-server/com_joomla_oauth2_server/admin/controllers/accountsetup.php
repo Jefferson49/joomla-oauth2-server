@@ -35,6 +35,8 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 				'token_length' => $tokenLength,
 			);
 			// Conditions for which records should be updated.
+
+			//ToDo: Should be for all ids?
 			$conditions = array(
 				'id' => 1
 			);
@@ -47,51 +49,37 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 	{
 		$post=	JFactory::getApplication()->input->post->getArray();
 		$client_id = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
-		$client_secret= miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
-		$authorized_uri=trim($post['mo_oauth_client_redirect_url']," ");
+		$client_secret = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
+		$authorized_uri = trim($post['mo_oauth_client_redirect_url']," ");
 		// Fields to update.
 		$fields = array(
-			'client_name' => $post['mo_oauth_custom_client_name'],
-			'client_id'=>$client_id,
-			'client_secret' => $client_secret,
+			'client_name'    => $post['mo_oauth_custom_client_name'],
+			'client_id'      => $client_id,
+			'client_secret'  => $client_secret,
 			'authorized_uri' => $authorized_uri,
-			'client_count' =>1
+			'client_count'   => 0,
 		);
 			 
-		// Conditions for which records should be updated.
-		$conditions = array(
-			'id' => 1
-		);
-
-		MoOAuthServerUtility::generic_update_query("#__miniorange_oauthserver_config", $fields,$conditions);
+		MoOAuthServerUtility::generic_insert_query("#__miniorange_oauthserver_config", $fields);
 		
 		$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration&pa=2', 'Client  has been added successfully.');	
 	}
 	
 	function deleteclient(){
 			
-			 // Fields to update.
-			$fields = array(
-				'client_name' =>NULL,
-				'client_id' =>NULL,
-				'client_secret' =>NULL,
-				'authorized_uri' =>NULL,
-				'client_count' =>0,
-				
-			);
-			 
-			// Conditions for which records should be updated.
-			$conditions = array(
-				'id'=> 1
-			);
-			MoOAuthServerUtility::generic_update_query("#__miniorange_oauthserver_config", $fields,$conditions);
-			
-			$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration');
+		$get = JFactory::getApplication()->input->get->getArray();
+
+		$selection = array(
+			'id' => $get['id'],
+		);
+
+		MoOAuthServerUtility::generic_delete_query("#__miniorange_oauthserver_config", $selection);
 		
+		$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration');
 	}
 		
 		
-		function generateRandomString($length=30) {
+	function generateRandomString($length=30) {
 		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);
 		$randomString = '';
@@ -111,8 +99,9 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 		);
 		// Conditions for which records should be updated.
 		$conditions = array(
-			'id' => 1
+			'id' => $post['id'],
 		);
+
 		MoOAuthServerUtility::generic_update_query("#__miniorange_oauthserver_config", $fields,$conditions);
 
 		$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration&pa=2', 'Client has been updated successfully.');

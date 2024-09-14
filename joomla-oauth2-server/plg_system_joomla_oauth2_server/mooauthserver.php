@@ -18,9 +18,10 @@ class plgSystemMooauthserver extends JPlugin
 
 	public function onAfterInitialise()
 	{ 
-        $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id"=>'1'),'loadAssoc','*');
 		$get = JFactory::getApplication()->input->get->getArray();
 	    $post = JFactory::getApplication()->input->post->getArray();	
+        $clientId = $get['client_id'] ?? ($post['client_id'] ?? '');
+        $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("client_id" => $clientId),'loadAssoc','*');
         $headers = getallheaders();
         $OAuthClientAppName = $customerResult['client_name'];
 
@@ -174,7 +175,7 @@ class plgSystemMooauthserver extends JPlugin
 			}
             else
             {		
-				$api_response= array('error' => 'Some Error at Token Endpoint URL,please contact your administrator');
+				$api_response= array('error' => 'Some Error at Token Endpoint URL, please contact your administrator');
 				echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				exit;
 			}	

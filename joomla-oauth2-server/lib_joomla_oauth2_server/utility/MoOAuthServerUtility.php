@@ -74,6 +74,34 @@ class MoOAuthServerUtility
         $db->execute();
     }
 
+	public static function generic_insert_query(string $table_name, array $insertfieldssarray)
+	{
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+		$keys = array_keys($insertfieldssarray);
+		foreach ($insertfieldssarray as $key => $value) {
+			$database_fileds[] = $db->quoteName($key) . ' = ' . $db->quote($value);
+		}
+		$query->insert($table_name)->set($database_fileds);
+        $db->setQuery($query);
+        $db->execute();
+    }
+
+
+	public static function generic_delete_query(string $table_name, array $selection)
+	{
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+		foreach ($selection as $key => $value) {
+			$where[] = $db->quoteName($key) . ' = ' . $db->quote($value);
+		}
+		
+		$query->delete($table_name)->where($where);
+        $db->setQuery($query);
+        $db->execute();
+    }	
+
 	public static function check_empty_or_null( $value ) {
 		if( ! isset( $value ) || empty( $value ) ) {
 			return true;

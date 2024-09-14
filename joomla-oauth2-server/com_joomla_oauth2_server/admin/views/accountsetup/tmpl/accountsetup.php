@@ -104,9 +104,9 @@ if(!$isSystemEnabled || !$isUserEnabled)
 				{
 					mo_oauth_client_list();
 				}
-				else if(isset($get['pa'])&&($get['pa']==3))
+				else if(isset($get['pa'])&&($get['pa']==3)&&isset($get['id']))
 				{
-					mo_oauth_update();
+					mo_oauth_update($get['id']);
 				}
 				elseif(isset($get['endpoints']) && ($get['endpoints'] =='true'))
 				{
@@ -185,10 +185,10 @@ function mo_oauth_server_overview()
 
 function mo_oauth_client_list() 
 {
-	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id"=>1),'loadAssoc','*');
+	$attributes=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config', TRUE, 'loadAssocList','*');
 	
-	if($attribute['client_count']>0)
-	{ 
+	if ($attributes !== null)
+	{
 		?>
 		<div class="mo_boot_row  mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
 			<div class="mo_boot_col-sm-12">
@@ -199,15 +199,14 @@ function mo_oauth_client_list()
 						</h3>
 					</div>
 					<div class="mo_boot_col-sm-6">
-						<input type="submit" id="dis_btn" name="send_query" id="send_query" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" />
-						<a  onclick="add_css_tab('#configu_id');" href="<?php echo JURI::base().'index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENDPOINT_URL');?></a>
+						<form name="oauth_mapping_form" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration&pa=1');?>">
+							<input type="submit" id="add_client" name="send_query" id="send_query" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" />
+							<a onclick="add_css_tab('#configu_id');" href="<?php echo JURI::base().'index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ENDPOINT_URL');?></a>
+						</form>
 					</div>
 				</div>
 				<hr>
 				<div class="mo_boot_row mo_boot_mt-2">
-					<div class="mo_boot_col-sm-12">
-						<span color="red"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_ONLY_ONE_CLIENT1');?></span>
-					</div>
 					<div class="mo_boot_col-sm-12 mo_boot_table-responsive">
 						
 						<table class="mo_boot_table mo_boot_table-bordered mo_boot_my-4">
@@ -219,36 +218,41 @@ function mo_oauth_client_list()
 								<th><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_CLIENT_SECRET_KEY');?></th>
 								<th colspan="2" id="li_client_options"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_OPTIONS');?></th>
 							</tr>
-							<tr>
-								<th id="li_client_name">
-									<strong>
-										<?php
-											echo $attribute['client_name'];
-										?>
-									</strong>
-								</th>
-								<th id="li_client_id">
-									<span id="client_idkey">
-										<?php
-											echo $attribute['client_id'];
-										?>
-									</span>
-								</th>
-								<th id="li_client_secretkey">
-									<span id="client_secretkey">
-										<?php echo $attribute['client_secret'];?>
-									</span>
-								</th>
-								<th>
-									<form name="f" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.deleteclient') ;?> ">
-										<input type="submit" id="li_delete" name="Delete" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DELETE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-danger" />
-									</form>
-								</th>
-								<th>
-									<form name="f" method="post" action="<?php echo JRoute::_('index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration&pa=3');?> ">
-										<input type="submit" id="li_update" name="upd" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_UPDATE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
-									</form>
-								</th>
+
+							<?php foreach ($attributes as $attribute) : ?>
+								<tr>
+									<th id="li_client_name">
+										<strong>
+											<?php
+												echo $attribute['client_name'];
+											?>
+										</strong>
+									</th>
+									<th id="li_client_id">
+										<span id="client_idkey">
+											<?php
+												echo $attribute['client_id'];
+											?>
+										</span>
+									</th>
+									<th id="li_client_secretkey">
+										<span id="client_secretkey">
+											<?php echo $attribute['client_secret'];?>
+										</span>
+									</th>
+									<th>
+										<?php $route = 'index.php?option=com_miniorange_oauthserver&view=accountsetup&task=accountsetup.deleteclient&id='.$attribute['id'] ?>
+										<form name="f" method="post" action="<?php echo JRoute::_($route) ;?> ">
+											<input type="submit" id="li_delete" name="Delete" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_DELETE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-danger" />
+										</form>
+									</th>
+									<th>
+										<?php $route = 'index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration&pa=3&id='.$attribute['id'] ?>
+										<form name="f" method="post" action="<?php echo JRoute::_($route);?> ">
+											<input type="submit" id="li_update" name="upd" value="<?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_UPDATE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
+										</form>
+									</th>
+								<?php endforeach ?>	
 							</tr>
 						</table>
 					</div>
@@ -431,8 +435,9 @@ function mo_oauth_server_add_client()
 	<?php 
 }
 
-function mo_oauth_update(){
-	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id"=>1),'loadAssoc','*');
+function mo_oauth_update(int $id){
+
+	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id" => $id),'loadAssoc','*');
 	?>
 	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
 		<div class="mo_boot_col-sm-12">
@@ -545,6 +550,7 @@ function mo_oauth_update(){
                 </div> 
 				<div class="mo_boot_row mo_boot_my-4 mo_boot_text-center">
 					<div class="mo_boot_col-sm-12">
+						<input type="hidden" name="id"  value="<?php echo $id ?>"/>
 						<button name="upd" type="submit" class="mo_boot_btn mo_boot_btn-primary"><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_UPDATE_CLIENT');?></button>
 						<button class="mo_boot_btn mo_boot_btn-danger" onclick="cancel_update()" ><?php echo JText::_('COM_MINIORANGE_OAUTHSERVER_GO_BACK');?></button>
 					</div>
