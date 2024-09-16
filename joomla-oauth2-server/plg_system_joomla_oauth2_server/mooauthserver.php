@@ -21,7 +21,7 @@ class plgSystemMooauthserver extends JPlugin
 		$get = JFactory::getApplication()->input->get->getArray();
 	    $post = JFactory::getApplication()->input->post->getArray();	
         $clientId = $get['client_id'] ?? ($post['client_id'] ?? '');
-        $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("client_id" => $clientId),'loadAssoc','*');
+        $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("client_id" => $clientId),'loadAssoc','*');
         $headers = getallheaders();
         $OAuthClientAppName = $customerResult['client_name'];
 
@@ -33,12 +33,12 @@ class plgSystemMooauthserver extends JPlugin
             $access_token =$access_token[1];
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
-            $query->select($db->quoteName(array('id','time_stamp')));
+            $query->select($db->quoteName(array('id','oauth2_time_stamp')));
             $query->from($db->quoteName('#__users'));
-            $query->where($db->quoteName('client_token') . ' =' . $db->quote($access_token));
+            $query->where($db->quoteName('oauth2_client_token') . ' =' . $db->quote($access_token));
             $db->setQuery($query);
             $results = $db->loadAssoc();
-            if($results['time_stamp']<time())
+            if($results['oauth2_time_stamp']<time())
             {		
                 $api_response= array('error' => 'Access token got expire,please contact your administrator');
                 echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -99,7 +99,7 @@ class plgSystemMooauthserver extends JPlugin
                         $randcode = $this->generateRandomString();		
                         $user_id = $user->id;		
                         $fields = array(
-                            'rancode' =>$randcode
+                            'oauth2_randcode' =>$randcode
                         );
                         $conditions = array(
                             'id' => $user_id
@@ -146,14 +146,14 @@ class plgSystemMooauthserver extends JPlugin
 				$randcode = $this->generateRandomString();
 				$code = $post['code'];
     			//Getting the user details using code parameter	
-                $results = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("rancode"=>$code),'loadAssoc','id');
+                $results = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("oauth2_randcode"=>$code),'loadAssoc','id');
 			    if($results['id']!='')
                 {
     				$t=time()+300;
 	    			$time=300;	
         			// inserting the accessToken	
 				    $fields = array(
-					   'client_token'=>$randcode,
+					   'oauth2_client_token'=>$randcode,
 					    'time_stamp'=>$t
 				    );
 				    $conditions = array(
@@ -188,7 +188,8 @@ class plgSystemMooauthserver extends JPlugin
 	
     function generateRandomString() 
     {  
-        $tokenLength = MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id"=>'1'),'loadResult','token_length');
+		//ToDo: Do we need to genralize "id"=>'1' ?
+        $tokenLength = MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id"=>'1'),'loadResult','token_length');
         $tokenLength=intval($tokenLength);
 		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);

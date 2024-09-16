@@ -20,13 +20,6 @@
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-	<update> 
-	<!-- Runs on update --> 
-        <schemas>
-			<schemapath type="mysql">sql/updates/mysql</schemapath>
-			<!-- <schemapath type="sqlsrv">sql/updates/sqlsrv</schemapath> -->
-		</schemas>
-    </update> 
 		
 	<administration>
 		<!-- Administration Menu Section -->

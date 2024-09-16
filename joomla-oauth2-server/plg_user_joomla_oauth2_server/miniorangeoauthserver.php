@@ -44,7 +44,7 @@ class plgUserMiniorangeoauthserver extends JPlugin
             $fields = array(
               //  $db->quoteName('clientstate') . ' = ' . $db->quote($response_params['state']),
 				//$db->quoteName('randcodetok') . ' = ' . $db->quote(),
-				$db->quoteName('rancode'). ' = ' . $db->quote($randcode)
+				$db->quoteName('oauth2_randcode'). ' = ' . $db->quote($randcode)
             );
 
             // Conditions for which records should be updated.

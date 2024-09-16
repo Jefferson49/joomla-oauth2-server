@@ -23,29 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class MoOAuthServerUtility
 {
-  
-	public static function is_customer_registered() 
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from($db->quoteName('#__miniorange_oauthserver_customer'));
-		$query->where($db->quoteName('id')." = 1");
- 
-		$db->setQuery($query);
-		$result = $db->loadAssoc();
-		
-		$email 			= $result['email'];
-		$customerKey 	= $result['customer_key'];
-		$status = $result['registration_status'];
-		if($email && $customerKey && is_numeric( trim($customerKey)) && $status == 'SUCCESS'){
-			return 1;
-		} else{
-			return 0;
-		}
-	}
-	
-	
+  	
 	public static function GetPluginVersion()
 	{
 		$db = JFactory::getDbo();
@@ -118,18 +96,6 @@ class MoOAuthServerUtility
 	
 	public static function getHostname(){
 		return '';
-	}
-	
-	public static function getCustomerDetails(){
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from($db->quoteName('#__miniorange_oauthserver_customer'));
-		$query->where($db->quoteName('id')." = 1");
- 
-		$db->setQuery($query);
-		$customer_details = $db->loadAssoc();
-		return $customer_details;
 	}
 
 	static function  miniOauthFetchDb($tableName,$condition=TRUE,$method='loadAssoc',$columns='*'){

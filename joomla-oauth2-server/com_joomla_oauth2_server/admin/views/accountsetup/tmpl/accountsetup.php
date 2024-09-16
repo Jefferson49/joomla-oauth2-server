@@ -199,7 +199,7 @@ function mo_oauth_server_overview()
 
 function mo_oauth_client_list() 
 {
-	$attributes=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config', TRUE, 'loadAssocList','*');
+	$attributes=MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config', TRUE, 'loadAssocList','*');
 	
 	if ($attributes !== null)
 	{
@@ -455,7 +455,7 @@ function mo_oauth_server_add_client()
 
 function mo_oauth_update(int $id){
 
-	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__miniorange_oauthserver_config',array("id" => $id),'loadAssoc','*');
+	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id" => $id),'loadAssoc','*');
 	?>
 	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
 		<div class="mo_boot_col-sm-12">

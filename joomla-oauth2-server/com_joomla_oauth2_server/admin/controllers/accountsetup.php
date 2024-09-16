@@ -40,7 +40,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 			$conditions = array(
 				'id' => 1
 			);
-			MoOAuthServerUtility::generic_update_query('#__miniorange_oauthserver_config', $fields,$conditions);
+			MoOAuthServerUtility::generic_update_query('#__oauth2_server_config', $fields,$conditions);
 		}
 		$this->setRedirect('index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=advancesettings','Setting saved successfully');
 	}	
@@ -60,7 +60,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 			'client_count'   => 0,
 		);
 			 
-		MoOAuthServerUtility::generic_insert_query("#__miniorange_oauthserver_config", $fields);
+		MoOAuthServerUtility::generic_insert_query("#__oauth2_server_config", $fields);
 		
 		$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration&pa=2', 'Client  has been added successfully.');	
 	}
@@ -73,7 +73,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 			'id' => $get['id'],
 		);
 
-		MoOAuthServerUtility::generic_delete_query("#__miniorange_oauthserver_config", $selection);
+		MoOAuthServerUtility::generic_delete_query("#__oauth2_server_config", $selection);
 		
 		$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration');
 	}
@@ -102,7 +102,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 			'id' => $post['id'],
 		);
 
-		MoOAuthServerUtility::generic_update_query("#__miniorange_oauthserver_config", $fields,$conditions);
+		MoOAuthServerUtility::generic_update_query("#__oauth2_server_config", $fields,$conditions);
 
 		$this->setRedirect('index.php?option=com_miniorange_oauthserver&tab-panel=configuration&pa=2', 'Client has been updated successfully.');
 	}
