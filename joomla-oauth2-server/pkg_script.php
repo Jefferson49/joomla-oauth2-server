@@ -133,7 +133,7 @@ class pkg_OAUTHSERVERInstallerScript
                     </ul>
                 </p>
             </p>
-            <a class="btn btn-secondary" style="background-color: #001b4c; color : white"  href="index.php?option=com_miniorange_oauthserver&view=accountsetup&tab-panel=configuration">Start Using Joomla OAuth 2.0 Server plugin</a>
+            <a class="btn btn-secondary" style="background-color: #001b4c; color : white"  href="index.php?option=com_oauth2_server&view=accountsetup&tab-panel=configuration">Start Using Joomla OAuth 2.0 Server plugin</a>
         </div>
         <?php
     }  

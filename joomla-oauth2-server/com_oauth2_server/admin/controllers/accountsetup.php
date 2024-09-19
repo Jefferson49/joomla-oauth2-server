@@ -1,0 +1,109 @@
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  joomla-oauth2-server
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */ 
+/**
+ * AccountSetup Controller
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  joomla-oauth2-server
+ * @since       0.0.9
+ */
+defined('_JEXEC') or die('Restricted access');
+jimport('oauth2_server.utility.MoOAuthServerUtility');
+
+class miniorangeoauthserverControllerAccountSetup extends JControllerForm
+{
+	function __construct()
+	{
+		$this->view_list = 'accountsetup';
+		parent::__construct();
+	}
+
+	function updateToken()
+	{
+		$post=	JFactory::getApplication()->input->post->getArray();
+		if(isset($post['mo_server_token_length']))
+		{			
+		 	// Fields to update.
+			$tokenLength=$post['mo_server_token_length'];
+			$fields = array(
+				'token_length' => $tokenLength,
+			);
+			// Conditions for which records should be updated.
+
+			//ToDo: Should be for all ids?
+			$conditions = array(
+				'id' => 1
+			);
+			MoOAuthServerUtility::generic_update_query('#__oauth2_server_config', $fields,$conditions);
+		}
+		$this->setRedirect('index.php?option=com_oauth2_server&view=accountsetup&tab-panel=advancesettings','Setting saved successfully');
+	}	
+	
+	function addclient()
+	{
+		$post=	JFactory::getApplication()->input->post->getArray();
+		$client_id = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
+		$client_secret = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
+		$authorized_uri = trim($post['mo_oauth_client_redirect_url']," ");
+		// Fields to update.
+		$fields = array(
+			'client_name'    => $post['mo_oauth_custom_client_name'],
+			'client_id'      => $client_id,
+			'client_secret'  => $client_secret,
+			'authorized_uri' => $authorized_uri,
+			'client_count'   => 0,
+		);
+			 
+		MoOAuthServerUtility::generic_insert_query("#__oauth2_server_config", $fields);
+		
+		$this->setRedirect('index.php?option=com_oauth2_server&tab-panel=configuration&pa=2', 'Client  has been added successfully.');	
+	}
+	
+	function deleteclient(){
+			
+		$get = JFactory::getApplication()->input->get->getArray();
+
+		$selection = array(
+			'id' => $get['id'],
+		);
+
+		MoOAuthServerUtility::generic_delete_query("#__oauth2_server_config", $selection);
+		
+		$this->setRedirect('index.php?option=com_oauth2_server&tab-panel=configuration');
+	}
+		
+		
+	function generateRandomString($length=30) {
+		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+	
+	function updateclient()
+	{
+		$post=	JFactory::getApplication()->input->post->getArray();		
+		$authorized_uri=trim($post['mo_oauth_client_redirect_url']," ");
+	    // Fields to update.
+		$fields = array(
+			'authorized_uri'=>$authorized_uri,
+		);
+		// Conditions for which records should be updated.
+		$conditions = array(
+			'id' => $post['id'],
+		);
+
+		MoOAuthServerUtility::generic_update_query("#__oauth2_server_config", $fields,$conditions);
+
+		$this->setRedirect('index.php?option=com_oauth2_server&tab-panel=configuration&pa=2', 'Client has been updated successfully.');
+	}
+}

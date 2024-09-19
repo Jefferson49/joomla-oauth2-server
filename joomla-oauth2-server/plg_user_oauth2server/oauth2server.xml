@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="user" method="upgrade">
+	<name>PLG_USER_OAUTH2_SERVER</name>
+	<author>Jefferson49</author>
+ 	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
+    <authorUrl>https://github.com/Jefferson49</authorUrl>
+	<creationDate>2024-09-11</creationDate>
+	<license>GNU/GPLv3</license>
+    <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
+	<version>1.0.0</version>
+	<description>PLG_USER_OAUTH2_SERVER_XML_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="oauth2server">oauth2server.php</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+	</files>
+
+	<scriptfile>my_script.php</scriptfile>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_user_oauth2server.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_user_oauth2server.sys.ini</language>
+	</languages>
+	
+	<updateservers>
+		<server type="extension" name="Github/Jefferson49/Joomla-OAuth2-Server">https://raw.githubusercontent.com/Jefferson49/Joomla-OAuth2-Server/updates/updates.xml</server>
+	</updateservers>	
+</extension>
