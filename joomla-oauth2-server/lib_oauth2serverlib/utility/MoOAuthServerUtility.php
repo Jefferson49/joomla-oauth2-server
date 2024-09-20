@@ -30,7 +30,7 @@ class MoOAuthServerUtility
 		$dbQuery = $db->getQuery(true)
 		->select('manifest_cache')
 		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('element') . " = " . $db->quote('com_oauth2_server'));
+		->where($db->quoteName('element') . " = " . $db->quote('com_oauth2server'));
 		$db->setQuery($dbQuery);
 		$manifest = json_decode($db->loadResult());
 		return($manifest->version);

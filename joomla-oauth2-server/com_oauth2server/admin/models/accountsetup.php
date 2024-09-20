@@ -34,7 +34,7 @@ class miniorangeoauthserverModelAccountSetup extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm(
-			'com_oauth2_server.accountsetup',
+			'com_oauth2server.accountsetup',
 			'accountsetup',
 			array(
 				'control' => 'jform',

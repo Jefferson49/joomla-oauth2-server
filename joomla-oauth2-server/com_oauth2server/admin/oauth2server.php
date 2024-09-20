@@ -21,7 +21,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_oauth2server'))
 // Include dependancies
 jimport('joomla.application.component.controller');
  
-JLoader::registerPrefix('oauth2_server', JPATH_COMPONENT_ADMINISTRATOR);
+JLoader::registerPrefix('oauth2server', JPATH_COMPONENT_ADMINISTRATOR);
  
 // Get an instance of the controller prefixed by JoomlaIdp
 $controller = JControllerLegacy::getInstance('MiniorangeOauthserver');
