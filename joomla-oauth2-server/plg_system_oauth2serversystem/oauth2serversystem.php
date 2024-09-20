@@ -154,7 +154,7 @@ class plgSystemOauth2serversystem extends JPlugin
         			// inserting the accessToken	
 				    $fields = array(
 					   'oauth2_client_token'=>$randcode,
-					    'time_stamp'=>$t
+					   'oauth2_time_stamp'=>$t
 				    );
 				    $conditions = array(
 					    'id'=>$results['id']
