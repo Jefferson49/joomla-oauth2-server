@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="library" method="upgrade">
     <name>LIB_OAUTH2_SERVER_NAME</name>
-    <libraryname>oauth2_server</libraryname>
+    <libraryname>oauth2serverlib</libraryname>
 	<author>Jefferson49</author>
  	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
     <authorUrl>https://github.com/Jefferson49</authorUrl>
@@ -17,8 +17,8 @@
     </files>
 
     <languages>
-        <language tag="en-GB">language/en-GB/en-GB.lib_oauth2_server.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.lib_oauth2_server.sys.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.lib_oauth2serverlib.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.lib_oauth2serverlib.sys.ini</language>
     </languages>
 
 	<updateservers>

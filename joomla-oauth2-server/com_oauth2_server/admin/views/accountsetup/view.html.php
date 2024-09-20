@@ -9,7 +9,7 @@
  
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-jimport('oauth2_server.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.MoOAuthServerUtility');
 JHtml::_('stylesheet', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 /**
  * Account Setup View

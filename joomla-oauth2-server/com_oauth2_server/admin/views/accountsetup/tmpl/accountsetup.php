@@ -8,7 +8,7 @@
  */
 // No direct access to this file 
 defined('_JEXEC') or die('Restricted Access');
-jimport('oauth2_server.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.MoOAuthServerUtility');
 JHtml::_('jquery.framework');
 JHtml::_('stylesheet', JURI::base() .'components/com_oauth2_server/assets/css/miniorange_oauth.css');
 JHtml::_('script' ,JURI::base() . 'components/com_oauth2_server/assets/js/OAuthServerScript.js');

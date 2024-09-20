@@ -12,7 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.plugin.plugin' );
-jimport('oauth2_server.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.MoOAuthServerUtility');
 class plgSystemOauth2serversystem extends JPlugin	
 {
 

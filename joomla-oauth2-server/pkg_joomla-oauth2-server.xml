@@ -11,9 +11,9 @@
 	<creationDate>2024-09-11</creationDate>
 	<description>Extension package for Joomla OAuth2 Server</description>
 	<files>
-		<file type="library"   id="oauth2_server"                        >lib_oauth2_server.zip</file>
+		<file type="library"   id="oauth2serverlib"                  >lib_oauth2serverlib.zip</file>
 		<file type="plugin"    id="oauth2serversystem" group="system">plg_system_oauth2serversystem.zip</file>
-		<file type="component" id="com_oauth2_server"                    >com_oauth2_server.zip</file>
+		<file type="component" id="com_oauth2_server"                >com_oauth2_server.zip</file>
 		<file type="plugin"    id="oauth2server"       group="user"  >plg_user_oauth2server.zip</file>
 	</files>
 	<languages folder="language">

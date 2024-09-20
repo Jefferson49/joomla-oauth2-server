@@ -14,7 +14,7 @@
  * @since       0.0.9
  */
 defined('_JEXEC') or die('Restricted access');
-jimport('oauth2_server.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.MoOAuthServerUtility');
 
 class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 {
