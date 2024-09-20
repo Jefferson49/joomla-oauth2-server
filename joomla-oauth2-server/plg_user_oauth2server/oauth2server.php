@@ -12,7 +12,7 @@ jimport( 'joomla.plugin.plugin' );
 jimport('oauth2_server.utility.MoOAuthServerUtility');
 if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
-class plgSystemOauth2server extends JPlugin
+class plgUserOauth2server extends JPlugin
 { 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -42,7 +42,7 @@ class plgSystemOauth2server extends JPlugin
             $query = $db->getQuery(true);
             // Fields to update.
             $fields = array(
-              //  $db->quoteName('clientstate') . ' = ' . $db->quote($response_params['state']),
+                //db->quoteName('clientstate') . ' = ' . $db->quote($response_params['state']),
 				//$db->quoteName('randcodetok') . ' = ' . $db->quote(),
 				$db->quoteName('oauth2_randcode'). ' = ' . $db->quote($randcode)
             );
