@@ -21,12 +21,14 @@ This class contains all the utility functions
 **/
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+use Joomla\CMS\Factory;
+
 class MoOAuthServerUtility
 {
   	
 	public static function GetPluginVersion()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$dbQuery = $db->getQuery(true)
 		->select('manifest_cache')
 		->from($db->quoteName('#__extensions'))
@@ -38,7 +40,7 @@ class MoOAuthServerUtility
 
 	public static function generic_update_query($database_name, $updatefieldsarray , $condition = TRUE)
 	{
-        $db = JFactory::getDbo();
+        $db = Factory::getDbo();
         $query = $db->getQuery(true);
         foreach ($updatefieldsarray as $key => $value)
           $database_fileds[] = $db->quoteName($key) . ' = ' . $db->quote($value);
@@ -54,7 +56,7 @@ class MoOAuthServerUtility
 
 	public static function generic_insert_query(string $table_name, array $insertfieldssarray)
 	{
-        $db = JFactory::getDbo();
+        $db = Factory::getDbo();
         $query = $db->getQuery(true);
 		$keys = array_keys($insertfieldssarray);
 		foreach ($insertfieldssarray as $key => $value) {
@@ -68,7 +70,7 @@ class MoOAuthServerUtility
 
 	public static function generic_delete_query(string $table_name, array $selection)
 	{
-        $db = JFactory::getDbo();
+        $db = Factory::getDbo();
         $query = $db->getQuery(true);
 
 		foreach ($selection as $key => $value) {
@@ -100,7 +102,7 @@ class MoOAuthServerUtility
 
 	static function  miniOauthFetchDb($tableName,$condition=TRUE,$method='loadAssoc',$columns='*'){
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$columns = is_array($columns)?$db->quoteName($columns):$columns;
 		$query->select($columns);

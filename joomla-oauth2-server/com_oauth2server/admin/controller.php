@@ -9,6 +9,8 @@
  
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\MVC\Controller\BaseController;
  
 /**
  * General Controller of miniorange_oauth component
@@ -17,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  joomla-oauth2-server
  * @since       0.0.7
  */
-class MiniorangeOAuthserverController extends JControllerLegacy
+class MiniorangeOAuthserverController extends BaseController
 {
 	/**
 	 * The default view for the display method.

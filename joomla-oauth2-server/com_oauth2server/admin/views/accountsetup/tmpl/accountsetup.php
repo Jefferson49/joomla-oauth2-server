@@ -8,23 +8,30 @@
  */
 // No direct access to this file 
 defined('_JEXEC') or die('Restricted Access');
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+
 jimport('oauth2serverlib.utility.MoOAuthServerUtility');
-JHtml::_('jquery.framework');
-JHtml::_('stylesheet', JURI::base() .'components/com_oauth2server/assets/css/miniorange_oauth.css');
-JHtml::_('script' ,JURI::base() . 'components/com_oauth2server/assets/js/OAuthServerScript.js');
-JHtml::_('stylesheet',JURI::base() . 'components/com_oauth2server/assets/css/miniorange_boot.css');
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('stylesheet', JURI::base() .'components/com_oauth2server/assets/css/miniorange_oauth.css');
+HTMLHelper::_('script' ,JURI::base() . 'components/com_oauth2server/assets/js/OAuthServerScript.js');
+HTMLHelper::_('stylesheet',JURI::base() . 'components/com_oauth2server/assets/css/miniorange_boot.css');
 if(MoOAuthServerUtility::is_curl_installed()==0)
 { ?>
 	<p style="color:red;">(Warning: <a href="http://php.net/manual/en/curl.installation.php" target="_blank">PHP CURL extension</a> is not installed or disabled) Please go to Troubleshooting for steps to enable curl.</p>
   <?php
 }
 $oauth_active_tab = 'configuration';
-$active_tab = JFactory::getApplication()->input->get->getArray();
+$active_tab = Factory::getApplication()->input->get->getArray();
 if(isset($active_tab['tab-panel']) && !empty($active_tab['tab-panel'])){
 	$oauth_active_tab = $active_tab['tab-panel'];
 }
-$isUserEnabled = JPluginHelper::isEnabled('user','oauth2server');
-$isSystemEnabled = JPluginHelper::isEnabled('system','oauth2serversystem');
+$isUserEnabled = PluginHelper::isEnabled('user','oauth2server');
+$isSystemEnabled = PluginHelper::isEnabled('system','oauth2serversystem');
 if(!$isSystemEnabled || !$isUserEnabled)
 { 
 	?>
@@ -35,8 +42,8 @@ if(!$isSystemEnabled || !$isUserEnabled)
             <div class="alert-message">     
                 <h4>This component requires user and System plugin to be activated. Please activate the following 2 plugins to proceed further.</h4>
                 <ol>
-					<li><?php echo JText::_('PLG_USER_OAUTH2_SERVER'); ?></li>
-                    <li><?php echo JText::_('PLG_SYSTEM_OAUTH2_SERVER'); ?></li>
+					<li><?php echo Text::_('PLG_USER_OAUTH2_SERVER'); ?></li>
+                    <li><?php echo Text::_('PLG_SYSTEM_OAUTH2_SERVER'); ?></li>
 				</ol>
 				<br>
                 <h4>Steps to activate the plugins.</h4>
@@ -61,12 +68,12 @@ if(!$isSystemEnabled || !$isUserEnabled)
 				<div class="mo_boot_row mo_boot_p-0 mo_boot_m-0">
 					<a id="oauthserver_overview" href="#overview"  data-toggle="tab">
 						<div onclick="add_css_tab('#oauthserver_overview');" class="mo_boot_col-sm-1 mo_nav-tab <?php echo $oauth_active_tab == 'overview' ? 'mo_nav_tab_active' : ''; ?>">
-							<?php echo JText::_('COM_OAUTH2SERVER_TAB1_OVERVIEW'); ?>
+							<?php echo Text::_('COM_OAUTH2SERVER_TAB1_OVERVIEW'); ?>
 						</div>
 					</a>
 					<a id="configu_id"  href="#configuration"  data-toggle="tab">
 						<div onclick="add_css_tab('#configu_id');" class="mo_boot_col-sm-2 mo_nav-tab <?php echo $oauth_active_tab == 'configuration' ? 'mo_nav_tab_active' : ''; ?>">
-							<?php echo JText::_('COM_OAUTH2SERVER_TAB1_CONFIGURE_OAUTH'); ?>
+							<?php echo Text::_('COM_OAUTH2SERVER_TAB1_CONFIGURE_OAUTH'); ?>
 						</div>
 					</a>
 					
@@ -74,12 +81,12 @@ if(!$isSystemEnabled || !$isUserEnabled)
 					
 					<a id="advance_settings_id"  href="#advancesettings" data-toggle="tab">
 						<div onclick="add_css_tab('#advance_settings_id');" class="mo_boot_col-sm-1 mo_nav-tab <?php echo $oauth_active_tab == 'advancesettings' ? 'mo_nav_tab_active' : ''; ?>">
-							<?php echo JText::_('COM_OAUTH2SERVER_TAB2_SETTINGS'); ?>
+							<?php echo Text::_('COM_OAUTH2SERVER_TAB2_SETTINGS'); ?>
 						</div>
 					</a>
 					<a id="advanceMapping"  href="#advancemappinng" data-toggle="tab">
 						<div onclick="add_css_tab('#advanceMapping');" class="mo_boot_col-sm-2 mo_nav-tab <?php echo $oauth_active_tab == 'advancemapping' ? 'mo_nav_tab_active' : ''; ?>">
-							<?php echo JText::_('COM_OAUTH2SERVER_TAB3_ADVANCED_MAPPING'); ?>
+							<?php echo Text::_('COM_OAUTH2SERVER_TAB3_ADVANCED_MAPPING'); ?>
 						</div>
 					</a>
 					*/ ?>
@@ -100,7 +107,7 @@ if(!$isSystemEnabled || !$isUserEnabled)
 	<div class="mo_boot_row mo_oauth_server_tabs tab-pane <?php echo $oauth_active_tab == 'configuration' ? 'active' : ''; ?>"  id="configuration"  >
 		<div class="mo_boot_col-sm-12 mo_boot_p-2">
 			<?php
-				$get = JFactory::getApplication()->input->get->getArray();		
+				$get = Factory::getApplication()->input->get->getArray();		
 				if(isset($get['pa'])&&($get['pa']==1))
 				{
 					mo_oauth_server_add_client();
@@ -209,13 +216,13 @@ function mo_oauth_client_list()
 				<div class="mo_boot_row mo_boot_mt-3">
 					<div class="mo_boot_col-sm-6">
 						<h3>
-							<?php echo JText::_('COM_OAUTH2SERVER_LIST_OF_OAUTH_CLIENTS');?>
+							<?php echo Text::_('COM_OAUTH2SERVER_LIST_OF_OAUTH_CLIENTS');?>
 						</h3>
 					</div>
 					<div class="mo_boot_col-sm-6">
-						<form name="oauth_mapping_form" method="post" action="<?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&pa=1');?>">
-							<input type="submit" id="add_client" name="send_query" id="send_query" value="<?php echo JText::_('COM_OAUTH2SERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" />
-							<a onclick="add_css_tab('#configu_id');" href="<?php echo JURI::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo JText::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
+						<form name="oauth_mapping_form" method="post" action="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&pa=1');?>">
+							<input type="submit" id="add_client" name="send_query" id="send_query" value="<?php echo Text::_('COM_OAUTH2SERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" />
+							<a onclick="add_css_tab('#configu_id');" href="<?php echo JURI::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
 						</form>
 					</div>
 				</div>
@@ -226,11 +233,11 @@ function mo_oauth_client_list()
 						<table class="mo_boot_table mo_boot_table-bordered mo_boot_my-4">
 							<tr>
 								<th>
-									<strong><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_NAME');?></strong>
+									<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?></strong>
 								</th>
-								<th><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_ID');?></th>
-								<th><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_SECRET_KEY');?></th>
-								<th colspan="2" id="li_client_options"><?php echo JText::_('COM_OAUTH2SERVER_OPTIONS');?></th>
+								<th><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_ID');?></th>
+								<th><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_SECRET_KEY');?></th>
+								<th colspan="2" id="li_client_options"><?php echo Text::_('COM_OAUTH2SERVER_OPTIONS');?></th>
 							</tr>
 
 							<?php foreach ($attributes as $attribute) : ?>
@@ -256,14 +263,14 @@ function mo_oauth_client_list()
 									</th>
 									<th>
 										<?php $route = 'index.php?option=com_oauth2server&view=accountsetup&task=accountsetup.deleteclient&id='.$attribute['id'] ?>
-										<form name="f" method="post" action="<?php echo JRoute::_($route) ;?> ">
-											<input type="submit" id="li_delete" name="Delete" value="<?php echo JText::_('COM_OAUTH2SERVER_DELETE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-danger" />
+										<form name="f" method="post" action="<?php echo Route::_($route) ;?> ">
+											<input type="submit" id="li_delete" name="Delete" value="<?php echo Text::_('COM_OAUTH2SERVER_DELETE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-danger" />
 										</form>
 									</th>
 									<th>
 										<?php $route = 'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&pa=3&id='.$attribute['id'] ?>
-										<form name="f" method="post" action="<?php echo JRoute::_($route);?> ">
-											<input type="submit" id="li_update" name="upd" value="<?php echo JText::_('COM_OAUTH2SERVER_UPDATE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
+										<form name="f" method="post" action="<?php echo Route::_($route);?> ">
+											<input type="submit" id="li_update" name="upd" value="<?php echo Text::_('COM_OAUTH2SERVER_UPDATE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
 										</form>
 									</th>
 								<?php endforeach ?>	
@@ -280,14 +287,14 @@ function mo_oauth_client_list()
 		?>
 		<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
 			<div class="mo_boot_col-sm-12">
-				<form name="oauth_mapping_form" method="post" action="<?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&pa=1');?>">
+				<form name="oauth_mapping_form" method="post" action="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&pa=1');?>">
 					<div class="mo_boot_row mo_boot_mt-3">
 						<div class="mo_boot_col-sm-6">
-							<h3><?php echo JText::_('COM_OAUTH2SERVER_LIST_OF_OAUTH_CLIENTS');?></h3>
+							<h3><?php echo Text::_('COM_OAUTH2SERVER_LIST_OF_OAUTH_CLIENTS');?></h3>
 						</div>
 						<div class="mo_boot_col-sm-6">
-							<input id ="add_client" type="submit" name="send_query"  value="<?php echo JText::_('COM_OAUTH2SERVER_ADD');?>" class="mo_boot_btn mo_boot_btn-success mo_boot_float-right" />
-							<a href="<?php echo JURI::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mr-1" onclick="add_css_tab('#configu_id');"><?php echo JText::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
+							<input id ="add_client" type="submit" name="send_query"  value="<?php echo Text::_('COM_OAUTH2SERVER_ADD');?>" class="mo_boot_btn mo_boot_btn-success mo_boot_float-right" />
+							<a href="<?php echo JURI::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mr-1" onclick="add_css_tab('#configu_id');"><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
 						</div>
 					</div>
 					<div class="mo_boot_row mo_boot_mt-3">
@@ -295,16 +302,16 @@ function mo_oauth_client_list()
 							<table class="mo_boot_table mo_boot_table-bordered">
 								<tr>
 									<th>
-										<strong><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_NAME');?></strong>
+										<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?></strong>
 									</th>
 									<th>
-										<strong><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_ID');?></strong>
+										<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_ID');?></strong>
 									</th>
 									<th>
-										<strong><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_SECRET_KEY');?></strong>
+										<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_SECRET_KEY');?></strong>
 									</th>
 									<th>
-										<strong><?php echo JText::_('COM_OAUTH2SERVER_OPTIONS');?></strong>
+										<strong><?php echo Text::_('COM_OAUTH2SERVER_OPTIONS');?></strong>
 									</th>
 								</tr>
 								<tr>
@@ -330,25 +337,25 @@ function mo_oauth_server_add_client()
 		<div class="mo_boot_col-sm-12">
 			<div class="mo_boot_row mo_boot_mt-3">
 				<div class="mo_boot_col-sm-9">
-					<h3><?php echo JText::_('COM_OAUTH2SERVER_CONFIGURE_OAUTH_CLIENT');?></h3>
+					<h3><?php echo Text::_('COM_OAUTH2SERVER_CONFIGURE_OAUTH_CLIENT');?></h3>
 				</div>
 			</div>
 			<hr>
-			<form  method="post" action="<?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&task=accountsetup.addclient');?>">
+			<form  method="post" action="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&task=accountsetup.addclient');?>">
 				<div class="mo_boot_row mo_boot_mt-3" > 
 					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_NAME');?>:</strong>
+						<strong><span class="mo_oauth_highlight">*</span><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?>:</strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" type="text" id="mo_oauth_custom_client_name" name="mo_oauth_custom_client_name" value="" placeholder= "<?php echo JText::_('COM_OAUTH2SERVER_CLIENT_NAME_PLACEHOLDER');?>">
+						<input class="mo_boot_form-control" type="text" id="mo_oauth_custom_client_name" name="mo_oauth_custom_client_name" value="" placeholder= "<?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME_PLACEHOLDER');?>">
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?></strong>
+						<strong><span class="mo_oauth_highlight">*</span><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_redirect_url" value="" placeholder="<?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
+						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_redirect_url" value="" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
 					</div>
 				</div>
 				
@@ -356,35 +363,35 @@ function mo_oauth_server_add_client()
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important;">
 				<details>
 					
-                 <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_OAUTH2SERVER_ADVANCED_FEATURES');?></summary>
+                 <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo Text::_('COM_OAUTH2SERVER_ADVANCED_FEATURES');?></summary>
 
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo JText::_('COM_OAUTH2SERVER_GRANT_TYPE');?></strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_GRANT_TYPE');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<select name="mo_oauth_grant_type" readonly class="mo_boot_form-control" id="mo_oauth_grant_type">
-							<option value="" selected> <?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZATION_GRANT_TYPE');?></option>
-							<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_IMPLICIT_GRANT_TYPE');?></option>
-							<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_PASSWORD_GRANT_TYPE');?></option>
-							<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_REFRESH_TOKEN_GRANT_TYPE');?></option>
-							<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
+							<option value="" selected> <?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZATION_GRANT_TYPE');?></option>
+							<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_IMPLICIT_GRANT_TYPE');?></option>
+							<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_PASSWORD_GRANT_TYPE');?></option>
+							<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_REFRESH_TOKEN_GRANT_TYPE');?></option>
+							<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
 						</select>
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_PKCE');?></strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_PKCE');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input type="radio" name="mo_oauth_enable_pkce" value="1"> <?php echo JText::_('COM_OAUTH2SERVER_ENABLE_PKCE_YES');?>
-						<input type="radio" name="mo_oauth_enable_pkce" value="0"> <?php echo JText::_('COM_OAUTH2SERVER_ENABLE_PKCE_NO');?>
+						<input type="radio" name="mo_oauth_enable_pkce" value="1"> <?php echo Text::_('COM_OAUTH2SERVER_ENABLE_PKCE_YES');?>
+						<input type="radio" name="mo_oauth_enable_pkce" value="0"> <?php echo Text::_('COM_OAUTH2SERVER_ENABLE_PKCE_NO');?>
 						
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo JText::_('COM_OAUTH2SERVER_TOKEN_EXPIRY');?></strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_TOKEN_EXPIRY');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_expiry" value="3600">
@@ -392,7 +399,7 @@ function mo_oauth_server_add_client()
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo JText::_('COM_OAUTH2SERVER_TOKEN_LENGTH');?></strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_TOKEN_LENGTH');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_length" value="64">
@@ -405,23 +412,23 @@ function mo_oauth_server_add_client()
                     <div class="mo_boot_col-sm-12">
 						<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important">
                         	<details>
-                            	<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT');?></summary>
+                            	<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT');?></summary>
                             	<div class="mo_boot_row mo_boot_my-3 mo_boot_mx-1">
                                 	<div class="mo_boot_col-sm-12 mo_boot_mt-3">
                                     	<input type="checkbox" style="cursor: not-allowed;" id="enablejwt" value="1" name="enablejwt" /> 
-                                    	<span style="color: #000000;"><strong><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT');?></strong></span>
-                                    	<small><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT_DESCRIPTION');?></small>
+                                    	<span style="color: #000000;"><strong><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT');?></strong></span>
+                                    	<small><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT_DESCRIPTION');?></small>
                                 	</div>
                                 	<div class="mo_boot_col-sm-12 mo_boot_mt-3">
                                     	[<a target="_blank" href="https://developers.miniorange.com/docs/oauth/wordpress/server/jwt-support"><b>Click here</b></a><span style="color: #000000;"> to know how this is useful]</span>
                                     	<br><br>
                                    		<p>
-										   <?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT_NOTE');?>
+										   <?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT_NOTE');?>
                                     	</p>
                                     	<hr>
                                 	</div>
                                 	<div class="mo_boot_col-sm-12">
-                                    	<h4 style="color: #000000;"><?php echo JText::_('COM_OAUTH2SERVER_SIGNING_ALGORITHMS');?></h4> 
+                                    	<h4 style="color: #000000;"><?php echo Text::_('COM_OAUTH2SERVER_SIGNING_ALGORITHMS');?></h4> 
                                 	</div>
                                 	<div class="mo_boot_col-sm-12 mo_boot_my-3">
                                     	<table>
@@ -429,7 +436,7 @@ function mo_oauth_server_add_client()
                                             	<td>
                                                 	<input type="radio" id="hsa" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="HSA" />&nbsp;HSA&nbsp;&nbsp;
                                                 	<input id="rsa" type="radio" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="RSA"  /> RSA&nbsp;&nbsp;<br><br>
-                                                	<input type="button" class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo JText::_('COM_OAUTH2SERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
+                                                	<input type="button" class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo Text::_('COM_OAUTH2SERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
                                             	</td>
                                         	</tr>
                                     	</table>
@@ -443,8 +450,8 @@ function mo_oauth_server_add_client()
 				
 				<div class="mo_boot_row mo_boot_text-center mo_boot_my-4">
 					<div class="mo_boot_col-sm-12">
-						<input type="submit" name="submit" value="<?php echo JText::_('COM_OAUTH2SERVER_SAVE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
-						<a href="<?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration'); ?>" class="mo_boot_btn mo_boot_btn-danger" ><?php echo JText::_('COM_OAUTH2SERVER_GO_BACK');?></a>
+						<input type="submit" name="submit" value="<?php echo Text::_('COM_OAUTH2SERVER_SAVE_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary" />
+						<a href="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration'); ?>" class="mo_boot_btn mo_boot_btn-danger" ><?php echo Text::_('COM_OAUTH2SERVER_GO_BACK');?></a>
 					</div>
 				</div> 
 			</form>
@@ -459,16 +466,16 @@ function mo_oauth_update(int $id){
 	?>
 	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
 		<div class="mo_boot_col-sm-12">
-			<form name="f" method="post" action=" <?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&task=accountsetup.updateclient');?> ">
+			<form name="f" method="post" action=" <?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&task=accountsetup.updateclient');?> ">
 				<div class="mo_boot_row mo_boot_mt-3">
 					<div class="mo_boot_col-sm-12">
-						<h3><?php echo JText::_('COM_OAUTH2SERVER_CONFIGURE_OAUTH_CLIENT');?></h3>
+						<h3><?php echo Text::_('COM_OAUTH2SERVER_CONFIGURE_OAUTH_CLIENT');?></h3>
 						<hr>
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3">
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo JText::_('COM_OAUTH2SERVER_CLIENT_NAME');?><span class="mo_oauth_highlight">*</span> :</strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?><span class="mo_oauth_highlight">*</span> :</strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<?php echo $attribute['client_name'];?>
@@ -477,43 +484,43 @@ function mo_oauth_update(int $id){
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3">
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?><span class="mo_oauth_highlight">*</span></strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?><span class="mo_oauth_highlight">*</span></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" required type="text" name="mo_oauth_client_redirect_url" value="<?php echo $attribute['authorized_uri'];?>" placeholder="<?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
+						<input class="mo_boot_form-control" required type="text" name="mo_oauth_client_redirect_url" value="<?php echo $attribute['authorized_uri'];?>" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
 					</div>
 				</div>
 				
 				<?php /* Dont show advanced features				
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important">
                     <details>
-                        <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_OAUTH2SERVER_ADVANCED_FEATURES');?></summary>
+                        <summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo Text::_('COM_OAUTH2SERVER_ADVANCED_FEATURES');?></summary>
 						<div class="mo_boot_row mo_boot_mt-3" >
 							<div class="mo_boot_col-sm-3">
-								<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_OAUTH2SERVER_GRANT_TYPE');?></strong>
+								<strong><span class="mo_oauth_highlight">*</span><?php echo Text::_('COM_OAUTH2SERVER_GRANT_TYPE');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
 								<select name="mo_oauth_grant_type" readonly class="mo_boot_form-control" id="mo_oauth_grant_type">
-									<option value="" selected> <?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZATION_GRANT_TYPE');?></option>
-									<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_IMPLICIT_GRANT_TYPE');?></option>
-									<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_PASSWORD_GRANT_TYPE');?></option>
-									<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_REFRESH_TOKEN_GRANT_TYPE');?><</option>
-									<option value=""> <?php echo JText::_('COM_OAUTH2SERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
+									<option value="" selected> <?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZATION_GRANT_TYPE');?></option>
+									<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_IMPLICIT_GRANT_TYPE');?></option>
+									<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_PASSWORD_GRANT_TYPE');?></option>
+									<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_REFRESH_TOKEN_GRANT_TYPE');?><</option>
+									<option value=""> <?php echo Text::_('COM_OAUTH2SERVER_CLIENT_CREDENTIALS_GRANT_TYPE');?></option>
 								</select>
 							</div>
 						</div>
 						<div class="mo_boot_row mo_boot_mt-3" >
 							<div class="mo_boot_col-sm-3">
-								<strong><span class="mo_oauth_highlight">*</span><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_PKCE');?></strong>
+								<strong><span class="mo_oauth_highlight">*</span><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_PKCE');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
-								<input type="radio" name="mo_oauth_enable_pkce" value="1"> <?php echo JText::_('COM_OAUTH2SERVER_ENABLE_PKCE_YES');?>
-								<input type="radio" name="mo_oauth_enable_pkce" value="0"> <?php echo JText::_('COM_OAUTH2SERVER_ENABLE_PKCE_NO');?>
+								<input type="radio" name="mo_oauth_enable_pkce" value="1"> <?php echo Text::_('COM_OAUTH2SERVER_ENABLE_PKCE_YES');?>
+								<input type="radio" name="mo_oauth_enable_pkce" value="0"> <?php echo Text::_('COM_OAUTH2SERVER_ENABLE_PKCE_NO');?>
 							</div>
 						</div>
 						<div class="mo_boot_row mo_boot_mt-3" >
 							<div class="mo_boot_col-sm-3">
-								<strong><?php echo JText::_('COM_OAUTH2SERVER_TOKEN_EXPIRY');?></strong>
+								<strong><?php echo Text::_('COM_OAUTH2SERVER_TOKEN_EXPIRY');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
 								<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_expiry" value="3600">
@@ -521,7 +528,7 @@ function mo_oauth_update(int $id){
 						</div>
 						<div class="mo_boot_row mo_boot_mt-3" >
 							<div class="mo_boot_col-sm-3">
-								<strong><?php echo JText::_('COM_OAUTH2SERVER_TOKEN_LENGTH');?></strong>
+								<strong><?php echo Text::_('COM_OAUTH2SERVER_TOKEN_LENGTH');?></strong>
 							</div>
 							<div class="mo_boot_col-sm-8">
 								<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_token_length" value="64">
@@ -534,23 +541,23 @@ function mo_oauth_update(int $id){
                     <div class="mo_boot_col-sm-12">
 					<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important">
                         <details>
-						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT');?></summary>
+						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT');?></summary>
                             <div class="mo_boot_row mo_boot_my-3 mo_boot_mx-1" style="background:white;border:1px solid #226a8b;border-radius:5px;">
                                 <div class="mo_boot_col-sm-12 mo_boot_mt-3">
                                     <input type="checkbox" style="cursor: not-allowed;" id="enablejwt" value="1" name="enablejwt" /> 
-                                    <span style="color: #000000;"><strong><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT');?></strong></span>
-                                    <small><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT_DESCRIPTION');?></small>
+                                    <span style="color: #000000;"><strong><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT');?></strong></span>
+                                    <small><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT_DESCRIPTION');?></small>
                                 </div>
                                 <div class="mo_boot_col-sm-12 mo_boot_mt-3">
                                     [<a target="_blank" href="https://developers.miniorange.com/docs/oauth/wordpress/server/jwt-support"><b>Click here</b></a><span style="color: #000000;"> to know how this is useful]</span>
                                     <br><br>
                                     <p>
-										<?php echo JText::_('COM_OAUTH2SERVER_ENABLE_JWT_NOTE');?>
+										<?php echo Text::_('COM_OAUTH2SERVER_ENABLE_JWT_NOTE');?>
                                     </p>
                                     <hr>
                                 </div>
                                 <div class="mo_boot_col-sm-12">
-                                    <h4 style="color: #000000;"><?php echo JText::_('COM_OAUTH2SERVER_SIGNING_ALGORITHMS');?></h4>
+                                    <h4 style="color: #000000;"><?php echo Text::_('COM_OAUTH2SERVER_SIGNING_ALGORITHMS');?></h4>
                                 </div>
                                 <div class="mo_boot_col-sm-12 mo_boot_my-3">
                                     <table>
@@ -558,7 +565,7 @@ function mo_oauth_update(int $id){
                                             <td>
                                                 <input type="radio" id="hsa" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="HSA" />&nbsp;HSA&nbsp;&nbsp;
                                                 <input id="rsa" type="radio" name="mo_server_jwt_encryption" style="cursor: not-allowed;" value="RSA"  /> RSA&nbsp;&nbsp;<br><br>
-                                                <input type="button" class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo JText::_('COM_OAUTH2SERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
+                                                <input type="button" class="mo_boot_btn mo_boot_btn-primary" style="cursor: not-allowed;" value="<?php echo Text::_('COM_OAUTH2SERVER_DOWNLOAD_CERTIFICAE');?>"> <br><br>
                                             </td>
                                         </tr>
                                     </table>
@@ -573,12 +580,12 @@ function mo_oauth_update(int $id){
 				<div class="mo_boot_row mo_boot_my-4 mo_boot_text-center">
 					<div class="mo_boot_col-sm-12">
 						<input type="hidden" name="id"  value="<?php echo $id ?>"/>
-						<button name="upd" type="submit" class="mo_boot_btn mo_boot_btn-primary"><?php echo JText::_('COM_OAUTH2SERVER_UPDATE_CLIENT');?></button>
-						<button class="mo_boot_btn mo_boot_btn-danger" onclick="cancel_update()" ><?php echo JText::_('COM_OAUTH2SERVER_GO_BACK');?></button>
+						<button name="upd" type="submit" class="mo_boot_btn mo_boot_btn-primary"><?php echo Text::_('COM_OAUTH2SERVER_UPDATE_CLIENT');?></button>
+						<button class="mo_boot_btn mo_boot_btn-danger" onclick="cancel_update()" ><?php echo Text::_('COM_OAUTH2SERVER_GO_BACK');?></button>
 					</div>
 				</div>
 			</form>
-			<form name="f" id="cancelUpdate" method="post" action="<?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration'); ?>">
+			<form name="f" id="cancelUpdate" method="post" action="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration'); ?>">
 				<input type="hidden" name="bck"  value="Back"/>
 			</form>
 		</div>
@@ -594,32 +601,32 @@ function mo_oauth_server_advance_settings()
 		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
 			<div class="mo_boot_row">
 				<div class="mo_boot_col-sm-12">
-					<h3><?php echo JText::_('COM_OAUTH2SERVER_ADVANCE_SETTINGS');?></h3>
+					<h3><?php echo Text::_('COM_OAUTH2SERVER_ADVANCE_SETTINGS');?></h3>
 					<hr>
 				</div>
 			</div>
 			<div class="mo_boot_row">
 				<div class="mo_boot_col-sm-12">
 					<details open>
-						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_OAUTH2SERVER_STATE_PARAMETER');?></summary>
+						<summary class="mo_oauth_server_main_summary mo_boot_text-dark" style="font-weight:bold"><?php echo Text::_('COM_OAUTH2SERVER_STATE_PARAMETER');?></summary>
 						<hr>
 						<div class="mo_boot_row mo_boot_my-4">
 							<div class="mo_boot_col-sm-12">
-								<input type="checkbox" name="mo_oauth_auto_redirect"  id="mo_oauth_auto_redirect" value="1" style="float:left; margin-top:5px" /><label style="float:left; margin-left:5px" for="mo_oauth_auto_redirect">&nbsp;<?php echo JText::_('COM_OAUTH2SERVER_ENABLE_AUTHORIZE');?></label>
-								<p style="padding-top:2rem ;"> <?php echo JText::_('COM_OAUTH2SERVER_STATE_PARAMTER_DESCRIPTION');?></p>
+								<input type="checkbox" name="mo_oauth_auto_redirect"  id="mo_oauth_auto_redirect" value="1" style="float:left; margin-top:5px" /><label style="float:left; margin-left:5px" for="mo_oauth_auto_redirect">&nbsp;<?php echo Text::_('COM_OAUTH2SERVER_ENABLE_AUTHORIZE');?></label>
+								<p style="padding-top:2rem ;"> <?php echo Text::_('COM_OAUTH2SERVER_STATE_PARAMTER_DESCRIPTION');?></p>
 							</div>
 						</div>
 					</details>
 
 					<details open>
-						<summary class="mo_boot_text-dark" style="font-weight:bold"><?php echo JText::_('COM_OAUTH2SERVER_PROTECT_ADMIN_LOGIN_PAGE_URL');?></summary><hr>
+						<summary class="mo_boot_text-dark" style="font-weight:bold"><?php echo Text::_('COM_OAUTH2SERVER_PROTECT_ADMIN_LOGIN_PAGE_URL');?></summary><hr>
 						<div class="mo_boot_col-sm-12 mo_boot_mt-4">
-							<p><?php echo JText::_('COM_OAUTH2SERVER_PROTECT_ADMIN_LOGIN_PAGE_URL_DETAILS');?></p>
+							<p><?php echo Text::_('COM_OAUTH2SERVER_PROTECT_ADMIN_LOGIN_PAGE_URL_DETAILS');?></p>
 						</div>
 						<div class="mo_boot_col-sm-12">
 							<div class="mo_boot_row  mo_boot_mt-3">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_ENABLE_CUSTOM_LOGIN_PAGE_URL');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_ENABLE_CUSTOM_LOGIN_PAGE_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
 									<input type="checkbox"/>
@@ -627,15 +634,15 @@ function mo_oauth_server_advance_settings()
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<input class="mo_boot_form-control" type="text" placeholder="<?php echo JText::_('COM_OAUTH2SERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL_PLACEHOLDER');?>"/>
+									<input class="mo_boot_form-control" type="text" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_ACCESS_KEY_FOR_YOUR_ADMIN_LOGIN_URL_PLACEHOLDER');?>"/>
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_CURRENT_ADMIN_LOGIN_URL');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_CURRENT_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8 mo_boot_text-wrap">
 									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo JURI::base();?>">
@@ -643,43 +650,43 @@ function mo_oauth_server_advance_settings()
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ADMIN_LOGIN_URL');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8 mo_boot_text-wrap">
-									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ADMIN_LOGIN_URL_PLACEHOLDER');?>">
+									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ADMIN_LOGIN_URL_PLACEHOLDER');?>">
 								</div>
 							</div>
 							<div class="mo_boot_row mo_boot_mt-3">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_REDIRECT_AFTER_FAILED_RESPONSE');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_REDIRECT_AFTER_FAILED_RESPONSE');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
 									<select class="mo_boot_form-control" id="failure_response" >
-										<option><?php echo JText::_('COM_OAUTH2SERVER_REDIRECT_TO_HOMEPAGE');?></option>
-										<option><?php echo JText::_('COM_OAUTH2SERVER_REDIRECT_TO_CUSTOM_404_MESSAGE');?></option>
-										<option><?php echo JText::_('COM_OAUTH2SERVER_REDIRECT_TO_CUSTOM_REDIRECT_URL');?></option>
+										<option><?php echo Text::_('COM_OAUTH2SERVER_REDIRECT_TO_HOMEPAGE');?></option>
+										<option><?php echo Text::_('COM_OAUTH2SERVER_REDIRECT_TO_CUSTOM_404_MESSAGE');?></option>
+										<option><?php echo Text::_('COM_OAUTH2SERVER_REDIRECT_TO_CUSTOM_REDIRECT_URL');?></option>
 									</select>
 								</div>
 							</div>
 							<div class="mo_boot_row mo_boot_mt-3">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<input class="mo_boot_form-control" placeholder="<?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE_PLACEHOLDER');?>" type="text"/>
+									<input class="mo_boot_form-control" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_REDIRECT_URL_AFTER_FAILURE_PLACEHOLDER');?>" type="text"/>
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3" id="custom_message">
 								<div class="mo_boot_col-sm-4">
-									<p><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE');?></p>
+									<p><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8">
-									<textarea style="height:100% !important" class="mo_boot_form-control" placeholder="<?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE_PLACEHOLDER');?>"></textarea>
+									<textarea style="height:100% !important" class="mo_boot_form-control" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ERROR_MESSAGE_AFTER_FAILURE_PLACEHOLDER');?>"></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="mo_boot_col-sm-12  mo_boot_mt-4  mo_boot_text-center">
-							<input type="submit" class="mo_boot_btn mo_boot_btn-primary" value="<?php echo JText::_('COM_OAUTH2SERVER_SAVE_ADMIN_LOGIN_PAGE_URL_SETTINGS');?>"/>
+							<input type="submit" class="mo_boot_btn mo_boot_btn-primary" value="<?php echo Text::_('COM_OAUTH2SERVER_SAVE_ADMIN_LOGIN_PAGE_URL_SETTINGS');?>"/>
 						</div>
 					</details>
 				</div>
@@ -698,13 +705,13 @@ function mo_oauth_server_client_config()
 		<div class="mo_boot_col-sm-12">
 			<div class="mo_boot_row mo_boot_mt-3">
 				<div class="mo_boot_col-sm-11">
-					<h2><?php echo JText::_('COM_OAUTH2SERVER_ENDPOINT_URI');?></h2>
+					<h2><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URI');?></h2>
 				</div>
 				<div class="mo_boot_col-sm-1">
-				<a href="<?php echo JRoute::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration'); ?>" class="mo_boot_btn mo_boot_btn-danger" ><?php echo JText::_('COM_OAUTH2SERVER_ENDPOINT_BACK');?></a>
+				<a href="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration'); ?>" class="mo_boot_btn mo_boot_btn-danger" ><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_BACK');?></a>
 				</div>
 				<div class="mo_boot_col-sm-12">
-					<p><?php echo JText::_('COM_OAUTH2SERVER_ENDPOINT_DESCRIPTION');?><p>
+					<p><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_DESCRIPTION');?><p>
 					<hr>
 				</div>
 			</div>
@@ -713,7 +720,7 @@ function mo_oauth_server_client_config()
 				<table class="mo_boot_table mo_boot_table-bordered">
 					<tr>
 						<th>
-							<strong><?php echo JText::_('COM_OAUTH2SERVER_AUTHORIZE_ENDPOINT');?> </strong> :
+							<strong><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZE_ENDPOINT');?> </strong> :
 						</th>
 						<td>	
 							<span id="auth_endpoint" ><?php echo JURI::root()."index.php" ?></span> 
@@ -723,7 +730,7 @@ function mo_oauth_server_client_config()
 					</tr>
 					<tr>
 						<th>
-							<strong><?php echo JText::_('COM_OAUTH2SERVER_ACCESS_TOKEN_ENDPOINT');?> </strong> :
+							<strong><?php echo Text::_('COM_OAUTH2SERVER_ACCESS_TOKEN_ENDPOINT');?> </strong> :
 						</th>
 						<td>
 							<span id="acc_token_enpoint"><?php echo JURI::root()."index.php" ?></span>
@@ -734,7 +741,7 @@ function mo_oauth_server_client_config()
 					</tr>
 					<tr>
 						<th >
-							<strong><?php echo JText::_('COM_OAUTH2SERVER_GET_USER_INFO_ENDPOINT');?> </strong> :
+							<strong><?php echo Text::_('COM_OAUTH2SERVER_GET_USER_INFO_ENDPOINT');?> </strong> :
 						</th>
 						<td>
 							<span id="user_info_endpoint"><?php echo JURI::root()."index.php"; ?></span>
@@ -744,10 +751,10 @@ function mo_oauth_server_client_config()
 					</tr>
 					<tr>
 						<th>
-							<strong><?php echo JText::_('COM_OAUTH2SERVER_SCOPE');?> </strong> : 
+							<strong><?php echo Text::_('COM_OAUTH2SERVER_SCOPE');?> </strong> : 
 						</th>
 						<td>
-							<?php echo JText::_('COM_OAUTH2SERVER_SCOPE_EMAIL');?>
+							<?php echo Text::_('COM_OAUTH2SERVER_SCOPE_EMAIL');?>
 						</td>		
 					</tr>
 				</table>
@@ -763,11 +770,11 @@ function mo_oauth_show_advance_mapping()
 	?>
 	<div class="mo_boot_row mo_boot_my-3 mo_boot_mx-1 mo_OAuth_box" style="border-radius:5px;">
 		<div class="mo_boot_col-sm-12 mo_boot_mt-3">
-		<h3><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_MAPPING');?></h3><hr>
+		<h3><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_MAPPING');?></h3><hr>
 		</div>
 		<div class="mo_boot_col-sm-12 mo_boot_m-3 mo_boot_p-2" style="background:#e0e0e0">
-			<p><strong><?php echo JText::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_NAME');?></strong><?php echo JText::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_NAME_DESCRIPTION');?></p>
-			<p><strong><?php echo JText::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_VALUE');?></strong><?php echo JText::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_VALUE_DESCRIPTION');?></p>
+			<p><strong><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_NAME');?></strong><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_NAME_DESCRIPTION');?></p>
+			<p><strong><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_VALUE');?></strong><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_USER_FIELD_ATTRIBUTE_VALUE_DESCRIPTION');?></p>
 		</div>
 		<div class="mo_boot_col-sm-12 mo_boot_mt-5 mo_boot_mx-4">
 			<div class="mo_boot_row">
@@ -778,27 +785,27 @@ function mo_oauth_show_advance_mapping()
 						<div class="mo_boot_col-sm-6">
 								<div class="mo_boot_row mo_boot_mx-2">
 									<div class="mo_boot_col-sm-4">
-										<strong><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE');?> <?php echo $icnt ?> <?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_NAME');?></strong>
+										<strong><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE');?> <?php echo $icnt ?> <?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_NAME');?></strong>
 									</div>
 									<div class="mo_boot_col-sm-7">
-										<input type="text" class="mo_oauth_server_textfield mo_boot_form-control" placeholder="<?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_PLACEHOLDER');?>"/>
+										<input type="text" class="mo_oauth_server_textfield mo_boot_form-control" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_PLACEHOLDER');?>"/>
 									</div>
 								</div>
 						</div>
 						<div class="mo_boot_col-sm-6">
 							<div class="mo_boot_row mo_boot_mx-4">
 								<div class="mo_boot_col-sm-4">
-									<strong><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE');?> <?php echo $icnt;?> <?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_VALUE');?></strong>
+									<strong><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE');?> <?php echo $icnt;?> <?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTE_VALUE');?></strong>
 								</div>
 								<div class="mo_boot_col-sm-7">
 									<select class="mo_oauth_server_textfield mo_boot_form-control">
-										<option value=""><?php echo JText::_('COM_OAUTH2SERVER_SELECT_CUSTOM_ATTRIBUTE');?></option>
-										<option value="emailAddress"><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_EMAIL_ADDRESS');?></option>
-										<option value="username"><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_USERNAME');?></option>
-										<option value="name"><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_NAME');?></option>
-										<option value="firstname"><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_FIRST_NAME');?></option>
-										<option value="lastname"><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_LAST_NAME');?></option>
-										<option value="groups"><?php echo JText::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_GROUPS');?></option>
+										<option value=""><?php echo Text::_('COM_OAUTH2SERVER_SELECT_CUSTOM_ATTRIBUTE');?></option>
+										<option value="emailAddress"><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_EMAIL_ADDRESS');?></option>
+										<option value="username"><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_USERNAME');?></option>
+										<option value="name"><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_NAME');?></option>
+										<option value="firstname"><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_FIRST_NAME');?></option>
+										<option value="lastname"><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_LAST_NAME');?></option>
+										<option value="groups"><?php echo Text::_('COM_OAUTH2SERVER_CUSTOM_ATTRIBUTES_GROUPS');?></option>
 									</select>
 								</div>
 							</div><br>
@@ -809,7 +816,7 @@ function mo_oauth_show_advance_mapping()
 			</div>
 		</div>
 		<div class="mo_boot_col-sm-12 mo_boot_mt-5 mo_boot_mb-3 mo_boot_text-center">
-			<input type="submit" class="mo_boot_btn mo_boot_btn-primary " value="<?php echo JText::_('COM_OAUTH2SERVER_SAVE_ADDITIONAL_USER_ATTRIBUTE_MAPPING');?>"/>
+			<input type="submit" class="mo_boot_btn mo_boot_btn-primary " value="<?php echo Text::_('COM_OAUTH2SERVER_SAVE_ADDITIONAL_USER_ATTRIBUTE_MAPPING');?>"/>
 		</div><br><br>
 	</div>
 	<?php

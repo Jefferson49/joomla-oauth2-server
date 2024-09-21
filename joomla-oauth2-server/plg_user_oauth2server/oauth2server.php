@@ -8,11 +8,16 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+
+
 jimport( 'joomla.plugin.plugin' );
 jimport('oauth2serverlib.utility.MoOAuthServerUtility');
 if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
-class plgUserOauth2server extends JPlugin
+class plgUserOauth2server extends CMSPlugin
 { 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -27,18 +32,18 @@ class plgUserOauth2server extends JPlugin
 	
 	public function onUserAfterLogin($options) {
 		
-		$cookie = JFactory::getApplication()->input->cookie->getArray();
+		$cookie = Factory::getApplication()->input->cookie->getArray();
 		
 		if(isset($cookie['response_params'])){
 			$response_params =  json_decode(stripslashes($cookie['response_params']),true);
 		
-			$user = JFactory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 			
 			$user_id = $user->get('id');
 			
 			$randcode = $this->generateRandomString();
 			
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
             $query = $db->getQuery(true);
             // Fields to update.
             $fields = array(

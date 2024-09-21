@@ -10,16 +10,20 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
  
 jimport( 'joomla.plugin.plugin' );
 jimport('oauth2serverlib.utility.MoOAuthServerUtility');
-class plgSystemOauth2serversystem extends JPlugin	
+class plgSystemOauth2serversystem extends CMSPlugin	
 {
 
 	public function onAfterInitialise()
 	{ 
-		$get = JFactory::getApplication()->input->get->getArray();
-	    $post = JFactory::getApplication()->input->post->getArray();	
+		$get = Factory::getApplication()->input->get->getArray();
+	    $post = Factory::getApplication()->input->post->getArray();	
         $clientId = $get['client_id'] ?? ($post['client_id'] ?? '');
         $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("client_id" => $clientId),'loadAssoc','*');
         $headers = getallheaders();
@@ -31,7 +35,7 @@ class plgSystemOauth2serversystem extends JPlugin
             $access_token = $headers['Authorization'];
             $access_token = explode(" ", $access_token, 2);
             $access_token =$access_token[1];
-            $db = JFactory::getDbo();
+            $db = Factory::getDbo();
             $query = $db->getQuery(true);
             $query->select($db->quoteName(array('id','oauth2_time_stamp')));
             $query->from($db->quoteName('#__users'));
@@ -82,9 +86,9 @@ class plgSystemOauth2serversystem extends JPlugin
         {   
 			if(isset($customerResult['client_id']) && $customerResult['client_id']===$get['client_id'] && isset($customerResult['authorized_uri']) && $customerResult['authorized_uri']===$get['redirect_uri'])
             {
-				$user = JFactory::getApplication()->getIdentity();  // Get the user object
+				$user = Factory::getApplication()->getIdentity();  // Get the user object
                 $user_id = $user->id;
-				$app  = JFactory::getApplication(); // Get the application
+				$app  = Factory::getApplication(); // Get the application
 				$client_id = $get['client_id'];
 				$scope = $get['scope'] ?? 'email';
 				$redirect_uri = $get['redirect_uri'];
@@ -113,13 +117,13 @@ class plgSystemOauth2serversystem extends JPlugin
                         exit;
                     }
                     else {
-			            JFactory::getApplication()->getSession()->destroy();		
+			            Factory::getApplication()->getSession()->destroy();		
     				}	
 			    }
     			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
 		    	setcookie("response_params",json_encode($oauth_response_params), time() + 300, '/');
 			    $redirect_url = JURI::base() . "index.php?option=com_users&view=login";
-                $app->redirect(JRoute::_($redirect_url, false));	
+                $app->redirect(Route::_($redirect_url, false));	
 			}
             else
             {	

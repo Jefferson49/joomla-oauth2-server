@@ -2,6 +2,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+
 /**
  * Script file of miniorange_oauth_user_plugin.
  *
@@ -31,7 +33,7 @@ class plgUseroauth2serverInstallerScript
      */
     public function install($parent) 
     {
-        $db  = JFactory::getDbo();
+        $db  = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->update('#__extensions');
         $query->set($db->quoteName('enabled') . ' = 1');

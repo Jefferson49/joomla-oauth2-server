@@ -16,7 +16,10 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('oauth2serverlib.utility.MoOAuthServerUtility');
 
-class miniorangeoauthserverControllerAccountSetup extends JControllerForm
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\FormController;
+
+class miniorangeoauthserverControllerAccountSetup extends FormController
 {
 	function __construct()
 	{
@@ -26,7 +29,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 
 	function updateToken()
 	{
-		$post=	JFactory::getApplication()->input->post->getArray();
+		$post=	Factory::getApplication()->input->post->getArray();
 		if(isset($post['mo_server_token_length']))
 		{			
 		 	// Fields to update.
@@ -47,7 +50,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 	
 	function addclient()
 	{
-		$post=	JFactory::getApplication()->input->post->getArray();
+		$post=	Factory::getApplication()->input->post->getArray();
 		$client_id = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
 		$client_secret = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
 		$authorized_uri = trim($post['mo_oauth_client_redirect_url']," ");
@@ -67,7 +70,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 	
 	function deleteclient(){
 			
-		$get = JFactory::getApplication()->input->get->getArray();
+		$get = Factory::getApplication()->input->get->getArray();
 
 		$selection = array(
 			'id' => $get['id'],
@@ -91,7 +94,7 @@ class miniorangeoauthserverControllerAccountSetup extends JControllerForm
 	
 	function updateclient()
 	{
-		$post=	JFactory::getApplication()->input->post->getArray();		
+		$post=	Factory::getApplication()->input->post->getArray();		
 		$authorized_uri=trim($post['mo_oauth_client_redirect_url']," ");
 	    // Fields to update.
 		$fields = array(
