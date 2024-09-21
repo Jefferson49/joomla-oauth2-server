@@ -1,9 +1,4 @@
 <?php
-// No direct access to this file
-defined('_JEXEC') or die('Restricted access');
-
-use Joomla\CMS\Factory;
-
 /**
  * Script file of miniorange_oauth_user_plugin.
  *
@@ -21,7 +16,20 @@ use Joomla\CMS\Factory;
  
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * 
+ * Extended by:
+ * @subpackage  joomla-oauth2-server
+ * @link        https://github.com/Jefferson49/Joomla-OAuth2-Server
+ * @author      Jefferson49
+ * @copyright   Copyright (c) 2024 Jefferson49
+ * @license     GNU/GPL v3.0
  */
+
+// No direct access to this file
+defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\Factory;
+
 class plgUseroauth2serverInstallerScript
 {
     /**

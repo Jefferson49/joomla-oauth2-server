@@ -4,6 +4,13 @@
  * @subpackage Plugins
  * @license    GNU/GPLv3
  * @copyright  http://miniorange.com/usecases/miniOrange_User_Agreement.pdf
+ * 
+ * Extended by:
+ * @subpackage joomla-oauth2-server
+ * @link       https://github.com/Jefferson49/Joomla-OAuth2-Server
+ * @author     Jefferson49
+ * @copyright  Copyright (c) 2024 Jefferson49
+ * @license    GNU/GPL v3.0 
  */
 
 // no direct access
@@ -11,7 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-
 
 jimport( 'joomla.plugin.plugin' );
 jimport('oauth2serverlib.utility.MoOAuthServerUtility');
