@@ -21,7 +21,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
  
 jimport( 'joomla.plugin.plugin' );
-jimport('oauth2serverlib.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 class plgSystemOauth2serversystem extends CMSPlugin	
 {
 
@@ -30,7 +30,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 		$get = Factory::getApplication()->input->get->getArray();
 	    $post = Factory::getApplication()->input->post->getArray();	
         $clientId = $get['client_id'] ?? ($post['client_id'] ?? '');
-        $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("client_id" => $clientId),'loadAssoc','*');
+        $customerResult = OAuth2ServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("client_id" => $clientId),'loadAssoc','*');
         $headers = getallheaders();
         $OAuthClientAppName = $customerResult['client_name'];
 
@@ -101,7 +101,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 				$state = $get['state'];
 			    if($user_id !== 0)
                 {
-                    $customerResult = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
+                    $customerResult = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
 
                     if($customerResult !== null) {
                         $redirecturi = $redirect_uri;
@@ -113,12 +113,12 @@ class plgSystemOauth2serversystem extends CMSPlugin
                         $conditions = array(
                             'id' => $user_id
                         );
-                        MoOAuthServerUtility::generic_update_query('#__users', $fields, $conditions);
+                        OAuth2ServerUtility::generic_update_query('#__users', $fields, $conditions);
                     
                         $state = $get['state']; 
                         $redirecturi = $redirecturi."&code=".$randcode."&state=".$state;	
                         header('Location: ' . $redirecturi);
-                        MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
+                        OAuth2ServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
                         exit;
                     }
                     else {
@@ -134,7 +134,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             {	
 				//send back error for authorization
                 $redirect_uri = isset($get['redirect_uri'])?$get['redirect_uri']:NULL;
-                MoOAuthServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri,"Invalid Redirect Uri (or) Invalid Client ID");
+                OAuth2ServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri,"Invalid Redirect Uri (or) Invalid Client ID");
                 $api_response= array('error' => 'Invalid Redirect Uri (or) Invalid Client ID');
                 echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				exit;	
@@ -155,7 +155,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 				$randcode = $this->generateRandomString();
 				$code = $post['code'];
     			//Getting the user details using code parameter	
-                $results = MoOAuthServerUtility::miniOauthFetchDb('#__users',array("oauth2_randcode"=>$code),'loadAssoc','id');
+                $results = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("oauth2_randcode"=>$code),'loadAssoc','id');
 			    if($results['id']!='')
                 {
     				$t=time()+300;
@@ -168,7 +168,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 				    $conditions = array(
 					    'id'=>$results['id']
 				    ); 	
-                    MoOAuthServerUtility::generic_update_query('#__users', $fields , $conditions);
+                    OAuth2ServerUtility::generic_update_query('#__users', $fields , $conditions);
         			$scope="profile";
 		        	$token_type="Bearer";
 			        $api_response = array('access_token' => $randcode, 'expires_in' => $time, "scope"=> $scope, 'token_type' => $token_type);	
@@ -198,7 +198,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
     function generateRandomString() 
     {  
 		//ToDo: Do we need to genralize "id"=>'1' ?
-        $tokenLength = MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id"=>'1'),'loadResult','token_length');
+        $tokenLength = OAuth2ServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id"=>'1'),'loadResult','token_length');
         $tokenLength=intval($tokenLength);
 		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);

@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
 
-jimport('oauth2serverlib.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 HTMLHelper::_('stylesheet', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 /**
  * Account Setup View

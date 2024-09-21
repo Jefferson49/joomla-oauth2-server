@@ -21,7 +21,7 @@
  * @since       0.0.9
  */
 defined('_JEXEC') or die('Restricted access');
-jimport('oauth2serverlib.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -50,7 +50,7 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 			$conditions = array(
 				'id' => 1
 			);
-			MoOAuthServerUtility::generic_update_query('#__oauth2_server_config', $fields,$conditions);
+			OAuth2ServerUtility::generic_update_query('#__oauth2_server_config', $fields,$conditions);
 		}
 		$this->setRedirect('index.php?option=com_oauth2server&view=accountsetup&tab-panel=advancesettings','Setting saved successfully');
 	}	
@@ -70,7 +70,7 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 			'client_count'   => 0,
 		);
 			 
-		MoOAuthServerUtility::generic_insert_query("#__oauth2_server_config", $fields);
+		OAuth2ServerUtility::generic_insert_query("#__oauth2_server_config", $fields);
 		
 		$this->setRedirect('index.php?option=com_oauth2server&tab-panel=configuration&pa=2', 'Client  has been added successfully.');	
 	}
@@ -83,7 +83,7 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 			'id' => $get['id'],
 		);
 
-		MoOAuthServerUtility::generic_delete_query("#__oauth2_server_config", $selection);
+		OAuth2ServerUtility::generic_delete_query("#__oauth2_server_config", $selection);
 		
 		$this->setRedirect('index.php?option=com_oauth2server&tab-panel=configuration');
 	}
@@ -112,7 +112,7 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 			'id' => $post['id'],
 		);
 
-		MoOAuthServerUtility::generic_update_query("#__oauth2_server_config", $fields,$conditions);
+		OAuth2ServerUtility::generic_update_query("#__oauth2_server_config", $fields,$conditions);
 
 		$this->setRedirect('index.php?option=com_oauth2server&tab-panel=configuration&pa=2', 'Client has been updated successfully.');
 	}

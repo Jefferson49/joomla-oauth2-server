@@ -32,7 +32,7 @@
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport('oauth2serverlib.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 
 class MoOauthServerCustomer{
 	

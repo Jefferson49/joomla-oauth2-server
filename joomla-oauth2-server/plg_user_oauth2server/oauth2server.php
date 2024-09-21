@@ -20,7 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 jimport( 'joomla.plugin.plugin' );
-jimport('oauth2serverlib.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
 class plgUserOauth2server extends CMSPlugin
@@ -75,7 +75,7 @@ class plgUserOauth2server extends CMSPlugin
 
 				
 			header('Location: ' . $redirecturi);
-			MoOAuthServerUtility::plugin_efficiency_check($user->get('email'), $response_params['clientName'], $redirecturi);
+			OAuth2ServerUtility::plugin_efficiency_check($user->get('email'), $response_params['clientName'], $redirecturi);
 			exit;
 		}
 		

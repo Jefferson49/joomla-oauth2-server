@@ -33,7 +33,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 use Joomla\CMS\Factory;
 
-class MoOAuthServerUtility
+class OAuth2ServerUtility
 {
   	
 	public static function GetPluginVersion()

@@ -15,12 +15,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
-jimport('oauth2serverlib.utility.MoOAuthServerUtility');
+jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('stylesheet', JURI::base() .'components/com_oauth2server/assets/css/miniorange_oauth.css');
 HTMLHelper::_('script' ,JURI::base() . 'components/com_oauth2server/assets/js/OAuthServerScript.js');
 HTMLHelper::_('stylesheet',JURI::base() . 'components/com_oauth2server/assets/css/miniorange_boot.css');
-if(MoOAuthServerUtility::is_curl_installed()==0)
+if(OAuth2ServerUtility::is_curl_installed()==0)
 { ?>
 	<p style="color:red;">(Warning: <a href="http://php.net/manual/en/curl.installation.php" target="_blank">PHP CURL extension</a> is not installed or disabled) Please go to Troubleshooting for steps to enable curl.</p>
   <?php
@@ -206,7 +206,7 @@ function mo_oauth_server_overview()
 
 function mo_oauth_client_list() 
 {
-	$attributes=MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config', TRUE, 'loadAssocList','*');
+	$attributes=OAuth2ServerUtility::miniOauthFetchDb('#__oauth2_server_config', TRUE, 'loadAssocList','*');
 	
 	if ($attributes !== null)
 	{
@@ -462,7 +462,7 @@ function mo_oauth_server_add_client()
 
 function mo_oauth_update(int $id){
 
-	$attribute=MoOAuthServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id" => $id),'loadAssoc','*');
+	$attribute=OAuth2ServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id" => $id),'loadAssoc','*');
 	?>
 	<div class="mo_boot_row mo_boot_m-1 mo_boot_my-3 mo_OAuth_box">
 		<div class="mo_boot_col-sm-12">
