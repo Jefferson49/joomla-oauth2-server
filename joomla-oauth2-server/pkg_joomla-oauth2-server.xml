@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="package" method="upgrade">
-	<name>PKG_OAUTH2_SERVER</name>
+	<name>PAKG_OAUTH2_SERVER</name>
 	<packagename>joomla-oauth2-server</packagename>
 	<license>GNU/GPLv3</license>
 	<version>1.0.0</version>

@@ -23,7 +23,7 @@
 		
 	<administration>
 		<!-- Administration Menu Section -->
-		<menu link="option=com_oauth2server&amp;view=accountsetup" view="accountsetup" alt="Joomla OAuth Server">COM_OAUTH2SERVER_MENU</menu>
+		<menu link="option=com_oauth2server&amp;view=accountsetup" view="accountsetup">COM_OAUTH2SERVER_MENU</menu>
 		<submenu>
 			<menu link="option=com_oauth2server&amp;view=accountsetup&amp;tab-panel=overview" view="accountsetup">COM_OAUTH2SERVER_OVERVIEW</menu>
 			<menu link="option=com_oauth2server&amp;view=accountsetup&amp;tab-panel=configuration" view="accountsetup">COM_OAUTH2SERVER_CONFIGURATION</menu>

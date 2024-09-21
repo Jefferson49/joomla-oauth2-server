@@ -57,7 +57,7 @@ class plgUseroauth2serverInstallerScript
      */
     public function uninstall($parent) 
     {
-        //echo '<p>' . JText::_('COM_HELLOWORLD_UNINSTALL_TEXT') . '</p>';
+		
     }
 
     /**
@@ -69,7 +69,7 @@ class plgUseroauth2serverInstallerScript
      */
     public function update($parent) 
     {
-        //echo '<p>' . JText::sprintf('COM_HELLOWORLD_UPDATE_TEXT', $parent->get('manifest')->version) . '</p>';
+
     }
 
     /**
@@ -86,7 +86,7 @@ class plgUseroauth2serverInstallerScript
      */
     public function preflight($type, $parent) 
     {
-        //echo '<p>' . JText::_('COM_HELLOWORLD_PREFLIGHT_' . $type . '_TEXT') . '</p>';
+
     }
 
     /**
@@ -102,6 +102,6 @@ class plgUseroauth2serverInstallerScript
      */
     function postflight($type, $parent) 
     {
-       // echo '<p>' . JText::_('COM_HELLOWORLD_POSTFLIGHT_' . $type . '_TEXT') . '</p>';
+
     }
 }
