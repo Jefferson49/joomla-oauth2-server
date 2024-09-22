@@ -47,7 +47,7 @@ class plgUserOauth2server extends CMSPlugin
 			
 			$user_id = $user->get('id');
 			
-			$randcode = $this->generateRandomString();
+			$randcode =OAuth2ServerUtility::generateRandomString();
 			
 			$db = Factory::getDbo();
             $query = $db->getQuery(true);
@@ -81,18 +81,4 @@ class plgUserOauth2server extends CMSPlugin
 		
 		return false;
 	}
-	
-	
-	 function generateRandomString() {
-		 
-		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < 30; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
-		}
-		return $randomString;
-	}
-	
-	
 }

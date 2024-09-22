@@ -58,8 +58,8 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 	function addclient()
 	{
 		$post=	Factory::getApplication()->input->post->getArray();
-		$client_id = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
-		$client_secret = miniorangeoauthserverControllerAccountSetup::generateRandomString(30);
+		$client_id = OAuth2ServerUtility::generateRandomString(30);
+		$client_secret = OAuth2ServerUtility::generateRandomString(30);
 		$authorized_uri = trim($post['mo_oauth_client_redirect_url']," ");
 		// Fields to update.
 		$fields = array(
@@ -88,17 +88,6 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 		$this->setRedirect('index.php?option=com_oauth2server&tab-panel=configuration');
 	}
 		
-		
-	function generateRandomString($length=30) {
-		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
-		}
-		return $randomString;
-	}
-	
 	function updateclient()
 	{
 		$post=	Factory::getApplication()->input->post->getArray();		

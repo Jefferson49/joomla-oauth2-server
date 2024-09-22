@@ -146,5 +146,11 @@ class OAuth2ServerUtility
 	{
         return;
 	}
+
+	public static function generateRandomString(int $length = 64) {
+		$length = intdiv($length, 2);
+        $bytes = openssl_random_pseudo_bytes($length);
+        return bin2hex($bytes);
+	}
 }
 ?>

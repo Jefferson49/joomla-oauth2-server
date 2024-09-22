@@ -105,7 +105,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 
                     if($customerResult !== null) {
                         $redirecturi = $redirect_uri;
-                        $randcode = $this->generateRandomString();		
+                        $randcode = OAuth2ServerUtility::generateRandomString();		
                         $user_id = $user->id;		
                         $fields = array(
                             'oauth2_randcode' =>$randcode
@@ -152,7 +152,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 				    echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				    exit;
 				}		
-				$randcode = $this->generateRandomString();
+				$randcode = OAuth2ServerUtility::generateRandomString();
 				$code = $post['code'];
     			//Getting the user details using code parameter	
                 $results = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("oauth2_randcode"=>$code),'loadAssoc','id');
@@ -194,20 +194,5 @@ class plgSystemOauth2serversystem extends CMSPlugin
     {
 		
     }
-	
-    function generateRandomString() 
-    {  
-		//ToDo: Do we need to genralize "id"=>'1' ?
-        $tokenLength = OAuth2ServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("id"=>'1'),'loadResult','token_length');
-        $tokenLength=intval($tokenLength);
-		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < $tokenLength; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
-		}
-		return $randomString;
-	}
-		
 }
 
