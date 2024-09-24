@@ -32,7 +32,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
         $clientId = $get['client_id'] ?? ($post['client_id'] ?? '');
         $customerResult = OAuth2ServerUtility::miniOauthFetchDb('#__oauth2_server_config',array("client_id" => $clientId),'loadAssoc','*');
         $headers = getallheaders();
-        $OAuthClientAppName = $customerResult['client_name'];
+        $OAuthClientAppName = $customerResult['client_name'] ?? '';
 
         //If authorized request for user data
         if (($headers['Authorization'] ?? '') !== '') {
