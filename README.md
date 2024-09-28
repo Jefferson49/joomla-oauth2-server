@@ -29,7 +29,7 @@ A [Joomla](https://www.joomla.org/) extension, which provides an [OAuth 2.0](htt
 The extension supports the Joomla Update System. Available updates will be shown in the administration backend.
 
 ## Translation
-You can help to translate this module. The translation files for the administrator backend can be found in the following path: [/com_oauth2server/admin/language](com_oauth2server/admin/language/).
+You can help to translate this module. The translation files for the administrator backend can be found in the following path: [/joomla-oauth2-server/com_oauth2server/admin/language](joomla-oauth2-server/com_oauth2server/admin/language/).
 
 You can use a text editor like notepad++ to work on translation *.ini files.
 
