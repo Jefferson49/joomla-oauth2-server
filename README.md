@@ -5,7 +5,7 @@
 ## Joomla OAuth 2.0 Server 
 A [Joomla](https://www.joomla.org/) extension, which provides an [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) server within the Joomla content management system, with the intension to enable [Single Sign On](https://en.wikipedia.org/wiki/Single_sign-on) (SSO) of other applications with the Joomla user account.
 
-##  Table of contents
+##  Table of Contents
 This README file contains the following main sections:
 +   [IMPORTANT SECURITY NOTES](#important-security-notes)
 +   [Installation](#installation)
@@ -53,7 +53,7 @@ You can contribute translations via a pull request (if you know how to do), or b
 Currently, the following frontend languages are available:
 + English
 
-## Issue reporting
+## Issue Reporting
 If you experience any bugs [create a new issue](https://github.com/Jefferson49/joomla-oauth2-server/issues) in the Github repository
 
 ## Development and Contributions
@@ -76,5 +76,5 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
 
-##  Github repository  
+##  Github Repository  
 https://github.com/Jefferson49/joomla-oauth2-server
