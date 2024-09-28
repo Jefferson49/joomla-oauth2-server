@@ -5,6 +5,21 @@
 ## Joomla OAuth 2.0 Server 
 A [Joomla](https://www.joomla.org/) extension, which provides an [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) server within the Joomla content management system, with the intension to enable [Single Sign On](https://en.wikipedia.org/wiki/Single_sign-on) (SSO) of other applications with the Joomla user account.
 
+##  Table of contents
+This README file contains the following main sections:
++   [IMPORTANT SECURITY NOTES](#important-security-notes)
++   [Installation](#installation)
++   [Versions](#versions)
++   [Updates](#updates)
++   [Translation](#translation)
++   [Issue reporting](#issue-reporting)
++   [Development and Contributions](#development-and-contributions)
++   [License](#license)
++   [Github Repository](#github-repository)
+
+## IMPORTANT SECURITY NOTES
+It is **highly recommended to use** the **HTTPS** protocol for your Joomla installation. The [HTTPS](https://en.wikipedia.org/wiki/HTTPS) protocol will ensure the encryption of the communication between OAuth clients and the Joomla authorization provider. This will allow secure exchange of secret IDs and secret access tokens.
+
 ##  Installation
 + Install the extension in the Joomla administration backend
 + Open the backend menu: Components / OAuth 2.0 Server / Configure OAuth
