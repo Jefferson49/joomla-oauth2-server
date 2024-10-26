@@ -344,7 +344,7 @@ function mo_oauth_server_add_client()
 			<form  method="post" action="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&task=accountsetup.addclient');?>">
 				<div class="mo_boot_row mo_boot_mt-3" > 
 					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?>:</strong>
+						<strong><span class="mo_oauth_highlight"></span><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?>:</strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<input class="mo_boot_form-control" type="text" id="mo_oauth_custom_client_name" name="mo_oauth_custom_client_name" value="" placeholder= "<?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME_PLACEHOLDER');?>">
@@ -352,7 +352,7 @@ function mo_oauth_server_add_client()
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3" >
 					<div class="mo_boot_col-sm-3">
-						<strong><span class="mo_oauth_highlight">*</span><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?></strong>
+						<strong><span class="mo_oauth_highlight"></span><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_redirect_url" value="" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
@@ -475,7 +475,7 @@ function mo_oauth_update(int $id){
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3">
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?><span class="mo_oauth_highlight">*</span> :</strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?><span class="mo_oauth_highlight"></span> :</strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<?php echo $attribute['client_name'];?>
@@ -484,7 +484,7 @@ function mo_oauth_update(int $id){
 				</div>
 				<div class="mo_boot_row mo_boot_mt-3">
 					<div class="mo_boot_col-sm-3">
-						<strong><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?><span class="mo_oauth_highlight">*</span></strong>
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI');?><span class="mo_oauth_highlight"></span></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<input class="mo_boot_form-control" required type="text" name="mo_oauth_client_redirect_url" value="<?php echo $attribute['authorized_uri'];?>" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
