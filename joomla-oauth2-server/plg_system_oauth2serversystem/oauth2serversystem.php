@@ -127,8 +127,15 @@ class plgSystemOauth2serversystem extends CMSPlugin
 			    }
     			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
 		    	setcookie("response_params",json_encode($oauth_response_params), time() + 300, '/');
-			    $redirect_url = JURI::base() . "index.php?option=com_users&view=login";
-                $app->redirect(Route::_($redirect_url, false));	
+
+                //If a Joomla login link was provided, use it; otherwise use default
+                if ($customerResult['login_link'] !== '') {
+                    $redirect_url = JURI::base() . $customerResult['login_link'];
+                }
+                else {
+                    $redirect_url = JURI::base() . "index.php?option=com_users&view=login";
+                }
+                $app->redirect(Route::_($redirect_url, false));
 			}
             else
             {	

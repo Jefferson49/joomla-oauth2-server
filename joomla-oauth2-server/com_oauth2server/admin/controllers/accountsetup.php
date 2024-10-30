@@ -61,12 +61,14 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 		$client_id = OAuth2ServerUtility::generateRandomString(30);
 		$client_secret = OAuth2ServerUtility::generateRandomString(30);
 		$authorized_uri = trim($post['mo_oauth_client_redirect_url']," ");
+		$login_link = trim($post['mo_oauth_client_login_link']," ");
 		// Fields to update.
 		$fields = array(
 			'client_name'    => $post['mo_oauth_custom_client_name'],
 			'client_id'      => $client_id,
 			'client_secret'  => $client_secret,
 			'authorized_uri' => $authorized_uri,
+			'login_link'     => $login_link,
 			'client_count'   => 0,
 		);
 			 
@@ -92,9 +94,11 @@ class miniorangeoauthserverControllerAccountSetup extends FormController
 	{
 		$post=	Factory::getApplication()->input->post->getArray();		
 		$authorized_uri=trim($post['mo_oauth_client_redirect_url']," ");
+		$login_link=trim($post['mo_oauth_client_login_link']," ");
 	    // Fields to update.
 		$fields = array(
 			'authorized_uri'=>$authorized_uri,
+			'login_link'    =>$login_link,
 		);
 		// Conditions for which records should be updated.
 		$conditions = array(

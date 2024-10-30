@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `#__oauth2_server_config` (
 `client_secret` varchar(255) NOT NULL, 
 `client_id` varchar(255) NOT NULL, 
 `authorized_uri` varchar(255) NOT NULL,
+`login_link` varchar(255) NOT NULL,
 `client_count` varchar(255) NOT NULL,
 `token_length` int(3) default 64,
 

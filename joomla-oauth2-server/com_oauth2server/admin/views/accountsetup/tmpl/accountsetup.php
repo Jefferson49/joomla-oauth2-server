@@ -358,6 +358,14 @@ function mo_oauth_server_add_client()
 						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_redirect_url" value="" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
 					</div>
 				</div>
+				<div class="mo_boot_row mo_boot_mt-3" >
+					<div class="mo_boot_col-sm-3">
+						<strong><span class="mo_oauth_highlight"></span><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK');?></strong>
+					</div>
+					<div class="mo_boot_col-sm-8">
+						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_login_link" value="index.php?option=com_users&view=login" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_PLACEHOLDER');?>">
+					</div>
+				</div>				
 				
 				<?php /* Dont show advanced features
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important;">
@@ -488,6 +496,14 @@ function mo_oauth_update(int $id){
 					</div>
 					<div class="mo_boot_col-sm-8">
 						<input class="mo_boot_form-control" required type="text" name="mo_oauth_client_redirect_url" value="<?php echo $attribute['authorized_uri'];?>" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZED_REDIRECT_URI_PLACEHOLDER');?>">
+					</div>
+				</div>
+				<div class="mo_boot_row mo_boot_mt-3">
+					<div class="mo_boot_col-sm-3">
+						<strong><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK');?><span class="mo_oauth_highlight"></span></strong>
+					</div>
+					<div class="mo_boot_col-sm-8">
+						<input class="mo_boot_form-control" type="text" name="mo_oauth_client_login_link" value="<?php echo $attribute['login_link'];?>" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_PLACEHOLDER');?>">
 					</div>
 				</div>
 				
