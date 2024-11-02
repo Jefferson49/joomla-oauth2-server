@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
+const LOGIN_LINK = "index.php?option=com_users&view=login";
+
 jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('stylesheet', JURI::base() .'components/com_oauth2server/assets/css/miniorange_oauth.css');
@@ -236,7 +238,7 @@ function mo_oauth_client_list()
 									<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_NAME');?></strong>
 								</th>
 								<th><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_ID');?></th>
-								<th><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_SECRET_KEY');?></th>
+								<th><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_SECRET');?></th>
 								<th colspan="2" id="li_client_options"><?php echo Text::_('COM_OAUTH2SERVER_OPTIONS');?></th>
 							</tr>
 
@@ -308,7 +310,7 @@ function mo_oauth_client_list()
 										<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_ID');?></strong>
 									</th>
 									<th>
-										<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_SECRET_KEY');?></strong>
+										<strong><?php echo Text::_('COM_OAUTH2SERVER_CLIENT_SECRET');?></strong>
 									</th>
 									<th>
 										<strong><?php echo Text::_('COM_OAUTH2SERVER_OPTIONS');?></strong>
@@ -363,7 +365,14 @@ function mo_oauth_server_add_client()
 						<strong><span class="mo_oauth_highlight"></span><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK');?></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" required="" type="text" name="mo_oauth_client_login_link" value="index.php?option=com_users&view=login" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_PLACEHOLDER');?>">
+						<input class="mo_boot_form-control" type="text" name="mo_oauth_client_login_link" value="" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_PLACEHOLDER')?>">
+					</div>
+				</div>
+				<div class="mo_boot_row mo_boot_mt-3">
+					<div class="mo_boot_col-sm-3">
+					</div>
+					<div class="mo_boot_col-sm-8">
+						<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_DEFAULT'). ' ' . LOGIN_LINK;?>
 					</div>
 				</div>				
 				
@@ -503,9 +512,16 @@ function mo_oauth_update(int $id){
 						<strong><?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK');?><span class="mo_oauth_highlight"></span></strong>
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<input class="mo_boot_form-control" type="text" name="mo_oauth_client_login_link" value="<?php echo $attribute['login_link'];?>" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_PLACEHOLDER');?>">
+						<input class="mo_boot_form-control" type="text" name="mo_oauth_client_login_link" value="<?php echo $attribute['login_link'] ?? "" ?>" placeholder="<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_PLACEHOLDER')?>">
 					</div>
 				</div>
+				<div class="mo_boot_row mo_boot_mt-3">
+					<div class="mo_boot_col-sm-3">
+					</div>
+					<div class="mo_boot_col-sm-8">
+						<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_DEFAULT'). ' ' . LOGIN_LINK;?>
+					</div>
+				</div>				
 				
 				<?php /* Dont show advanced features				
 				<div class="mo_boot_col-sm-11" style="padding-left:0%!important; padding-right:0%!important; padding-top:1rem!important">
