@@ -17,6 +17,8 @@
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_oauth2serversystem.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_system_oauth2serversystem.sys.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_oauth2serversystem.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_oauth2serversystem.sys.ini</language>
 	</languages>
 
 	<changelogurl>https://raw.githubusercontent.com/Jefferson49/joomla-oauth2-server/updates/changelog.xml</changelogurl>

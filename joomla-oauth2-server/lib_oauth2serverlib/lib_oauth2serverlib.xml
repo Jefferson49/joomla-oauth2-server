@@ -9,7 +9,7 @@
     <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
 	<license>GNU/GPLv3</license>
 	<version>1.0.0</version>
-    <description>Library containing plugin utility classes.</description>
+    <description>LIB_OAUTH2_SERVER_XML_DESCRIPTION</description>
     
     <files>
 		<filename>index.html</filename>
@@ -19,6 +19,8 @@
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.lib_oauth2serverlib.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.lib_oauth2serverlib.sys.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.lib_oauth2serverlib.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.lib_oauth2serverlib.sys.ini</language>
     </languages>
 
 	<changelogurl>https://raw.githubusercontent.com/Jefferson49/joomla-oauth2-server/updates/changelog.xml</changelogurl>

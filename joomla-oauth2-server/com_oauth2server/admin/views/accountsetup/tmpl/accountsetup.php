@@ -184,17 +184,17 @@ function mo_oauth_server_overview()
 				<div class="mo_boot_row">
 					<div class="mo_boot_col-sm-12 mo_boot_mt-4">
 						<h3>
-							<em>Joomla Single Sign-On - Joomla as OAuth 2.0 Provider</em>	
+							<em><?php echo Text::_('COM_OAUTH2SERVER_START_HEADLINE');?></em>	
 						</h3>
 						<hr class="mo_boot_bg-dark">
 					</div>
 				</div>
 				<div class="mo_boot_row mo_boot_mt-2">
-					<div class="mo_boot_col-sm-7 mo_boot_p-5 mo_boot_text-center">The Joomla OAuth 2.0 Server extension empowers Joomla to serve as OAuth 2.0 server. Other applications can act as OAuth clients and request authorization from the Joomla OAuth 2.0 Server. This allows other applications to implement a Single Sign-On with the Joomla user account.
+					<div class="mo_boot_col-sm-7 mo_boot_p-5 mo_boot_text-center"><?php echo Text::_('COM_OAUTH2SERVER_START_TEXT');?>
 						<br><br>
-						Developed by: <a target="_blank" href="https://plugins.miniorange.com">miniorange</a>. Copyright (c) 2016-2024.
+						<?php echo Text::_('COM_OAUTH2SERVER_DEVELPED_BY');?>: <a target="_blank" href="https://plugins.miniorange.com">miniorange</a>. <?php echo Text::_('COM_OAUTH2SERVER_COPYRIGHT_MINIORANGE');?>.
 						<br>
-						Modified by: <a target="_blank" href="https://github.com/Jefferson49">Jefferson49</a>. Copyright (c) 2024.
+						<?php echo Text::_('COM_OAUTH2SERVER_MODIFIED_BY');?>: <a target="_blank" href="https://github.com/Jefferson49">Jefferson49</a>. <?php echo Text::_('COM_OAUTH2SERVER_COPYRIGHT_JEFFERSON49');?>.
 					</div>
 					<div class="mo_boot_col-sm-5 ">
 						<img class="mo_boot_img-fluid" src="<?php echo JURI::root().'administrator\components\com_oauth2server\assets\images\joomla-oauth-server-sso.webp'?>" alt="Joomla Single sign on">
@@ -372,7 +372,7 @@ function mo_oauth_server_add_client()
 					<div class="mo_boot_col-sm-3">
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_DEFAULT'). ' ' . LOGIN_LINK;?>
+						<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_DEFAULT'). ' <b>' . LOGIN_LINK . '</b>';?>
 					</div>
 				</div>				
 				
@@ -519,7 +519,7 @@ function mo_oauth_update(int $id){
 					<div class="mo_boot_col-sm-3">
 					</div>
 					<div class="mo_boot_col-sm-8">
-						<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_DEFAULT'). ' ' . LOGIN_LINK;?>
+						<?php echo Text::_('COM_OAUTH2SERVER_JOOMLA_LOGIN_LINK_DEFAULT'). ' <b>' . LOGIN_LINK . '</b>';?>
 					</div>
 				</div>				
 				
