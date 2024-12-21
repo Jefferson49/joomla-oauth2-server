@@ -4,10 +4,10 @@
 	<author>Jefferson49</author>
  	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
     <authorUrl>https://github.com/Jefferson49</authorUrl>
-	<creationDate>2024-09-11</creationDate>
 	<license>GNU/GPLv3</license>
     <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
 	<version>1.0.0</version>
+	<creationDate>2024-12-21</creationDate>
 	<description>PLG_SYSTEM_OAUTH2_SERVER_XML_DESCRIPTION</description>
 
 	<files>
