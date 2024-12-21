@@ -14,14 +14,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 const LOGIN_LINK = "index.php?option=com_users&view=login";
 
 jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 HTMLHelper::_('jquery.framework');
-HTMLHelper::_('stylesheet', JURI::base() .'components/com_oauth2server/assets/css/miniorange_oauth.css');
-HTMLHelper::_('script' ,JURI::base() . 'components/com_oauth2server/assets/js/OAuthServerScript.js');
-HTMLHelper::_('stylesheet',JURI::base() . 'components/com_oauth2server/assets/css/miniorange_boot.css');
+HTMLHelper::_('stylesheet', Uri::base() .'components/com_oauth2server/assets/css/miniorange_oauth.css');
+HTMLHelper::_('script' ,Uri::base() . 'components/com_oauth2server/assets/js/OAuthServerScript.js');
+HTMLHelper::_('stylesheet',Uri::base() . 'components/com_oauth2server/assets/css/miniorange_boot.css');
 if(OAuth2ServerUtility::is_curl_installed()==0)
 { ?>
 	<p style="color:red;">(Warning: <a href="http://php.net/manual/en/curl.installation.php" target="_blank">PHP CURL extension</a> is not installed or disabled) Please go to Troubleshooting for steps to enable curl.</p>
@@ -197,7 +198,7 @@ function mo_oauth_server_overview()
 						<?php echo Text::_('COM_OAUTH2SERVER_MODIFIED_BY');?>: <a target="_blank" href="https://github.com/Jefferson49">Jefferson49</a>. <?php echo Text::_('COM_OAUTH2SERVER_COPYRIGHT_JEFFERSON49');?>.
 					</div>
 					<div class="mo_boot_col-sm-5 ">
-						<img class="mo_boot_img-fluid" src="<?php echo JURI::root().'administrator\components\com_oauth2server\assets\images\joomla-oauth-server-sso.webp'?>" alt="Joomla Single sign on">
+						<img class="mo_boot_img-fluid" src="<?php echo Uri::root().'administrator\components\com_oauth2server\assets\images\joomla-oauth-server-sso.webp'?>" alt="Joomla Single sign on">
 					</div>
 				</div>
 			</div>
@@ -224,7 +225,7 @@ function mo_oauth_client_list()
 					<div class="mo_boot_col-sm-6">
 						<form name="oauth_mapping_form" method="post" action="<?php echo Route::_('index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&pa=1');?>">
 							<input type="submit" id="add_client" name="send_query" id="send_query" value="<?php echo Text::_('COM_OAUTH2SERVER_ADD_CLIENT');?>" class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right" />
-							<a onclick="add_css_tab('#configu_id');" href="<?php echo JURI::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
+							<a onclick="add_css_tab('#configu_id');" href="<?php echo Uri::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mx-1" ><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
 						</form>
 					</div>
 				</div>
@@ -296,7 +297,7 @@ function mo_oauth_client_list()
 						</div>
 						<div class="mo_boot_col-sm-6">
 							<input id ="add_client" type="submit" name="send_query"  value="<?php echo Text::_('COM_OAUTH2SERVER_ADD');?>" class="mo_boot_btn mo_boot_btn-success mo_boot_float-right" />
-							<a href="<?php echo JURI::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mr-1" onclick="add_css_tab('#configu_id');"><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
+							<a href="<?php echo Uri::base().'index.php?option=com_oauth2server&view=accountsetup&tab-panel=configuration&endpoints=true';?>"  class="mo_boot_btn mo_boot_btn-primary mo_boot_float-right mo_boot_mr-1" onclick="add_css_tab('#configu_id');"><?php echo Text::_('COM_OAUTH2SERVER_ENDPOINT_URL');?></a>
 						</div>
 					</div>
 					<div class="mo_boot_row mo_boot_mt-3">
@@ -677,7 +678,7 @@ function mo_oauth_server_advance_settings()
 									<p><?php echo Text::_('COM_OAUTH2SERVER_CURRENT_ADMIN_LOGIN_URL');?></p>
 								</div>
 								<div class="mo_boot_col-sm-8 mo_boot_text-wrap">
-									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo JURI::base();?>">
+									<input type="text" class="mo_boot_form-control" name=""  placeholder="<?php echo Uri::base();?>">
 								</div>
 							</div>
 							<div class="mo_boot_row  mo_boot_mt-3">
@@ -755,7 +756,7 @@ function mo_oauth_server_client_config()
 							<strong><?php echo Text::_('COM_OAUTH2SERVER_AUTHORIZE_ENDPOINT');?> </strong> :
 						</th>
 						<td>	
-							<span id="auth_endpoint" ><?php echo JURI::root()."index.php" ?></span> 
+							<span id="auth_endpoint" ><?php echo Uri::root()."index.php" ?></span> 
 							<em class="fa fa-pull-right fa-lg fa-copy mo_copy copytooltip"; onclick="copyToClipboard('#auth_endpoint');" style="color:red; cursor: pointer;";  ><span class="copytooltiptext">Copied!</span> </em> 
 						</td>
 								
@@ -765,7 +766,7 @@ function mo_oauth_server_client_config()
 							<strong><?php echo Text::_('COM_OAUTH2SERVER_ACCESS_TOKEN_ENDPOINT');?> </strong> :
 						</th>
 						<td>
-							<span id="acc_token_enpoint"><?php echo JURI::root()."index.php" ?></span>
+							<span id="acc_token_enpoint"><?php echo Uri::root()."index.php" ?></span>
 							<em class="fa fa-pull-right fa-lg fa-copy mo_copy copytooltip"; onclick="copyToClipboard('#acc_token_enpoint');" style="color:red; cursor: pointer;";  >
 							<span class="copytooltiptext">Copied!</span> </em>
 					
@@ -776,7 +777,7 @@ function mo_oauth_server_client_config()
 							<strong><?php echo Text::_('COM_OAUTH2SERVER_GET_USER_INFO_ENDPOINT');?> </strong> :
 						</th>
 						<td>
-							<span id="user_info_endpoint"><?php echo JURI::root()."index.php"; ?></span>
+							<span id="user_info_endpoint"><?php echo Uri::root()."index.php"; ?></span>
 							<em class="fa fa-pull-right fa-lg fa-copy mo_copy copytooltip"; onclick="copyToClipboard('#user_info_endpoint');" style="color:red; cursor: pointer;";  >
 							<span class="copytooltiptext">Copied!</span> </em>
 						</td>		

@@ -19,6 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
  
 jimport( 'joomla.plugin.plugin' );
 jimport('oauth2serverlib.utility.OAuth2ServerUtility');
@@ -130,10 +131,10 @@ class plgSystemOauth2serversystem extends CMSPlugin
 
                 //If a Joomla login link was provided, use it; otherwise use default
                 if ($customerResult['login_link'] !== '') {
-                    $redirect_url = JURI::base() . $customerResult['login_link'];
+                    $redirect_url = Uri::base() . $customerResult['login_link'];
                 }
                 else {
-                    $redirect_url = JURI::base() . "index.php?option=com_users&view=login";
+                    $redirect_url = Uri::base() . "index.php?option=com_users&view=login";
                 }
                 $app->redirect(Route::_($redirect_url, false));
 			}

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 HTMLHelper::_('stylesheet', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
@@ -55,7 +56,7 @@ class miniorangeoauthserverViewAccountSetup extends HtmlView
 	 */
 	protected function addToolBar()
 	{
-		 JToolBarHelper::title(Text::_('COM_OAUTH2SERVER_PLUGIN_TITLE'),'mo_oauth_logo mo_oauth_logo');
+		ToolBarHelper::title(Text::_('COM_OAUTH2SERVER_PLUGIN_TITLE'),'mo_oauth_logo mo_oauth_logo');
 
 	}
 }
