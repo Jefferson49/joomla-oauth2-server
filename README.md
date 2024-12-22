@@ -3,7 +3,7 @@
 [![Joomla major version](https://img.shields.io/badge/joomla-v4.x-green)](https://downloads.joomla.org/cms/joomla4)
 [![Joomla major version](https://img.shields.io/badge/joomla-v3.x-green)](https://downloads.joomla.org/cms/joomla3)
 ## Joomla OAuth 2.0 Server 
-A [Joomla](https://www.joomla.org/) extension, which provides an [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) server within the Joomla content management system, with the intension to enable [Single Sign On](https://en.wikipedia.org/wiki/Single_sign-on) (SSO) of other applications with the Joomla user account.
+A [Joomla](https://www.joomla.org/) extension, which provides an [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) server within the Joomla content management system in order to enable [Single Sign On](https://en.wikipedia.org/wiki/Single_sign-on) (SSO) of other applications with the Joomla user account.
 
 ##  Table of Contents
 This README file contains the following main sections:
@@ -30,12 +30,12 @@ It is **highly recommended to use** the **HTTPS** protocol for your Joomla insta
 
 ##  Versions 
 + Joomla: The latest version of the extension was tested with:
-    + [Joomla 5.1.4](https://downloads.joomla.org/cms/joomla5)
-    + [Joomla 4.4.8](https://downloads.joomla.org/cms/joomla4)
+    + [Joomla 5.2.2](https://downloads.joomla.org/cms/joomla5)
+    + [Joomla 4.4.9](https://downloads.joomla.org/cms/joomla4)
     + [Joomla 3.10.12](https://downloads.joomla.org/cms/joomla3)
     + The extension should also run with other Joomla 4.x or 5.x versions
 + PHP: The latest version of the extension was tested with:
-    + PHP 8.3.6
+    + PHP 8.3.14
     + PHP 8.2.21
     + The extension should also run with other PHP 8 versions.
     + PHP 7.x versions were not tested, but will probably work as well.
