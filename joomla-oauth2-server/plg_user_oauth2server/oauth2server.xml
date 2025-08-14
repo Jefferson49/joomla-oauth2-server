@@ -6,8 +6,8 @@
     <authorUrl>https://github.com/Jefferson49</authorUrl>
 	<license>GNU/GPLv3</license>
     <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
-	<version>1.0.0</version>
-	<creationDate>2024-12-21</creationDate>
+	<version>1.0.1</version>
+	<creationDate>2025-08-14</creationDate>
 	<description>PLG_USER_OAUTH2_SERVER_XML_DESCRIPTION</description>
 
 	<files>

@@ -3,8 +3,8 @@
 	<name>PAKG_OAUTH2_SERVER</name>
 	<packagename>joomla-oauth2-server</packagename>
 	<license>GNU/GPLv3</license>
-	<version>1.0.0</version>
-	<creationDate>2024-12-21</creationDate>
+	<version>1.0.1</version>
+	<creationDate>2025-08-14</creationDate>
 	<author>Jefferson49</author>
     <copyright>Copyright (c) 2016 miniOrange. All Rights Reserved. Copyright (c) 2024 Jefferson49</copyright>
  	<authorEmail>sexypolling.reloaded@gmail.com</authorEmail>
