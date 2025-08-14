@@ -1,3 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelogs>
+<changelogs>
+    <changelog>
+		<element>plg_user_oauth2server</element>
+		<type>plugin</type>
+		<version>1.0.1</version>
+        <fix>
+            <item>Wrong query separator in redirect URL: & instead of ?</item>
+        </fix>
+    </changelog>
+    <changelog>
+		<element>plg_system_oauth2serversystem</element>
+		<type>component</type>
+		<version>plugin</version>
+        <fix>
+            <item>Wrong query separator in redirect URL: & instead of ?</item>
+        </fix>
+    </changelog>
 </changelogs>
