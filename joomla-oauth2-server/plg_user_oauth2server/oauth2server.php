@@ -71,7 +71,14 @@ class plgUserOauth2server extends CMSPlugin
 			$redirecturi=$response_params['redirect_uri'];
 			$state =$response_params['state'];	
 			
-			$redirecturi = $redirecturi."&code=".$randcode."&state=".$state;
+			if (strpos($redirecturi, "?") === false) {
+				$query_separator = "?";
+			}
+			else {
+				$query_separator = "&";
+			}
+
+			$redirecturi = $redirecturi.$query_separator."code=".$randcode."&state=".$state;
 
 				
 			header('Location: ' . $redirecturi);

@@ -116,8 +116,16 @@ class plgSystemOauth2serversystem extends CMSPlugin
                         );
                         OAuth2ServerUtility::generic_update_query('#__users', $fields, $conditions);
                     
-                        $state = $get['state']; 
-                        $redirecturi = $redirecturi."&code=".$randcode."&state=".$state;	
+                        $state = $get['state'];
+						
+						if (strpos($redirecturi, "?") === false) {
+                            $query_separator = "?";
+                        }
+                        else {
+                            $query_separator = "&";
+                        }
+
+                        $redirecturi = $redirecturi.$query_separator."code=".$randcode."&state=".$state;	
                         header('Location: ' . $redirecturi);
                         OAuth2ServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri);
                         exit;
