@@ -3,7 +3,7 @@
 	<update>
 		<name>OAuth 2.0 Server</name>
 		<description>A Joomla extension, which provides a OAuth 2.0 server within the Joomla CMS in order to enable Single Sign On (SSO) of other applications with the Joomla user account</description>
-		<element>pkg_joomla-oauth2-server</element>
+		<element>joomla-oauth2-server</element>
 		<type>package</type>
 		<version>1.0.0</version>
 		<infourl title="Joomla OAuth 2.0 Server">https://github.com/Jefferson49/joomla-oauth2-server/releases/tag/v1.0.0</infourl>
@@ -22,7 +22,7 @@
 	<update>
 		<name>OAuth 2.0 Server</name>
 		<description>A Joomla extension, which provides a OAuth 2.0 server within the Joomla CMS in order to enable Single Sign On (SSO) of other applications with the Joomla user account</description>
-		<element>pkg_joomla-oauth2-server</element>
+		<element>joomla-oauth2-server</element>
 		<type>package</type>
 		<version>1.0.1</version>
 		<infourl title="Joomla OAuth 2.0 Server">https://github.com/Jefferson49/joomla-oauth2-server/releases/tag/v1.0.1</infourl>
