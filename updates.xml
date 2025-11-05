@@ -36,6 +36,6 @@
 		<maintainer>Jefferson49</maintainer>
 		<maintainerurl>https://github.com/Jefferson49</maintainerurl>
 		<targetplatform name="joomla" version="((4.*)|(5.*))" />
-		<sha256></sha256>
+		<sha256>d4fb25d32d8276fffbfa5f3ff05e0ebb02fc39bd13aefae87a6e16e920bdd9ce</sha256>
     </update>
 </updates>
