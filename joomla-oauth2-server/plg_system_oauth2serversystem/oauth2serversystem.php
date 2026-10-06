@@ -25,6 +25,7 @@ jimport( 'joomla.plugin.plugin' );
 jimport('oauth2serverlib.utility.OAuth2ServerUtility');
 class plgSystemOauth2serversystem extends CMSPlugin
 {
+    private const EXPIRATION_INTERVAL = 300; // 5 minutes
 
 	public function onAfterInitialise()
 	{
@@ -50,7 +51,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             $results = $db->loadAssoc();
             if($results['oauth2_time_stamp']<time())
             {
-                $api_response= array('error' => 'Access token got expire,please contact your administrator');
+                $api_response= array('error' => 'Access denied, because access token is expired.');
                 echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
                 exit;
             }
@@ -81,7 +82,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             }
             else
             {
-                $api_response= array('error' => 'Access token dosent match,please contact your administrator');
+                $api_response= array('error' => 'Access denied, because access token does not match.');
                 echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
                 exit;
             }
@@ -108,8 +109,12 @@ class plgSystemOauth2serversystem extends CMSPlugin
                         $redirecturi = $redirect_uri;
                         $randcode = OAuth2ServerUtility::generateRandomString();
                         $user_id = $user->id;
+
+                        //Remember the randcode in the database
                         $fields = array(
-                            'oauth2_randcode' =>$randcode
+                            'oauth2_randcode'     => $randcode,
+                            'randcode_client_id'  => $client_id,
+    					    'randcode_time_stamp' => time() + self::EXPIRATION_INTERVAL
                         );
                         $conditions = array(
                             'id' => $user_id
@@ -135,7 +140,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
     				}
 			    }
     			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
-		    	setcookie("response_params",json_encode($oauth_response_params), time() + 300, '/');
+		    	setcookie("response_params",json_encode($oauth_response_params), time() + self::EXPIRATION_INTERVAL, '/');
 
                 //If a Joomla login link was provided, use it; otherwise use default
                 if ($customerResult['login_link'] !== '') {
@@ -150,8 +155,8 @@ class plgSystemOauth2serversystem extends CMSPlugin
             {
 				//send back error for authorization
                 $redirect_uri = isset($get['redirect_uri'])?$get['redirect_uri']:NULL;
-                OAuth2ServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri,"Invalid Redirect Uri (or) Invalid Client ID");
-                $api_response= array('error' => 'Invalid Redirect Uri (or) Invalid Client ID');
+                OAuth2ServerUtility::plugin_efficiency_check('', $OAuthClientAppName, $redirect_uri,"Invalid Redirect URI (or) Invalid Client ID");
+                $api_response= array('error' => 'Invalid Redirect URI (or) Invalid Client ID');
                 echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				exit;
 			}
@@ -162,45 +167,70 @@ class plgSystemOauth2serversystem extends CMSPlugin
         {
     		if($customerResult['client_id']===$post['client_id']  && $customerResult['authorized_uri']===$post['redirect_uri'] && $customerResult['client_secret']===$post['client_secret'])
             {
-				if($post['grant_type']!='authorization_code')
+                //Check if the grant type is authorization_code
+                if($post['grant_type']!='authorization_code')
                 {
-				    $api_response= array('error' => 'grantTypes mismatch or limited,please contact your administrator');
+				    $api_response= array('error' => 'Access denied, because grant type does not match.');
 				    echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				    exit;
 				}
-				$randcode = OAuth2ServerUtility::generateRandomString();
-				$code = $post['code'];
-    			//Getting the user details using code parameter
-                $results = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("oauth2_randcode"=>$code),'loadAssoc','id');
-			    if($results['id']!='')
+
+                //Check if the code parameter is present in the request
+                if (!isset($post['code']) || empty($post['code'])) {
+                    $api_response= array('error' => 'Access denied, because code parameter is missing.');
+                    echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                    exit;
+                }
+
+                //Get the data for the provided code
+                $results = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("oauth2_randcode" => $post['code']));
+
+                //Check if the code parameter belongs to the client ID provided in the request
+                if ($results['randcode_client_id'] !== $post['client_id']) {
+                    $api_response= array('error' => 'Access denied, because the code parameter does not belong to the client ID.');
+                    echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                    exit;
+                }
+
+                //Check if the code parameter is expired
+                if ($results['randcode_time_stamp'] < time()) {
+                    $api_response= array('error' => 'Access denied, because the code parameter has expired.');
+                    echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+                    exit;
+                }
+
+                if($results['id']!='')
                 {
-    				$t=time()+300;
-	    			$time=300;
-        			// inserting the accessToken
+                    //Generate an access token
+                    $access_token = OAuth2ServerUtility::generateRandomString();
+
+        			//Insert the access token and invalidate the randcode
 				    $fields = array(
-					   'oauth2_client_token'=>$randcode,
-					   'oauth2_time_stamp'=>$t
+					    'oauth2_client_token' => $access_token,
+					    'oauth2_time_stamp'   => time() + self::EXPIRATION_INTERVAL,
+                        'oauth2_randcode'     => OAuth2ServerUtility::generateRandomString(),
+                        'randcode_time_stamp' => time() - 1,
 				    );
 				    $conditions = array(
-					    'id'=>$results['id']
+					    'id' => $results['id']
 				    );
                     OAuth2ServerUtility::generic_update_query('#__users', $fields , $conditions);
         			$scope="profile";
 		        	$token_type="Bearer";
-			        $api_response = array('access_token' => $randcode, 'expires_in' => $time, "scope"=> $scope, 'token_type' => $token_type);
+			        $api_response = array('access_token' => $access_token, 'expires_in' => self::EXPIRATION_INTERVAL, "scope"=> $scope, 'token_type' => $token_type);
         			echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 		        	exit;
     			}
                 else
                 {
-				    $api_response= array('error' => 'Some Error with code recived,please contact your administrator');
+				    $api_response= array('error' => 'Access denied, because wrong code received.');
 				    echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				    exit;
     			}
 			}
             else
             {
-				$api_response= array('error' => 'Some Error at Token Endpoint URL, please contact your administrator');
+				$api_response= array('error' => 'Access denied, because invalid client credentials or redirect URI provided.');
 				echo(json_encode($api_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 				exit;
 			}
