@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (C) 2015  miniOrange
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -14,10 +14,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  * @package     miniOrange OAuth
  * @license		http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * 
+ *
  * Extended by:
  * @subpackage  joomla-oauth2-server
  * @link        https://github.com/Jefferson49/Joomla-OAuth2-Server
@@ -35,7 +35,7 @@ use Joomla\CMS\Factory;
 
 class OAuth2ServerUtility
 {
-  	
+
 	public static function GetPluginVersion()
 	{
 		$db = Factory::getDbo();
@@ -86,11 +86,11 @@ class OAuth2ServerUtility
 		foreach ($selection as $key => $value) {
 			$where[] = $db->quoteName($key) . ' = ' . $db->quote($value);
 		}
-		
+
 		$query->delete($table_name)->where($where);
         $db->setQuery($query);
         $db->execute();
-    }	
+    }
 
 	public static function check_empty_or_null( $value ) {
 		if( ! isset( $value ) || empty( $value ) ) {
@@ -98,14 +98,14 @@ class OAuth2ServerUtility
 		}
 		return false;
 	}
-	
+
 	public static function is_curl_installed() {
 		if  (in_array  ('curl', get_loaded_extensions())) {
 			return 1;
-		} else 
+		} else
 			return 0;
 	}
-	
+
 	public static function getHostname(){
 		return '';
 	}
@@ -141,7 +141,7 @@ class OAuth2ServerUtility
 		else
 			return $db->loadAssoc();
 	}
-	
+
 	public static function plugin_efficiency_check($email,$appname,$base_url, $reason ="null")
 	{
         return;
