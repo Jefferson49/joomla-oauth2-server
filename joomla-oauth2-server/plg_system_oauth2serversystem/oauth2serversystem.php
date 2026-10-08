@@ -287,7 +287,14 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 'id' => $results['id']
             );
 
-            OAuth2ServerUtility::generic_update_query('#__users', $fields , $conditions);
+            $updated_rows = OAuth2ServerUtility::generic_update_query('#__users', $fields , $conditions);
+
+            if ($updated_rows !== 1) {
+                $error = OAuth2ServerUtility::ERROR_SERVER_ERROR;
+                $error_description = 'Failed to persist the access token.';
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                exit;
+            }
 
             //Send Access Token Response (RFC 6749 Section 4.1.4)
             $content = [

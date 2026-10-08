@@ -55,7 +55,7 @@ class OAuth2ServerUtility
 		return($manifest->version);
     }
 
-	public static function generic_update_query($database_name, $updatefieldsarray , $condition = TRUE)
+	public static function generic_update_query($database_name, $updatefieldsarray , $condition = TRUE) : int
 	{
         $db = Factory::getDbo();
         $query = $db->getQuery(true);
@@ -69,6 +69,8 @@ class OAuth2ServerUtility
         }
         $db->setQuery($query);
         $db->execute();
+
+		return $db->getAffectedRows();
     }
 
 	public static function generic_insert_query(string $table_name, array $insertfieldssarray)
