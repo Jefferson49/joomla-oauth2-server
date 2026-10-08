@@ -9,7 +9,8 @@
 	<version>1.0.1</version>
 	<creationDate>2025-08-14</creationDate>
 	<description>COM_OAUTH2SERVER_DESCRIPTION</description>
- 
+    <scriptfile>scriptfile.php</scriptfile>
+
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -20,7 +21,7 @@
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-		
+
 	<administration>
 		<!-- Administration Menu Section -->
 		<menu link="option=com_oauth2server&amp;view=accountsetup" view="accountsetup">COM_OAUTH2SERVER_MENU</menu>
@@ -33,7 +34,7 @@
 			*/ ?>
 
 		</submenu>
-		
+
 		<files folder="admin">
 			<!-- Admin Main File Copy Section -->
 			<filename>index.html</filename>
