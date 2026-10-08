@@ -30,9 +30,7 @@ class plgUserOauth2server extends CMSPlugin
 	 *
 	 *
 	 * @access    public
-	 * @param     array     $credentials    Array holding the user credentials ('username' and 'password')
 	 * @param     array     $options        Array of extra options
-	 * @param     object    $response       Authentication response object
 	 * @return    boolean
 	 */
 
@@ -41,48 +39,31 @@ class plgUserOauth2server extends CMSPlugin
 		$cookie = Factory::getApplication()->input->cookie->getArray();
 
 		if(isset($cookie['response_params'])){
-			$response_params =  json_decode(stripslashes($cookie['response_params']),true);
+			$response_params = json_decode(stripslashes($cookie['response_params']),true);
+			$client_id    = $response_params['client_id'];
+			$redirect_uri = $response_params['redirect_uri'];
+			$state        = $response_params['state'];
 
 			$user = Factory::getApplication()->getIdentity();
-
 			$user_id = $user->get('id');
 
-			$randcode =OAuth2ServerUtility::generateRandomString();
+			//Generate a new random code
+			$randcode = OAuth2ServerUtility::generateRandomString();
 
-			$db = Factory::getDbo();
-            $query = $db->getQuery(true);
-            // Fields to update.
-            $fields = array(
-                //db->quoteName('clientstate') . ' = ' . $db->quote($response_params['state']),
-				//$db->quoteName('randcodetok') . ' = ' . $db->quote(),
-				$db->quoteName('oauth2_randcode'). ' = ' . $db->quote($randcode)
-            );
+			//Remember the  new random code in the database
+			OAuth2ServerUtility::persistAutorizationCode($user_id, $randcode, $client_id);
 
-            // Conditions for which records should be updated.
-            $conditions = array(
-				$db->quoteName('id') . ' = '. $db->quote($user_id)
-            );
-
-            $query->update($db->quoteName('#__users'))->set($fields)->where($conditions);
-            $db->setQuery($query);
-            $result = $db->execute();
-
-
-			$redirecturi=$response_params['redirect_uri'];
-			$state =$response_params['state'];
-
-			if (strpos($redirecturi, "?") === false) {
+			if (strpos($redirect_uri, "?") === false) {
 				$query_separator = "?";
 			}
 			else {
 				$query_separator = "&";
 			}
 
-			$redirecturi = $redirecturi.$query_separator."code=".$randcode."&state=".$state;
+			$redirect_uri = $redirect_uri.$query_separator."code=".$randcode."&state=".$state;
 
-
-			header('Location: ' . $redirecturi);
-			OAuth2ServerUtility::plugin_efficiency_check($user->get('email'), $response_params['clientName'], $redirecturi);
+			//Send Authorization Response (RFC 6749 Section 4.1.2); redirect the browser
+			header('Location: ' . $redirect_uri);
 			exit;
 		}
 

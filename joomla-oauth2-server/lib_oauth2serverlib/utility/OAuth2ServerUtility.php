@@ -35,6 +35,13 @@ use Joomla\CMS\Factory;
 
 class OAuth2ServerUtility
 {
+	public const EXPIRATION_INTERVAL = 300; // 5 minutes in seconds
+
+	public const ERROR_ACCESS_DENIED       = 'access_denied';
+	public const ERROR_INVALID_REQUEST     = 'invalid_request';
+	public const ERROR_SERVER_ERROR        = 'server_error';
+	public const ERROR_UNAUTHORIZED_CLIENT = 'unauthorized_client';
+
 
 	public static function GetPluginVersion()
 	{
@@ -151,6 +158,34 @@ class OAuth2ServerUtility
 		$length = intdiv($length, 2);
         $bytes = openssl_random_pseudo_bytes($length);
         return bin2hex($bytes);
+	}
+
+	public static function persistAutorizationCode(int $user_id, string $randcode, string $client_id){
+
+		$fields = array(
+			'oauth2_randcode'     => $randcode,
+			'randcode_client_id'  => $client_id,
+			'randcode_time_stamp' => time() + self::EXPIRATION_INTERVAL,
+		);
+		$conditions = array(
+			'id' => $user_id
+		);
+		self::generic_update_query('#__users', $fields, $conditions);
+	}
+
+	public static function errorResponse(string $state = '', string $error, string $error_description = '', string $redirecturi = ''): void{
+
+		//Error response (RFC 6749 Section 4.1.2.1)
+
+		//If a redirect URI is provided, we redirect with the error message as query parameters
+		if ($redirecturi !== '') {
+			header('Location: ' . $redirecturi."?error=".$error."&error_description=".$error_description."&state=".$state);
+			exit;
+		}
+
+		//If no redirect URI is provided, we just echo the error message
+		echo($error . ': ' . $error_description);
+		exit;
 	}
 }
 ?>
