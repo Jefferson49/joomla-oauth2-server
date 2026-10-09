@@ -122,6 +122,22 @@ class plgSystemOauth2serversystem extends CMSPlugin
         //If GET request (Authorization Request, RFC 6749 Section 4.1.1)
 		elseif (isset($get['client_id']) && isset($get['redirect_uri']) && !isset($get['client_secret']))
         {
+            if(!isset($customerResult['client_id']) || $customerResult['client_id'] !== $get['client_id'])
+            {
+                $error = OAuth2ServerUtility::ERROR_INVALID_REQUEST;
+                $error_description = 'Invalid client ID.';
+                OAuth2ServerUtility::errorResponse($get['state'] ?? '', $error, $error_description, '');
+                exit;
+            }
+
+            if(!isset($customerResult['authorized_uri']) || $customerResult['authorized_uri'] !== $get['redirect_uri'])
+            {
+                $error = OAuth2ServerUtility::ERROR_INVALID_REQUEST;
+                $error_description = 'Invalid redirect URI.';
+                OAuth2ServerUtility::errorResponse($get['state'] ?? '', $error, $error_description, '');
+                exit;
+            }
+
             if(OAuth2ServerUtility::check_empty_or_null($get['response_type']) || $get['response_type'] !== 'code')
             {
                 $error = OAuth2ServerUtility::ERROR_INVALID_REQUEST;
@@ -130,95 +146,85 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 exit;
             }
 
-            if(OAuth2ServerUtility::check_empty_or_null($get['client_id']))
+            $user = Factory::getApplication()->getIdentity();  // Get the user object
+            $user_id = $user->id;
+            $app  = Factory::getApplication(); // Get the application
+            $client_id = $get['client_id'];
+            $scope = $get['scope'] ?? 'email';
+            $redirect_uri = $get['redirect_uri'];
+            $response_type = $get['response_type'];
+            $state = $get['state'];
+
+            //If a user is logged in, generate a new random code and redirect to the client app with the code and state parameters
+            if($user_id !== 0)
             {
-                $error = OAuth2ServerUtility::ERROR_INVALID_REQUEST;
-                $error_description = 'No client ID provided.';
-                OAuth2ServerUtility::errorResponse($get['state'] ?? '', $error, $error_description, $get['redirect_uri'] ?? '');
-                exit;
-            }
+                $customerResult = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
 
-            if(OAuth2ServerUtility::check_empty_or_null($get['redirect_uri']))
-            {
-                $error = OAuth2ServerUtility::ERROR_INVALID_REQUEST;
-                $error_description = 'No redirect URI provided.';
-                OAuth2ServerUtility::errorResponse($get['state'] ?? '', $error, $error_description, $get['redirect_uri'] ?? '');
-                exit;
-            }
+                if($customerResult !== null) {
+                    $randcode = OAuth2ServerUtility::generateRandomString();
 
-            if(isset($customerResult['client_id']) && $customerResult['client_id']===$get['client_id'] && isset($customerResult['authorized_uri']) && $customerResult['authorized_uri']===$get['redirect_uri'])
-            {
-				$user = Factory::getApplication()->getIdentity();  // Get the user object
-                $user_id = $user->id;
-				$app  = Factory::getApplication(); // Get the application
-				$client_id = $get['client_id'];
-				$scope = $get['scope'] ?? 'email';
-				$redirect_uri = $get['redirect_uri'];
-				$response_type = $get['response_type'];
-				$state = $get['state'];
+                    //Remember the randcode in the database
+                    OAuth2ServerUtility::persistAutorizationCode($user_id, $randcode, $client_id);
 
-                //If a user is logged in, generate a new random code and redirect to the client app with the code and state parameters
-			    if($user_id !== 0)
-                {
-                    $customerResult = OAuth2ServerUtility::miniOauthFetchDb('#__users',array("id"=>$user->id),'loadAssoc','*');
-
-                    if($customerResult !== null) {
-                        $randcode = OAuth2ServerUtility::generateRandomString();
-
-                        //Remember the randcode in the database
-                        OAuth2ServerUtility::persistAutorizationCode($user_id, $randcode, $client_id);
-
-						if (strpos($redirect_uri, "?") === false) {
-                            $query_separator = "?";
-                        }
-                        else {
-                            $query_separator = "&";
-                        }
-
-                        //Send Authorization Response (RFC 6749 Section 4.1.2); redirect the browser
-                        $redirect_uri = $redirect_uri.$query_separator."code=".$randcode."&state=".$state;
-                        header('Location: ' . $redirect_uri);
-                        exit;
+                    if (strpos($redirect_uri, "?") === false) {
+                        $query_separator = "?";
                     }
                     else {
-			            Factory::getApplication()->getSession()->destroy();
-    				}
-			    }
+                        $query_separator = "&";
+                    }
 
-                //If the user is not logged in, remember the response parameters in a cookie for later use after the user logs in
-    			$oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
-		    	setcookie("response_params",json_encode($oauth_response_params), time() + OAuth2ServerUtility::EXPIRATION_INTERVAL, '/');
-
-                //If a Joomla login link was provided, use it; otherwise use default
-                if ($customerResult['login_link'] !== '') {
-                    $redirect_url = Uri::base() . $customerResult['login_link'];
+                    //Send Authorization Response (RFC 6749 Section 4.1.2); redirect the browser
+                    $redirect_uri = $redirect_uri.$query_separator."code=".$randcode."&state=".$state;
+                    header('Location: ' . $redirect_uri);
+                    exit;
                 }
                 else {
-                    $redirect_url = Uri::base() . "index.php?option=com_users&view=login";
+                    Factory::getApplication()->getSession()->destroy();
                 }
+            }
 
-                //Redirect the user to the login page
-                $app->redirect(Route::_($redirect_url, false));
-			}
-            else
-            {
-				//Authorization failed due to invalid redirect URI or client ID.
-                $error = OAuth2ServerUtility::ERROR_UNAUTHORIZED_CLIENT;
-                $error_description = 'Invalid redirect URI (or) invalid client ID';
-                OAuth2ServerUtility::errorResponse($get['state'] ?? '', $error, $error_description, $get['redirect_uri'] ?? '');
-				exit;
-			}
+            //If the user is not logged in, remember the response parameters in a cookie for later use after the user logs in
+            $oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
+            setcookie("response_params",json_encode($oauth_response_params), time() + OAuth2ServerUtility::EXPIRATION_INTERVAL, '/');
+
+            //If a Joomla login link was provided, use it; otherwise use default
+            if ($customerResult['login_link'] !== '') {
+                $redirect_url = Uri::base() . $customerResult['login_link'];
+            }
+            else {
+                $redirect_url = Uri::base() . "index.php?option=com_users&view=login";
+            }
+
+            //Redirect the user to the login page
+            $app->redirect(Route::_($redirect_url, false));
+            exit;
 		}
 
         //If POST request (Access Token Request, RFC 6749 Section 4.1.3)
         elseif(isset($post['client_id']) && isset($post['client_secret']) && isset($post['redirect_uri']) && isset($post['grant_type']) && isset($post['code']))
         {
+            //Check if the redirect URI parameter belongs to the client ID provided in the request
+            if ($customerResult['authorized_uri'] !== $post['redirect_uri']) {
+                $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
+                $error_description = 'Access denied, because the redirect URI parameter does not belong to the client ID.';
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
+                exit;
+            }
+
+            //Check the client ID
+            if ($customerResult['client_id'] !== $post['client_id']) {
+                $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
+                $error_description = 'Invalid client ID.';
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
+                exit;
+            }
+
             //Check if the grant type is authorization_code
             if ($post['grant_type'] !== 'authorization_code')
             {
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Invalid grant type. MUST be "authorization_code".';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
                 exit;
             }
 
@@ -229,7 +235,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             if (OAuth2ServerUtility::check_empty_or_null($results['id'])) {
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the code parameter is not bound to any user.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
                 exit;
             }
 
@@ -237,7 +243,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             if ($results['randcode_client_id'] !== $post['client_id']) {
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the code parameter does not belong to the client ID.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
                 exit;
             }
 
@@ -245,23 +251,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             if ($results['randcode_time_stamp'] < time()) {
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the code parameter has expired.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
-                exit;
-            }
-
-            //Check if the redirect URI parameter belongs to the client ID provided in the request
-            if ($customerResult['authorized_uri'] !== $post['redirect_uri']) {
-                $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
-                $error_description = 'Access denied, because the redirect URI parameter does not belong to the client ID.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
-                exit;
-            }
-
-            //Check the client ID
-            if ($customerResult['client_id'] !== $post['client_id']) {
-                $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
-                $error_description = 'Invalid client ID.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
                 exit;
             }
 
@@ -269,7 +259,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             if ($customerResult['client_secret'] !== $post['client_secret']) {
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Invalid client secret.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
                 exit;
             }
 
@@ -292,7 +282,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
             if ($updated_rows !== 1) {
                 $error = OAuth2ServerUtility::ERROR_SERVER_ERROR;
                 $error_description = 'Failed to persist the access token.';
-                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, $post['redirect_uri'] ?? '');
+                OAuth2ServerUtility::errorResponse($post['state'] ?? '', $error, $error_description, '', true);
                 exit;
             }
 

@@ -175,18 +175,31 @@ class OAuth2ServerUtility
 		self::generic_update_query('#__users', $fields, $conditions);
 	}
 
-	public static function errorResponse(string $state = '', string $error, string $error_description = '', string $redirecturi = ''): void{
+	public static function errorResponse(string $state, string $error, string $error_description = '', string $redirect_uri = '', bool $json = false): void{
 
 		//Error response (RFC 6749 Section 4.1.2.1)
 
-		//If a redirect URI is provided, we redirect with the error message as query parameters
-		if ($redirecturi !== '') {
-			header('Location: ' . $redirecturi."?error=".$error."&error_description=".$error_description."&state=".$state);
+		//If JSON response is requested, we return the error message in JSON format
+		if ($json) {
+			header('Content-Type: application/json');
+			echo json_encode(['error' => $error . ' - ' . $error_description]);
 			exit;
 		}
+		//If a redirect URI is provided, we redirect with the error message as query parameters
+		elseif ($redirect_uri !== '') {
 
-		//If no redirect URI is provided, we just echo the error message
-		echo($error . ': ' . $error_description);
+			if (strpos($redirect_uri, "?") === false) {
+				$query_separator = "?";
+			}
+			else {
+				$query_separator = "&";
+			}
+
+			header('Location: ' . $redirect_uri.$query_separator.'error='.$error.'&error_description='.$error_description.'&state='.$state);
+			exit;
+		}
+		//Otherwise, we just echo the error message
+		echo($error . ' - ' . $error_description);
 		exit;
 	}
 }
