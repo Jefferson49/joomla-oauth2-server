@@ -56,17 +56,15 @@ class plgUserOauth2server extends CMSPlugin
 			//Clear the cookie that was set to remember the response parameters
 			OAuth2ServerUtility::clearOAuthResponseParamsCookie();
 
-			if (strpos($redirect_uri, "?") === false) {
-				$query_separator = "?";
-			}
-			else {
-				$query_separator = "&";
-			}
-
-			$redirect_uri = $redirect_uri.$query_separator."code=".$randcode."&state=".$state;
-
 			//Send Authorization Response (RFC 6749 Section 4.1.2); redirect the browser
-			header('Location: ' . $redirect_uri);
+			$redirect_uri = OAuth2ServerUtility::createUrl($redirect_uri, [
+				'code' => $randcode,
+				'state' => $state
+			]);
+
+			$app = Factory::getApplication();
+			$app->redirect($redirect_uri);
+			$app->close();
 			exit;
 		}
 	}

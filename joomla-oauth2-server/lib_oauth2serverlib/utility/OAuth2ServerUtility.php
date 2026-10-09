@@ -175,31 +175,40 @@ class OAuth2ServerUtility
 		self::generic_update_query('#__users', $fields, $conditions);
 	}
 
-	public static function errorResponse(string $state, string $error, string $error_description = '', string $redirect_uri = '', bool $json = false): void{
+	public static function errorResponse(
+		int $http_response_code,
+		string $state,
+		string $error,
+		string $error_description = '',
+		string $redirect_uri = '',
+		bool $json = false,
+	): void{
 
 		//Error response (RFC 6749 Section 4.1.2.1)
 
 		//If JSON response is requested, we return the error message in JSON format
 		if ($json) {
+			http_response_code($http_response_code);
 			header('Content-Type: application/json');
-			echo json_encode(['error' => $error . ' - ' . $error_description]);
+			echo json_encode(['error' => $error . ' - ' . $error_description], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 			exit;
 		}
 		//If a redirect URI is provided, we redirect with the error message as query parameters
 		elseif ($redirect_uri !== '') {
 
-			if (strpos($redirect_uri, "?") === false) {
-				$query_separator = "?";
-			}
-			else {
-				$query_separator = "&";
-			}
+			$redirect_uri = OAuth2ServerUtility::createUrl($redirect_uri, [
+				'error'             => $error,
+				'error_description' => $error_description,
+				'state'             => $state
+			]);
 
-			header('Location: ' . $redirect_uri.$query_separator.'error='.$error.'&error_description='.$error_description.'&state='.$state);
+			header('Location: ' . $redirect_uri);
 			exit;
 		}
 		//Otherwise, we just echo the error message
-		echo($error . ' - ' . $error_description);
+		http_response_code($http_response_code);
+		header('Content-Type: text/plain');
+		echo $error . ' - ' . $error_description;
 		exit;
 	}
 
@@ -237,6 +246,20 @@ class OAuth2ServerUtility
 				'samesite' => 'Lax',
 			]
 		);
+	}
+
+	public static function createUrl(string $url, array $url_parameters): string
+	{
+		$query_separator = (strpos($url, '?') === false) ? '?' : '&';
+
+		$url .= $query_separator . http_build_query(
+			$url_parameters,
+			'',
+			'&',
+			PHP_QUERY_RFC3986
+		);
+
+		return $url;
 	}
 }
 ?>
