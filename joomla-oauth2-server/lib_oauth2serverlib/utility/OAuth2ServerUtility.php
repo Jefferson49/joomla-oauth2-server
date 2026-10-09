@@ -202,5 +202,41 @@ class OAuth2ServerUtility
 		echo($error . ' - ' . $error_description);
 		exit;
 	}
+
+	public static function setOAuthResponseParamsCookie($oauthResponseParams)
+	{
+		$app = Factory::getApplication();
+		$secure = method_exists($app, 'isHttps') && $app->isHttps();
+
+		setcookie(
+			'response_params',
+			json_encode($oauthResponseParams),
+			[
+				'expires'  => time() + self::EXPIRATION_INTERVAL,
+				'path'     => '/',
+				'secure'   => $secure,
+				'httponly' => true,
+				'samesite' => 'Lax',
+			]
+		);
+	}
+
+	public static function clearOAuthResponseParamsCookie()
+	{
+		$app = Factory::getApplication();
+		$secure = method_exists($app, 'isHttps') && $app->isHttps();
+
+		setcookie(
+			'response_params',
+			'',
+			[
+				'expires'  => time() - self::EXPIRATION_INTERVAL,
+				'path'     => '/',
+				'secure'   => $secure,
+				'httponly' => true,
+				'samesite' => 'Lax',
+			]
+		);
+	}
 }
 ?>

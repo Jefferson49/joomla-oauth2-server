@@ -185,7 +185,7 @@ class plgSystemOauth2serversystem extends CMSPlugin
 
             //If the user is not logged in, remember the response parameters in a cookie for later use after the user logs in
             $oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
-            setcookie("response_params",json_encode($oauth_response_params), time() + OAuth2ServerUtility::EXPIRATION_INTERVAL, '/');
+            OAuth2ServerUtility::setOAuthResponseParamsCookie($oauth_response_params);
 
             //If a Joomla login link was provided, use it; otherwise use default
             if ($customerResult['login_link'] !== '') {

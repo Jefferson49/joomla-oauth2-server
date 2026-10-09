@@ -53,6 +53,9 @@ class plgUserOauth2server extends CMSPlugin
 			//Remember the  new random code in the database
 			OAuth2ServerUtility::persistAutorizationCode($user_id, $randcode, $client_id);
 
+			//Clear the cookie that was set to remember the response parameters
+			OAuth2ServerUtility::clearOAuthResponseParamsCookie();
+
 			if (strpos($redirect_uri, "?") === false) {
 				$query_separator = "?";
 			}
@@ -66,7 +69,5 @@ class plgUserOauth2server extends CMSPlugin
 			header('Location: ' . $redirect_uri);
 			exit;
 		}
-
-		return false;
 	}
 }
