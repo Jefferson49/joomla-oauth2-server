@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelogs>
-<changelogs>
     <changelog>
-		<element>plg_user_oauth2server</element>
+		<element>pkg_joomla-oauth2-server</element>
 		<type>plugin</type>
 		<version>1.0.1</version>
         <fix>
@@ -10,11 +9,17 @@
         </fix>
     </changelog>
     <changelog>
-		<element>plg_system_oauth2serversystem</element>
-		<type>component</type>
-		<version>plugin</version>
-        <fix>
-            <item>Wrong query separator in redirect URL: & instead of ?</item>
-        </fix>
+		<element>pkg_joomla-oauth2-server</element>
+		<type>plugin</type>
+		<version>1.1.0</version>
+        <security>
+            <item>Fixes security issues regarding the handling of authorization codes in the OAuth2 sign in process.</item>
+        </security>
+        <addition>
+            <item>Improved error handling and error responses.</item>
+        </addition>
+        <addition>
+            <item>Checked for Joomla 6 compatibility.</item>
+        </addition>
     </changelog>
 </changelogs>
