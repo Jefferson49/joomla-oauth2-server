@@ -9,7 +9,7 @@
  * @subpackage joomla-oauth2-server
  * @link       https://github.com/Jefferson49/Joomla-OAuth2-Server
  * @author     Jefferson49
- * @copyright  Copyright (c) 2024 Jefferson49
+ * @copyright  Copyright (c) 2026 Jefferson49
  * @license    GNU/GPL v3.0
  */
 
