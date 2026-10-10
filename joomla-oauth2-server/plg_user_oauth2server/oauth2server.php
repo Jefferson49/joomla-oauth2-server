@@ -38,8 +38,8 @@ class plgUserOauth2server extends CMSPlugin
 
 		$cookie = Factory::getApplication()->input->cookie->getArray();
 
-		if(isset($cookie['response_params'])){
-			$response_params = json_decode(stripslashes($cookie['response_params']),true);
+		if(isset($cookie[OAuth2ServerUtility::RESPONSE_PARAMS])){
+			$response_params = json_decode(stripslashes($cookie[OAuth2ServerUtility::RESPONSE_PARAMS]),true);
 			$client_id    = $response_params['client_id'];
 			$redirect_uri = $response_params['redirect_uri'];
 			$state        = $response_params['state'];
@@ -58,14 +58,12 @@ class plgUserOauth2server extends CMSPlugin
 
 			//Send Authorization Response (RFC 6749 Section 4.1.2); redirect the browser
 			$redirect_uri = OAuth2ServerUtility::createUrl($redirect_uri, [
-				'code' => $randcode,
+				'code'  => $randcode,
 				'state' => $state
 			]);
 
 			$app = Factory::getApplication();
 			$app->redirect($redirect_uri);
-			$app->close();
-			exit;
 		}
 	}
 }

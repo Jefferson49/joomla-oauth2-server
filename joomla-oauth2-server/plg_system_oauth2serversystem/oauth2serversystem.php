@@ -183,7 +183,15 @@ class plgSystemOauth2serversystem extends CMSPlugin
             }
 
             //If the user is not logged in, remember the response parameters in a cookie for later use after the user logs in
-            $oauth_response_params = array('client_id' => $client_id , "scope" => $scope , "redirect_uri" => $redirect_uri , "response_type" => $response_type, "state" => $state , "clientName" => $OAuthClientAppName);
+            $oauth_response_params = [
+                'client_id'     => $client_id ,
+                'scope'         => $scope ,
+                'redirect_uri'  => $redirect_uri ,
+                'response_type' => $response_type,
+                'state'         => $state ,
+                'clientName'    => $OAuthClientAppName,
+            ];
+
             OAuth2ServerUtility::setOAuthResponseParamsCookie($oauth_response_params);
 
             //If a Joomla login link was provided, use it; otherwise use default
@@ -196,7 +204,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
 
             //Redirect the user to the login page
             $app->redirect(Route::_($redirect_url, false));
-            exit;
 		}
 
         //If POST request (Access Token Request, RFC 6749 Section 4.1.3)
@@ -207,7 +214,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the redirect URI parameter does not belong to the client ID.';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Check the client ID
@@ -215,7 +221,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Invalid client ID.';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Check if the grant type is authorization_code
@@ -224,7 +229,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Invalid grant type. MUST be "authorization_code".';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Get the data for the provided code
@@ -235,7 +239,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the code parameter is not bound to any user.';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Check if the code parameter belongs to the client ID provided in the request
@@ -243,7 +246,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the code parameter does not belong to the client ID.';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Check if the code parameter is expired
@@ -251,7 +253,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Access denied, because the code parameter has expired.';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Check the client secret
@@ -259,7 +260,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_ACCESS_DENIED;
                 $error_description = 'Invalid client secret.';
                 OAuth2ServerUtility::errorResponse(403, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Generate an access token
@@ -282,7 +282,6 @@ class plgSystemOauth2serversystem extends CMSPlugin
                 $error = OAuth2ServerUtility::ERROR_SERVER_ERROR;
                 $error_description = 'Failed to persist the access token.';
                 OAuth2ServerUtility::errorResponse(500, $post['state'] ?? '', $error, $error_description, '', true);
-                exit;
             }
 
             //Send Access Token Response (RFC 6749 Section 4.1.4)
@@ -310,4 +309,3 @@ class plgSystemOauth2serversystem extends CMSPlugin
 
     }
 }
-

@@ -42,6 +42,9 @@ class OAuth2ServerUtility
 	public const ERROR_SERVER_ERROR        = 'server_error';
 	public const ERROR_UNAUTHORIZED_CLIENT = 'unauthorized_client';
 
+	public const RESPONSE_PARAMS           = 'response_params';
+	public const SESSION_REDIRECT_URI      = 'oauth2server.redirect_uri';
+
 
 	public static function GetPluginVersion()
 	{
@@ -212,14 +215,14 @@ class OAuth2ServerUtility
 		exit;
 	}
 
-	public static function setOAuthResponseParamsCookie($oauthResponseParams)
+	public static function setOAuthResponseParamsCookie(array $oauth_response_params)
 	{
 		$app = Factory::getApplication();
 		$secure = method_exists($app, 'isHttps') && $app->isHttps();
 
 		setcookie(
-			'response_params',
-			json_encode($oauthResponseParams),
+			self::RESPONSE_PARAMS,
+			json_encode($oauth_response_params),
 			[
 				'expires'  => time() + self::EXPIRATION_INTERVAL,
 				'path'     => '/',
@@ -236,7 +239,7 @@ class OAuth2ServerUtility
 		$secure = method_exists($app, 'isHttps') && $app->isHttps();
 
 		setcookie(
-			'response_params',
+			self::RESPONSE_PARAMS,
 			'',
 			[
 				'expires'  => time() - self::EXPIRATION_INTERVAL,
