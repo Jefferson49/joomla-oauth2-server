@@ -2,7 +2,7 @@
 [![Joomla major version](https://img.shields.io/badge/joomla-v5.x-green)](https://downloads.joomla.org/cms/joomla5)
 [![Joomla major version](https://img.shields.io/badge/joomla-v4.x-green)](https://downloads.joomla.org/cms/joomla4)
 [![Joomla major version](https://img.shields.io/badge/joomla-v3.x-green)](https://downloads.joomla.org/cms/joomla3)
-## Joomla OAuth 2.0 Server 
+## Joomla OAuth 2.0 Server
 A [Joomla](https://www.joomla.org/) extension, which provides an [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) server within the Joomla content management system in order to enable [Single Sign On](https://en.wikipedia.org/wiki/Single_sign-on) (SSO) of other applications with the Joomla user account.
 
 ##  Table of Contents
@@ -28,17 +28,16 @@ It is **highly recommended to use** the **HTTPS** protocol for your Joomla insta
 + Check the "Client Name", "Client ID", and "Client Secret" in the list of OAuth clients
 + Configure the corresponding OAuth 2.0 clients accordingly
 
-##  Versions 
+##  Versions
 + Joomla: The latest version of the extension was tested with:
-    + [Joomla 5.2.2](https://downloads.joomla.org/cms/joomla5)
-    + [Joomla 4.4.9](https://downloads.joomla.org/cms/joomla4)
-    + [Joomla 3.10.12](https://downloads.joomla.org/cms/joomla3)
-    + The extension should also run with other Joomla 4.x or 5.x versions
+    + [Joomla 6.1.4](https://downloads.joomla.org/cms/joomla6)
+    + [Joomla 5.4.9](https://downloads.joomla.org/cms/joomla5)
+    + [Joomla 4.4.14](https://downloads.joomla.org/cms/joomla4)
+    + The extension should also run with other Joomla 4.x, 5.x. or 6.x versions
 + PHP: The latest version of the extension was tested with:
-    + PHP 8.3.14
-    + PHP 8.2.21
+    + PHP 8.4.19
     + The extension should also run with other PHP 8 versions.
-    + PHP 7.x versions were not tested, but will probably work as well.
+    + PHP 7.x versions were not tested, but might work as well.
 
 ##  Updates
 The extension supports the Joomla Update System. Available updates will be shown in the administration backend.
@@ -68,7 +67,7 @@ If you experience any bugs [create a new issue](https://github.com/Jefferson49/j
 + OAuth Server for Joomla (Joomla extension)
     + Copyright (c) 2016 [miniOrange](https://www.miniorange.com). All Rights Reserved.
 + Joomla OAuth 2.0 Server (webtrees custom module)
-    + Copyright (c) 2024 [Jefferson49](https://github.com/Jefferson49)
+    + Copyright (c) 2026 [Jefferson49](https://github.com/Jefferson49)
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -76,5 +75,5 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
 
-##  Github Repository  
+##  Github Repository
 https://github.com/Jefferson49/joomla-oauth2-server
