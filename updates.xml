@@ -4,10 +4,10 @@
         <name>OAuth 2.0 Server Package</name>
         <description>OAuth 2.0 Server Package</description>
 
-        <element>pkg_joomla-oauth2-server</element>
+        <element>joomla-oauth2-server</element>
         <type>package</type>
 
-        <version>9.9.9</version>
+        <version>1.1.0</version>
 
         <downloads>
             <downloadurl type="full" format="zip">
