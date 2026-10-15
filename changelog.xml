@@ -5,7 +5,7 @@
 		<type>package</type>
 		<version>1.0.1</version>
         <fix>
-            <item>Wrong query separator in redirect URL: & instead of ?</item>
+            <item>Wrong query separator in redirect URL: &amp; instead of ?</item>
         </fix>
     </changelog>
     <changelog>
