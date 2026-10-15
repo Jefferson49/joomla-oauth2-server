@@ -2,7 +2,7 @@
 <changelogs>
     <changelog>
 		<element>pkg_joomla-oauth2-server</element>
-		<type>plugin</type>
+		<type>package</type>
 		<version>1.0.1</version>
         <fix>
             <item>Wrong query separator in redirect URL: & instead of ?</item>
@@ -10,7 +10,7 @@
     </changelog>
     <changelog>
 		<element>pkg_joomla-oauth2-server</element>
-		<type>plugin</type>
+		<type>package</type>
 		<version>1.1.0</version>
         <security>
             <item>Fixes security issues regarding the handling of authorization codes in the OAuth2 sign in process.</item>
